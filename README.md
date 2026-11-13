@@ -101,4 +101,4 @@ The site is built from committed artefacts (no TeX needed) and lives only on the
 
 - Automatic: pushing `main` runs `.github/workflows/pages.yml`, which builds `site/` and force-pushes it to `gh-pages`. In the repository settings set Pages to "Deploy from a branch", `gh-pages`, `/ (root)`.
 - Manual: `make pages PUSH=1 PAGES_REPO=osolari/the-quiet-theorems`.
-- Only posts whose `meta.json` status is `accepted` or `published` are on the site; each page renders the post's `substack/article.md` with links to the PDFs, notebook, Overleaf zip and the Substack and X posts. Drafts are still visible on `main` if the repository is public.
+- Only posts whose `meta.json` status is `accepted` or `published` are on the site; each page renders the post's `substack/article.md` with links to the PDFs, notebook, LaTeX source and the Substack and X posts; the index links the Substack publication. The Overleaf zip is not on the site (build it with `make zip`). Drafts are still visible on `main` if the repository is public.

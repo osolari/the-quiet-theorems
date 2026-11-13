@@ -4,7 +4,6 @@ Only posts whose meta.json status is "accepted" or "published" are
 included (pass --all to preview drafts locally). Per post:
   site/posts/<post>/index.html   substack/article.md rendered (pandoc + MathJax)
   site/posts/<post>/notebook.html, notebook.ipynb, pdf/, code/, figures
-  site/posts/<post>/<prefix>-<NN>-<slug>.zip   Overleaf-ready package
 Usage: python3 scripts/build_site.py [--all] [--repo owner/name]
 --repo (or $PAGES_REPO) adds GitHub source and Colab links.
 """
@@ -49,8 +48,9 @@ border-top:1px solid var(--rule);padding-top:1rem}
 TAGLINE = ("Theorems from probability, statistics and machine learning that "
            "deserve to be better known: one a week, stated with minimal "
            "conditions, proved in full, and checked in code.")
+SUBSTACK = "https://omidsolari.substack.com"
 FOOT = ("<footer>The Quiet Theorems · Omid Shams Solari, Ph.D. · sAIm Labs"
-        "</footer>")
+        f' · <a href="{SUBSTACK}">Substack</a></footer>')
 
 
 def project_field(tex, name):
@@ -86,10 +86,6 @@ def main():
                 shutil.copy(pdir / f, out / f)
         for f in (pdir / "substack").iterdir():
             shutil.copy(f, out / f.name)
-        # Overleaf-ready package
-        run(["make", "-s", "zip", f"P={post}"], cwd=root,
-            stdout=subprocess.DEVNULL)
-        shutil.copy(root / "dist" / f"{pk}.zip", out)
         # notebook as HTML (outputs already stored)
         run(["jupyter", "nbconvert", "--to", "html", "--output",
              "notebook", str(out / "notebook.ipynb")],
@@ -98,8 +94,7 @@ def main():
         md = (pdir / "substack" / "article.md").read_text()
         bar = [f"[PDF (A4)](pdf/{pk}.pdf)",
                f"[PDF (screen)](pdf/{pk}-screen.pdf)",
-               "[Notebook](notebook.html)", "[LaTeX source](main.tex)",
-               f"[Overleaf package]({pk}.zip)"]
+               "[Notebook](notebook.html)", "[LaTeX source](main.tex)"]
         names = {"substack": "Substack", "x_thread": "X thread",
                  "x_tweet": "X post"}
         for k in ("x_tweet", "x_thread", "substack"):
@@ -135,14 +130,17 @@ def main():
             f'<p class="links"><a href="posts/{post}/">Article</a>'
             f'<a href="posts/{post}/pdf/{pk}.pdf">PDF</a>'
             f'<a href="posts/{post}/notebook.html">Notebook</a>'
-            f'<a href="posts/{post}/{pk}.zip">Overleaf zip</a>'
-            f'</p></div>')
+            + (f'<a href="{html.escape(meta["links"]["substack"])}">Substack</a>'
+               if meta["links"].get("substack") else "")
+            + '</p></div>')
     index = (
         '<!doctype html><html lang="en-GB"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
         '<title>The Quiet Theorems</title><link rel="stylesheet" '
         'href="style.css"></head><body><div class="eyebrow">sAIm Labs</div>'
         "<h1>The Quiet Theorems</h1><p class=\"muted\">" + TAGLINE + "</p>"
+        + f'<p class="links"><a href="{SUBSTACK}">Read and subscribe on '
+        'Substack</a></p>'
         + "".join(reversed(cards)) + FOOT + "</body></html>")
     (site / "index.html").write_text(index)
     print(f"{len(cards)} post(s) -> {site}")
