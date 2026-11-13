@@ -5,8 +5,12 @@ Output: docs/posts/<post>/substack/<slug>-figure.png (one figure) or
 
 Only tikzpictures inside figure environments are rendered, in order of
 appearance (matching the PDF's figure numbers), with the post's own class,
-colours and macros. Usage: python3 scripts/figures.py <post>
-(run after `make build P=<post>`).
+colours and macros. Cross-references and citations inside a figure
+resolve against the post's own build (labels and bibliography entries
+are read from the A4 build, build/<post>/build/saim-post.aux). The export fails if anything is
+left unresolved: an undefined reference or citation in the log, or
+"??" anywhere in the rendered figures.
+Usage: python3 scripts/figures.py <post> (run after `make build P=<post>`).
 """
 import re
 import subprocess
@@ -38,7 +42,14 @@ pre = re.sub(r"(?m)^\\documentclass(\[[^\]]*\])?\{saim-blog\}",
              "\\\\documentclass{saim-blog}\n"
              "\\\\AtBeginDocument{\\\\PreviewEnvironment{tikzpicture}}\n"
              "\\\\setlength\\\\PreviewBorder{6pt}", pre)
-drv = pre + "\\begin{document}\n" + "\n\n".join(pics) + "\n\\end{document}\n"
+aux = b / "build" / "saim-post.aux"
+if not aux.exists():
+    sys.exit(f"{aux} missing: run `make build P={post}` first")
+labels = [l for l in aux.read_text(errors="replace").splitlines()
+          if l.startswith(("\\newlabel{", "\\bibcite{"))]
+# \newlabel and \bibcite are preamble-only: load them before \begin{document}
+drv = (pre + "\\makeatletter\n" + "\n".join(labels) + "\n\\makeatother\n"
+       + "\\begin{document}\n" + "\n\n".join(pics) + "\n\\end{document}\n")
 (b / "figures-driver.tex").write_text(drv)
 fb = b / "figbuild"
 fb.mkdir(exist_ok=True)
@@ -47,6 +58,14 @@ r = subprocess.run(["pdflatex", "-interaction=nonstopmode", "-halt-on-error",
                    cwd=b, capture_output=True, text=True)
 if r.returncode:
     sys.exit(f"figure build failed: see {fb}/figures-driver.log")
+log = (fb / "figures-driver.log").read_text(errors="replace")
+bad = re.findall(r"(?:Reference|Citation) [`'][^']*' (?:on page \d+ )?undefined", log)
+txt = subprocess.run(["pdftotext", str(fb / "figures-driver.pdf"), "-"],
+                     capture_output=True, text=True, check=True).stdout
+if bad or "??" in txt:
+    sys.exit("figure export failed: unresolved "
+             + (", ".join(sorted(set(bad))) if bad else "'??' in the rendered figure")
+             + f" (see {fb}/figures-driver.log)")
 out.mkdir(parents=True, exist_ok=True)
 for i in range(1, len(pics) + 1):
     subprocess.run(["pdftoppm", "-r", "220", "-png", "-singlefile",

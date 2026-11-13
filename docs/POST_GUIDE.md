@@ -76,6 +76,7 @@ make formats P=NN-slug   # substack/<slug>-figure.png, substack/article.md (draf
 make verify P=NN-slug    # links resolve, no leftover LaTeX, PDF line present, Output == check.py, notebook == check.py, meta.json
 ```
 
+- `substack/<slug>-figure.png`: the TikZ pictures inside `figure` environments, rendered by `scripts/figures.py` with the post's class and macros. References and citations inside a figure (`\cref`, `\eqref`, `\citet`) resolve from the A4 build; the export fails on anything unresolved or on "??" in the rendered figure, so never work around it by deleting the reference.
 - `substack/article.md`: drafted from `main.tex` by `scripts/tex2md.py`, then finished by hand against the house style in step 7a. Read it rendered once.
 - `notebook.ipynb`: built by `scripts/make_notebook.py` from `substack/article.md` (title, TL;DR, Result, check list) and the code files; executed with stored outputs. Rebuild it after hand-finishing the article.
 
