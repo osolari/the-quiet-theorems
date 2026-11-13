@@ -11,7 +11,7 @@ Reference: No. 00, Hoeffding's covariance identity, published on Substack 9 Nov 
 
 ## 0. Where things are
 
-- **Repo**: https://github.com/osolari/the-quiet-theorems. On the author's Mac it is `~/workspace/projects/the-quiet-theorems` with remote `git@github-personal:osolari/the-quiet-theorems.git` (the `github-personal` SSH host alias is required for this repo). Commit as `osolari <solari@berkeley.edu>` (set in the repo's git config). Site: https://osolari.github.io/the-quiet-theorems/. Read `README.md`, `STANDARD.md` and `docs/POST_GUIDE.md` first; the guide is the step-by-step procedure and wins over this summary on details.
+- **Repo**: https://github.com/osolari/the-quiet-theorems. On the author's Mac it is `~/workspace/projects/the-quiet-theorems` with remote `git@github-personal:osolari/the-quiet-theorems.git` (the `github-personal` SSH host alias is required for this repo). Commit as `osolari <solari@berkeley.edu>` (set in the repo's git config). Site: https://osolari.github.io/the-quiet-theorems/. Read `docs/DEVELOPING.md`, `STANDARD.md` and `docs/POST_GUIDE.md` first (the top-level `README.md` is for readers); the guide is the step-by-step procedure and wins over this summary on details.
 - **Backlog doc** (live, ranked, status dropdowns, draw log): https://claude.ai/artifact/4i9oRaXXahj9CRiEAvSVUH ; snapshot in `BACKLOG.md`. Take the highest-ranked Queued topic unless told otherwise; respect noted dependencies (e.g. SURE needs Stein's lemma).
 - **Substack**: https://omidsolari.substack.com (byline "Omid Solari").
 - **claude.ai Project "prob notes"**: read-only copies of the No. 00 reference (`reference/`); the repo is the source of truth, no handoff packages.
@@ -19,7 +19,7 @@ Reference: No. 00, Hoeffding's covariance identity, published on Substack 9 Nov 
 
 ## Sessions and the repo
 
-- **One Claude session per post.** Project-level work (skeleton, scripts, Makefile, site, this skill and the guide) happens in a separate development session; a post session changes only `docs/posts/NN-slug/`, the post's rows in `README.md` and `BACKLOG.md`, and the backlog doc. If a post needs a change to shared files, note it as an open point for the development session rather than making it.
+- **One Claude session per post.** Project-level work (skeleton, scripts, Makefile, site, this skill and the guide) happens in a separate development session; a post session changes only `docs/posts/NN-slug/`, the post's rows in `docs/DEVELOPING.md` and `BACKLOG.md`, its entry in the `README.md` Posts list at publication, and the backlog doc. If a post needs a change to shared files, note it as an open point for the development session rather than making it.
 - **The Mac folder is the source of truth**: `~/workspace/projects/the-quiet-theorems` (connect `~/workspace/projects` to the session). Start every session with `git status` and `git log --oneline -3` there; never work from an older copy.
 - **Where to run what.** The session's shell on the Mac is a sandboxed Linux VM: it can read and write the repo and run `git add/commit`, but cannot reach GitHub (no `~/.ssh`, no port 22) and lacks TeX and Jupyter. Builds (`make qa/pdfs/formats/zip/site`) run in the cloud workspace: bundle on the Mac (`git bundle create .xfer/mac.bundle main`), stage `.xfer/mac.bundle`, `git fetch <bundle> main:refs/remotes/mac/main && git reset --hard mac/main` in the cloud clone, work and commit there, then bundle back (`git bundle create /mnt/user-data/outputs/cloud.bundle mac/main..main`), commit the file to `.xfer/` on the Mac and `git pull --ff-only .xfer/cloud.bundle main`. `.xfer/` is git-ignored. Git in the Mac folder needs delete permission (lock files); request it once for `~/workspace/projects`.
 - **Pushing is the author's job**: from the Mac, `git push origin main` (via the `github-personal` alias). The session ends by stating the exact command. Never force-push without saying why and using `--force-with-lease=main:<expected hash>`.
@@ -35,7 +35,9 @@ docs/POST_GUIDE.md        full procedure
 scripts/                  assemble.sh tex2md.py figures.py make_notebook.py verify_formats.py
                           build_site.py publish_pages.sh wlen.py
 .github/workflows/pages.yml   builds the site on push to main, deploys to gh-pages
-BACKLOG.md README.md STANDARD.md requirements.txt (pinned) Makefile
+docs/DEVELOPING.md        layout, commands, toolchain, Pages, status table of all posts
+README.md                 reader-facing: what the series is, published posts, how to run the checks
+BACKLOG.md STANDARD.md requirements.txt (pinned) Makefile
 ```
 
 Never edit `skeleton/saim-blog.cls`, `skeleton/shared/brand/*`, other `skeleton/shared/components/*`, `Makefile`/`latexmkrc`/`main-screen.tex`/`people.tex` in the skeleton. `shared/components/math.tex` (appended notation) and `theorems.tex` may only gain macros, never change existing ones; record additions in `STANDARD.md`.
@@ -139,7 +141,8 @@ QA gate also includes: render every PDF page to PNG and look (`mainresult` not s
 |---|---|---|---|
 | `meta.json` status | draft | accepted | published (+ links and the `substack` block, frozen) |
 | post `README.md` | status row, open points | status | status + Published links table |
-| `README.md` Issues table | add row | status | status |
+| `docs/DEVELOPING.md` Posts table | add row | status | status |
+| `README.md` Posts list (readers) | (none) | (none) | add entry: title, date, one-sentence claim, links |
 | `BACKLOG.md` | Drafted (No. NN) | Accepted (No. NN) | Published (No. NN) |
 | backlog doc | Status dropdown Drafted, Draw log row | update row | Status Posted, links in row |
 | Substack post | (none) | (none) | published with the PDF attached |

@@ -121,7 +121,8 @@ Deliver the zip, both PDFs, `substack/article.md` with its figures, the notebook
 |---|---|---|---|
 | `docs/posts/NN-slug/meta.json` `status` | `draft` | `accepted` | `published` |
 | `docs/posts/NN-slug/README.md` status row | Draft, awaiting approval | Package accepted DATE | Published DATE |
-| `README.md` Issues table | add row | update status | update status |
+| `docs/DEVELOPING.md` Posts table | add row | update status | update status |
+| `README.md` Posts list (reader-facing) | (none) | (none) | add the entry: title, date, one-sentence claim, Substack, web, PDFs, notebook, Colab; add a BibTeX example only if the format changes |
 | `BACKLOG.md` status column | Drafted (No. NN) | Accepted (No. NN) | Published (No. NN) |
 | Backlog doc: Status dropdown | Drafted | Drafted | Posted |
 | Backlog doc: Draw log row | add row | update Post/PDF cells | add post links |
@@ -140,4 +141,4 @@ Commit after each change of status (`git add -A && git commit`), authored as `os
 
 - `make all` passes (QA and verify for every post).
 - `dist/qt-NN-slug.zip` builds from a clean unzip.
-- Links agree across `meta.json`, the post README, `README.md`, the backlog doc, the Substack post and the site.
+- Links agree across `meta.json`, the post README, `docs/DEVELOPING.md`, `README.md`, the backlog doc, the Substack post and the site.
