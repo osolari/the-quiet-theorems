@@ -6,14 +6,18 @@
 #   make zip P=01-debruijn     dist/pn_01_debruijn.zip (Overleaf-ready, PDFs in pdf/)
 #   make pdfs P=01-debruijn    copy built PDFs into docs/posts/<P>/pdf/
 #   make new P=02-sure         start a post from skeleton/new-post
-#   make all                   qa for every post
+#   make formats P=01-debruijn img/figure-N.png, article.md, notebook.ipynb (executed)
+#   make verify P=01-debruijn  check article.md links/conversion and notebook outputs
+#   make site                  build site/ (accepted/published posts only); SITE_ALL=1 adds drafts
+#   make pages                 commit site/ to the gh-pages branch; PUSH=1 also pushes
+#   make all                   qa + verify for every post
 P ?=
 POSTS := $(notdir $(wildcard docs/posts/[0-9]*))
 NUM   = $(firstword $(subst -, ,$(P)))
 SLUG  = $(patsubst $(NUM)-%,%,$(P))
 B     = build/$(P)
 
-.PHONY: build check tweets qa zip pdfs new all clean need-p
+.PHONY: build check tweets qa zip pdfs new formats verify site pages all clean need-p
 need-p:
 	@test -n "$(P)" || (echo "set P=<post>, one of: $(POSTS)"; exit 1)
 
@@ -43,14 +47,29 @@ zip: need-p
 	cd $(B) && rm -rf build && zip -qr ../../dist/pn_$(NUM)_$(SLUG).zip .
 	@echo dist/pn_$(NUM)_$(SLUG).zip
 
+formats: build
+	python3 scripts/figures.py $(P)
+	python3 scripts/tex2md.py $(P)
+	python3 scripts/make_notebook.py $(P) 2>/dev/null
+
+verify: need-p
+	python3 scripts/verify_formats.py $(P)
+
+site:
+	python3 scripts/build_site.py $(if $(SITE_ALL),--all) $(if $(PAGES_REPO),--repo $(PAGES_REPO))
+
+pages:
+	scripts/publish_pages.sh $(if $(PUSH),--push)
+
 new: need-p
 	@test ! -e docs/posts/$(P) || (echo "docs/posts/$(P) exists"; exit 1)
 	mkdir -p docs/posts/$(P)/pdf
 	cp -r skeleton/new-post/. docs/posts/$(P)/
+	sed -i.bak 's/"NN"/"$(NUM)"/; s/"SLUG"/"$(SLUG)"/' docs/posts/$(P)/meta.json && rm -f docs/posts/$(P)/meta.json.bak
 	@echo "created docs/posts/$(P)"
 
 all:
-	@for p in $(POSTS); do echo "== $$p"; $(MAKE) --no-print-directory qa P=$$p || exit 1; done
+	@for p in $(POSTS); do echo "== $$p"; $(MAKE) --no-print-directory qa P=$$p && $(MAKE) --no-print-directory verify P=$$p || exit 1; done
 
 clean:
-	rm -rf build dist
+	rm -rf build dist site

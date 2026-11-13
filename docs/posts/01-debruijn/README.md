@@ -9,16 +9,21 @@ d/dt h(X + √t Z) = ½ J(X + √t Z) (de Bruijn; Stam, 1959).
 | Package | `make zip P=01-debruijn` → `dist/pn_01_debruijn.zip` |
 | PDF | [A4](pdf/pn-01-debruijn.pdf) (9 pp.), [screen](pdf/pn-01-debruijn-screen.pdf) (11 pp.) |
 | Thread | [`post.txt`](post.txt) (226 / 280 weighted) |
+| Article | [`article.md`](article.md) (Markdown, MathJax, figures in `img/`) |
+| Notebook | [`notebook.ipynb`](notebook.ipynb) (executed) |
+| Metadata | [`meta.json`](meta.json) (status and published links) |
 | Single tweet | [`tweet.txt`](tweet.txt) (274 weighted) |
 
 ## Published links
+
+Keep in sync with `meta.json` `links`.
 
 | Where | Link |
 |---|---|
 | X thread | (not yet posted) |
 | X single tweet | (not yet posted) |
 | Substack | (not yet posted) |
-| PDF hosting | (not yet posted) |
+| Pages article | (not yet published; will be `https://<owner>.github.io/<repo>/posts/01-debruijn/`) |
 
 ## Open points before approval
 

@@ -53,3 +53,7 @@ Open points awaiting the user:
 ## 6. Repository
 
 Git repo `probability-notes` at `~/workspace/projects/probability-notes` on the author's machine. Layout: `skeleton/` (shared template + series layer), `docs/posts/NN-slug/` (issue-specific files, PDFs, pinned links), `scripts/assemble.sh` (rebuilds an Overleaf-ready tree; reproduces the accepted No. 00 package file for file), `Makefile` (`new`, `check`, `qa`, `pdfs`, `zip`, `all`), `BACKLOG.md` snapshot, `skills/probability-notes-issue/SKILL.md`, pinned `requirements.txt`. New issues start with `make new P=NN-slug`.
+
+## 7. Formats and site (added 13 Nov 2026)
+
+Every post now also has `article.md` (Markdown, MathJax, embedded figures), `notebook.ipynb` (executed), `img/`, `meta.json` (status and published links) and `code/figures.py`. The site for GitHub Pages is built by `make site` and deployed to the `gh-pages` branch (workflow or `make pages PUSH=1`); only accepted and published posts appear. Full procedure and link checklist: `docs/POST_GUIDE.md`. No GitHub remote exists yet.

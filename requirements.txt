@@ -1,4 +1,12 @@
-# Numerical checks (code/check.py). Pinned to the versions the
-# published numbers were produced with.
+# Pinned to the versions the published numbers, notebooks and site were produced with.
+# Numerical checks (code/check.py)
 numpy==2.5.3
 scipy==1.18.1
+# Figures and notebooks (code/figures.py, notebook.ipynb)
+matplotlib==3.11.2
+nbformat==5.11.1
+nbclient==0.11.0
+nbconvert==7.17.2
+ipykernel==7.4.0
+jupyter_client==8.10.0
+# Also required (system): TeX Live 2023 (pdfTeX, BibTeX, latexmk), pandoc 3.1, poppler-utils, make, zip
