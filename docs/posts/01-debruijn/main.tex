@@ -272,7 +272,7 @@ For small $t$ the components barely overlap: $\E\log\cosh(Y_t/t)\approx1/t-\log2
   \node[text=Ink] at (0,-0.27) {noise variance $t$ (log scale)};
   \node[text=Ink,rotate=90] at (-2.2,0.5) {$t\,J(Y_t)$};
   \draw[RuleDark,dotted] (-1.5,1) -- (1.5,1);
-  \node[text=Muted,anchor=south east] at (1.5,1) {$\le1$ (\cref{lem:score})};
+  \node[text=Muted,anchor=south east] at (1.5,1) {$\le1$ (any $X$)};
   \draw[Warning,thick,dashed,domain=-1.5:1.5,samples=60]
     plot (\x,{pow(10,\x)/(1+pow(10,\x))});
   \node[text=Warning,anchor=west] at (0.05,0.22) {Gaussian $X$: $t/(1+t)$};
@@ -317,7 +317,7 @@ Rows 1--2 check \cref{rem:gauss}; rows 3--5 check \eqref{eq:main}, \cref{cor:imm
 % =====================================================================
 \SecNotes
 
-The identity is due to N.\,G.\ de Bruijn, who communicated it to A.\,J.\ Stam. Stam published it as equation (2.12) of \emph{Some inequalities satisfied by the quantities of information of Fisher and Shannon} \citep{stam1959}, where, together with an inequality for the Fisher information of sums, it yields a proof of the entropy power inequality stated by \citet{shannon1948}. Stam gave the identity in differential form; a proof in integral form appears in \citet{barron1986}, where it underpins a central limit theorem in relative entropy.
+The identity is due to N.\,G.\ de Bruijn, who communicated it to the director of physical research of the Netherlands Defence Research Council, at whose suggestion A.\,J.\ Stam had undertaken the work. Stam published it as equation (2.12) of \emph{Some inequalities satisfied by the quantities of information of Fisher and Shannon} \citep{stam1959}, where, together with an inequality for the Fisher information of sums, it yields a proof of the entropy power inequality stated by \citet{shannon1948}. Stam gave the identity in differential form. \Citet[Lemma~1]{barron1986} proved an integral form for every $X$ with finite variance, writing the relative entropy from the Gaussian as an integral of Fisher informations, and used it to prove a central limit theorem in relative entropy.
 \bibliographystyle{plainnat}
 \bibliography{shared/bibliography/references}
 

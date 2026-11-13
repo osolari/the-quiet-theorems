@@ -1,10 +1,10 @@
-# The Quiet Theorems No. 01: De Bruijn's identity
+# The Quiet Theorems No. 01: De Bruijn’s identity
 
 *Under Gaussian smoothing, differential entropy grows at exactly half the rate of Fisher information*
 
 > **TL;DR.** Adding independent Gaussian noise to a random variable makes it more spread out, so its differential entropy grows with the noise variance. De Bruijn’s identity, published by Stam (1959), gives the rate exactly: the derivative of the entropy with respect to the noise variance is half the Fisher information of the noisy variable. Fisher information is therefore the speed at which Gaussian smoothing creates entropy.
 
-[PDF attachment: *The Quiet Theorems No. 01: De Bruijn's identity (PDF)*. Full proofs, references and the numerical-check code.]
+[PDF attachment: *The Quiet Theorems No. 01: De Bruijn’s identity (PDF)*. Full proofs, references and the numerical-check code.]
 
 ## Setup and notation
 
@@ -101,7 +101,7 @@ using $\mathbb{E}[(y-X)\varphi_t(y-X)]=-t\,p_t'(y)$ from (3) and Lemma 1. The ex
 
 *Proof.* Otherwise $f\ge\varepsilon>0$ on some half-line, contradicting integrability. ∎
 
-**Step 1: finiteness.** By (4), $|p_t\log p_t|\le p_t(A+y^2/a)$, whose integral is $A+\mathbb{E}Y_t^2/a=A+(\mathbb{E}X^2+t)/a<\infty$. So $h(Y_t)$ is finite. $J(Y_t)\le1/t$ is Lemma 3.
+*Proof of the theorem.* **Step 1: finiteness.** By (4), $|p_t\log p_t|\le p_t(A+y^2/a)$, whose integral is $A+\mathbb{E}Y_t^2/a=A+(\mathbb{E}X^2+t)/a<\infty$. So $h(Y_t)$ is finite. $J(Y_t)\le1/t$ is Lemma 3.
 
 **Step 2: differentiating the entropy.** Fix $y$. Since $p_t(y)>0$ is $C^1$ in $t$, so is $\eta_t(y)\mathrel{:=}-p_t(y)\log p_t(y)$, with $\partial_t\eta_t=-\partial_tp_t\,(1+\log p_t)$.
 
@@ -217,9 +217,9 @@ The last formula uses $\mathbb{E}[X\tanh(Y_t/t)]=\mathbb{E}\tanh^2(Y_t/t)$, by t
 
 **Two regimes.** For small $t$ the components barely overlap: $\mathbb{E}\log\cosh(Y_t/t)\approx1/t-\log2$, so $h(Y_t)\approx\tfrac12\log(2\pi et)+\log2$, the entropy of noise plus one bit, and $t\,J(Y_t)\approx1$. For large $t$ the mixture is close to $\mathcal{N}(0,1+t)$ and $t\,J(Y_t)\approx t/(1+t)$. The figure shows $t\,J(Y_t)$ between the two bounds of Corollary 1 and Lemma 3, $t/(1+t)\le tJ(Y_t)\le1$.
 
-![Scaled Fisher information t J(Y_(t)) for X = ± 1 (computed by code/check.py) and for Gaussian X with the same variance. The Gaussian input has the least Fisher information, so its entropy grows most slowly; the two-point input starts at the noise-only rate and merges with the Gaussian curve as the noise dominates.](debruijn-figure.png)
+![Scaled Fisher information t·J(Yₜ) for X = ±1 (computed by code/check.py) and for Gaussian X with the same variance. The Gaussian input has the least Fisher information, so its entropy grows most slowly; the two-point input starts at the noise-only rate and merges with the Gaussian curve as the noise dominates.](debruijn-figure.png)
 
-*Scaled Fisher information t J(Y_(t)) for X = ± 1 (computed by code/check.py) and for Gaussian X with the same variance. The Gaussian input has the least Fisher information, so its entropy grows most slowly; the two-point input starts at the noise-only rate and merges with the Gaussian curve as the noise dominates.*
+*Scaled Fisher information t·J(Yₜ) for X = ±1 (computed by code/check.py) and for Gaussian X with the same variance. The Gaussian input has the least Fisher information, so its entropy grows most slowly; the two-point input starts at the noise-only rate and merges with the Gaussian curve as the noise dominates.*
 
 ## Numerical check
 
@@ -360,13 +360,13 @@ fig +1.50 0.9693 0.9693
 
 ## Notes
 
-The identity is due to N. G. de Bruijn, who communicated it to A. J. Stam. Stam published it as equation (2.12) of *Some inequalities satisfied by the quantities of information of Fisher and Shannon* (Stam, 1959), where, together with an inequality for the Fisher information of sums, it yields a proof of the entropy power inequality stated by Shannon (1948). Stam gave the identity in differential form; a proof in integral form appears in Barron (1986), where it underpins a central limit theorem in relative entropy.
+The identity is due to N. G. de Bruijn, who communicated it to the director of physical research of the Netherlands Defence Research Council, at whose suggestion A. J. Stam had undertaken the work. Stam published it as equation (2.12) of *Some inequalities satisfied by the quantities of information of Fisher and Shannon* (Stam, 1959), where, together with an inequality for the Fisher information of sums, it yields a proof of the entropy power inequality stated by Shannon (1948). Stam gave the identity in differential form. Barron (1986, Lemma 1) proved an integral form for every $X$ with finite variance, writing the relative entropy from the Gaussian as an integral of Fisher informations, and used it to prove a central limit theorem in relative entropy.
 
 ### References
 
 Barron, A. R. (1986). Entropy and the central limit theorem. *Annals of Probability*, 14(1), 336–342.
 
-Efron, B. (2011). Tweedie's formula and selection bias. *Journal of the American Statistical Association*, 106(496), 1602–1614.
+Efron, B. (2011). Tweedie’s formula and selection bias. *Journal of the American Statistical Association*, 106(496), 1602–1614.
 
 Guo, D., Shamai, S. and Verdú, S. (2005). Mutual information and minimum mean-square error in Gaussian channels. *IEEE Transactions on Information Theory*, 51(4), 1261–1282.
 
