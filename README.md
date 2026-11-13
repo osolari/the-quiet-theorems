@@ -19,7 +19,6 @@ Author: Omid Shams Solari, Ph.D. (sAIm Labs). The series was called *Probability
 | Repository | <https://github.com/osolari/the-quiet-theorems> |
 | Site (GitHub Pages, `gh-pages` branch) | <https://osolari.github.io/the-quiet-theorems/> |
 | Substack publication | <https://omidsolari.substack.com> |
-| Topic backlog (live, ranked, status dropdowns) | <https://claude.ai/artifact/4i9oRaXXahj9CRiEAvSVUH> |
 | Backlog snapshot | [`BACKLOG.md`](BACKLOG.md) |
 | Series standard (bundled into every package) | [`STANDARD.md`](STANDARD.md) |
 | How to make a post | [`docs/POST_GUIDE.md`](docs/POST_GUIDE.md) |

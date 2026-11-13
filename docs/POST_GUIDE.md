@@ -29,7 +29,7 @@ Never edit generated files by hand: change the source and regenerate. Published 
 
 Scope: theorems from probability, statistics and machine learning (including results behind modern ML/AI methods) that deserve to be better known.
 
-1. Open the backlog doc (link in `README.md`); take the highest-ranked Queued topic unless the user says otherwise. Note dependencies flagged in `BACKLOG.md` (e.g. SURE needs Stein's lemma).
+1. Open the backlog doc (link in `BACKLOG.md`); take the highest-ranked Queued topic unless the user says otherwise. Note dependencies flagged in `BACKLOG.md` (e.g. SURE needs Stein's lemma).
 2. `make new P=NN-slug`. This copies `skeleton/new-post/` (main.tex, project.tex, references.bib, code/check.py, code/figures.py, post.txt, tweet.txt, meta.json with issue and slug filled in).
 
 ## 2. Research and references
