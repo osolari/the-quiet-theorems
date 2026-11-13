@@ -1,6 +1,6 @@
 # Probability Notes
 
-A weekly post on one result in probability or statistics. Each issue ships as an X thread and a single tweet, a derivation PDF (A4 and screen layouts) with its Overleaf-ready LaTeX source, a Markdown article with embedded figures, an executed Jupyter notebook, and a page on the GitHub Pages site. Every PDF follows one fixed structure: setup and notation, the result, a complete proof, insights, uses, a worked example, a numerical check, and the history of the result.
+A weekly post on one result in probability or statistics. Each issue ships as a Substack post (with the PDF attached), an X thread and a single tweet linking to it, a derivation PDF (A4 and screen layouts) with its Overleaf-ready LaTeX source, an executed Jupyter notebook, and a page on the GitHub Pages site. Every PDF follows one fixed structure: setup and notation, the result, a complete proof, insights, uses, a worked example, a numerical check, and the history of the result.
 
 Author: Omid Shams Solari, Ph.D. (sAIm Labs)
 
@@ -8,6 +8,7 @@ Author: Omid Shams Solari, Ph.D. (sAIm Labs)
 
 | What | Where |
 |---|---|
+| Substack publication | <https://omidsolari.substack.com> |
 | Topic backlog (live, ranked, status dropdowns) | <https://claude.ai/artifact/4i9oRaXXahj9CRiEAvSVUH> |
 | Backlog snapshot | [`BACKLOG.md`](BACKLOG.md) |
 | Series standard (bundled into every package) | [`STANDARD.md`](STANDARD.md) |
@@ -18,12 +19,12 @@ Author: Omid Shams Solari, Ph.D. (sAIm Labs)
 
 ## Issues
 
-| No. | Topic | Status | Article | PDF | Notebook |
+| No. | Topic | Status | Substack article | PDF | Notebook |
 |---|---|---|---|---|---|
-| 00 | Hoeffding's covariance identity | Package accepted 9 Nov 2026 | [article](docs/posts/00-hoeffding/article.md) | [A4](docs/posts/00-hoeffding/pdf/pn-00-hoeffding.pdf), [screen](docs/posts/00-hoeffding/pdf/pn-00-hoeffding-screen.pdf) | [ipynb](docs/posts/00-hoeffding/notebook.ipynb) |
-| 01 | De Bruijn's identity | Draft, awaiting approval | [article](docs/posts/01-debruijn/article.md) | [A4](docs/posts/01-debruijn/pdf/pn-01-debruijn.pdf), [screen](docs/posts/01-debruijn/pdf/pn-01-debruijn-screen.pdf) | [ipynb](docs/posts/01-debruijn/notebook.ipynb) |
+| 00 | Hoeffding's covariance identity | Published 9 Nov 2026 ([Substack](https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings)) | [article](docs/posts/00-hoeffding/substack/article.md) | [A4](docs/posts/00-hoeffding/pdf/pn-00-hoeffding.pdf), [screen](docs/posts/00-hoeffding/pdf/pn-00-hoeffding-screen.pdf) | [ipynb](docs/posts/00-hoeffding/notebook.ipynb) |
+| 01 | De Bruijn's identity | Draft, awaiting approval | [draft](docs/posts/01-debruijn/substack/article.md) | [A4](docs/posts/01-debruijn/pdf/pn-01-debruijn.pdf), [screen](docs/posts/01-debruijn/pdf/pn-01-debruijn-screen.pdf) | [ipynb](docs/posts/01-debruijn/notebook.ipynb) |
 
-Published links (X, Substack, Pages) are pinned in each post's `meta.json` and `README.md`.
+Published links (Substack, X, Pages) and Substack details are pinned in each post's `meta.json` and `README.md`. No. 00 is the reference post.
 
 ## Layout
 
@@ -36,12 +37,13 @@ skeleton/            SAIM blog template v1.2 + series layer (shared by every pos
 docs/posts/NN-slug/  one folder per issue: only what is issue-specific
   hand-written: main.tex project.tex references.bib code/check.py code/figures.py
                 post.txt tweet.txt meta.json README.md
-  generated:    pdf/ img/ article.md notebook.ipynb
+  generated:    pdf/ notebook.ipynb
+  substack/:    article.md (drafted, hand-finished, frozen on publication) + <slug>-figure.png
 docs/POST_GUIDE.md   full procedure, file map, link/status checklist
 scripts/assemble.sh  skeleton + STANDARD.md + post -> self-contained Overleaf tree
-scripts/figures.py   TikZ figures -> img/figure-N.png
-scripts/tex2md.py    main.tex -> article.md (MathJax, numbered results, references)
-scripts/make_notebook.py  article.md + code/ -> executed notebook.ipynb
+scripts/figures.py   TikZ figures -> substack/<slug>-figure.png
+scripts/tex2md.py    main.tex -> substack/article.md draft (Substack house style)
+scripts/make_notebook.py  substack/article.md + code/ -> executed notebook.ipynb
 scripts/verify_formats.py checks article links, leftover LaTeX, notebook == check.py, meta.json
 scripts/build_site.py     site/ for GitHub Pages (accepted/published posts only)
 scripts/publish_pages.sh  commit site/ to the gh-pages branch (--push to push)
@@ -59,7 +61,7 @@ make new P=02-sure          # start an issue from skeleton/new-post
 make check P=02-sure        # run its numerical check
 make qa P=02-sure           # build A4 + screen, zero-warning scan, Type 1 fonts, tweet weights
 make pdfs P=02-sure         # copy built PDFs into docs/posts/02-sure/pdf/
-make formats P=02-sure      # img/, article.md, notebook.ipynb (executed)
+make formats P=02-sure      # Substack draft + figure, notebook.ipynb (executed)
 make verify P=02-sure       # article/notebook/meta checks
 make zip P=02-sure          # dist/pn_02_sure.zip, Overleaf-ready (set main-screen.tex as main document for the screen layout)
 make all                    # qa + verify for every issue
@@ -91,4 +93,4 @@ The site is built from committed artefacts (no TeX needed) and lives only on the
 
 - Automatic: pushing `main` runs `.github/workflows/pages.yml`, which builds `site/` and force-pushes it to `gh-pages`. In the repository settings set Pages to "Deploy from a branch", `gh-pages`, `/ (root)`.
 - Manual: `make pages PUSH=1 PAGES_REPO=<owner>/<repo>`.
-- Only posts whose `meta.json` status is `accepted` or `published` are on the site. Note that drafts are still visible in `main` if the repository is public.
+- Only posts whose `meta.json` status is `accepted` or `published` are on the site; each page renders the post's `substack/article.md` with links to the PDFs, notebook, Overleaf zip and the Substack and X posts. Note that drafts are still visible in `main` if the repository is public.

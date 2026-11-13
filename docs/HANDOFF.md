@@ -28,7 +28,7 @@ Doc "Probability Notes: topic backlog": https://claude.ai/artifact/4i9oRaXXahj9C
 
 | Issue | Topic | State |
 |---|---|---|
-| No. 00 | Hoeffding's covariance identity | Package accepted 9 Nov 2026 |
+| No. 00 | Hoeffding's covariance identity | Published on Substack 9 Nov 2026 (https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings); X not yet posted |
 | No. 01 | De Bruijn's identity | Draft delivered 9 Nov 2026, awaiting approval |
 
 ### No. 01 draft (in the bundle as `pn_01_debruijn.zip`)
@@ -57,3 +57,7 @@ Git repo `probability-notes` at `~/workspace/projects/probability-notes` on the 
 ## 7. Formats and site (added 13 Nov 2026)
 
 Every post now also has `article.md` (Markdown, MathJax, embedded figures), `notebook.ipynb` (executed), `img/`, `meta.json` (status and published links) and `code/figures.py`. The site for GitHub Pages is built by `make site` and deployed to the `gh-pages` branch (workflow or `make pages PUSH=1`); only accepted and published posts appear. Full procedure and link checklist: `docs/POST_GUIDE.md`. No GitHub remote exists yet.
+
+## 8. Substack (added 13 Nov 2026)
+
+No. 00 was published on Substack on 9 Nov 2026; its published text, figure and Substack details are in `docs/posts/00-hoeffding/` (`substack/`, `meta.json`, `README.md`) and it is the reference post. Every post now carries `substack/article.md` (drafted by `make formats`, hand-finished, frozen on publication) instead of `article.md`/`img/`. X posts link to the Substack URL. House style and publishing procedure: `docs/POST_GUIDE.md` 7a and 7b.

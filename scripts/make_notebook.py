@@ -1,11 +1,11 @@
 """Build and execute docs/posts/<post>/notebook.ipynb.
 
 Sources (nothing is written by hand in the notebook):
-  article.md       title block, TL;DR, Result, Numerical check table
+  substack/article.md  title, TL;DR, Result, Numerical check list
   code/check.py    split into cells at top-level "# N. ..." comments
   code/figures.py  optional; run last, in the same namespace
 Usage: python3 scripts/make_notebook.py <post>
-(run after scripts/tex2md.py, which writes article.md).
+(run after scripts/tex2md.py, which drafts substack/article.md).
 """
 import re
 import sys
@@ -17,7 +17,9 @@ from nbclient import NotebookClient
 root = Path(__file__).resolve().parent.parent
 post = sys.argv[1]
 pdir = root / "docs" / "posts" / post
-md = (pdir / "article.md").read_text()
+md = (pdir / "substack" / "article.md").read_text()
+import json
+meta = json.loads((pdir / "meta.json").read_text())
 
 
 def section(name):
@@ -26,18 +28,26 @@ def section(name):
 
 
 head = md.split("\n## ", 1)[0]
-title_block = head.split("\n> ", 1)[0].strip()
-title_block = title_block.replace("(pdf/", "(pdf/").replace("[Notebook](notebook.ipynb) · ", "")
-title_block = title_block.replace("[LaTeX source](main.tex)", "[Article](article.md) · [LaTeX source](main.tex)")
-tldr = "\n".join(l for l in head.splitlines() if l.startswith(">"))
+lines = head.splitlines()
+title = lines[0]
+subtitle = next((l for l in lines[1:] if l.startswith("*")), "")
+tldr = "\n".join(l for l in lines if l.startswith(">"))
+nn, slug = meta["issue"], meta["slug"]
+links = [f"[PDF (A4)](pdf/pn-{nn}-{slug}.pdf)",
+         f"[PDF (screen)](pdf/pn-{nn}-{slug}-screen.pdf)",
+         "[Article](substack/article.md)", "[LaTeX source](main.tex)"]
+if meta["links"].get("substack"):
+    links.insert(0, f"[Substack]({meta['links']['substack']})")
+title_block = "\n\n".join([title, subtitle, " · ".join(links)])
 result = section("Result")
 check = section("Numerical check").split("**Code.**", 1)[0].strip()
+check = re.sub(r"!\[[^\]]*\]\(([^)]+)\)", lambda m: m.group(0).replace(m.group(1), "substack/" + m.group(1)), check)
 
 cells = [nbformat.v4.new_markdown_cell(title_block + "\n\n" + tldr),
          nbformat.v4.new_markdown_cell("## Result\n\n" + result),
          nbformat.v4.new_markdown_cell(
              "## Numerical check\n\nThe cells below are `code/check.py`, split at its "
-             "numbered sections; together they print every number in this table.\n\n" + check)]
+             "numbered sections; together they print every number listed here.\n\n" + check)]
 
 src = (pdir / "code" / "check.py").read_text()
 parts = re.split(r"(?m)^(?=# \d+(?:-\d+)?\. )", src)

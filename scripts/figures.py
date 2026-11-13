@@ -1,4 +1,7 @@
-"""Rasterise the TikZ figures of a post to docs/posts/<post>/img/figure-N.png.
+"""Rasterise the TikZ figures of a post for its Substack article.
+
+Output: docs/posts/<post>/substack/<slug>-figure.png (one figure) or
+<slug>-figure-N.png (several), N = order of appearance.
 
 Only tikzpictures inside figure environments are rendered, in order of
 appearance (matching the PDF's figure numbers), with the post's own class,
@@ -13,7 +16,13 @@ from pathlib import Path
 root = Path(__file__).resolve().parent.parent
 post = sys.argv[1]
 b = root / "build" / post
-out = root / "docs" / "posts" / post / "img"
+out = root / "docs" / "posts" / post / "substack"
+slug = post.split("-", 1)[1]
+import json
+meta = json.loads((root / "docs" / "posts" / post / "meta.json").read_text())
+if meta.get("substack", {}).get("frozen") and "--force" not in sys.argv:
+    print(f"skip: {post} Substack figures are frozen (published)")
+    sys.exit(0)
 tex = (b / "main.tex").read_text()
 pre = tex.split("\\begin{document}", 1)[0]
 figs = re.findall(r"\\begin\{figure\}.*?\\end\{figure\}", tex, re.S)
@@ -42,6 +51,7 @@ out.mkdir(parents=True, exist_ok=True)
 for i in range(1, len(pics) + 1):
     subprocess.run(["pdftoppm", "-r", "220", "-png", "-singlefile",
                     "-f", str(i), "-l", str(i),
-                    str(fb / "figures-driver.pdf"), str(out / f"figure-{i}")],
+                    str(fb / "figures-driver.pdf"),
+                    str(out / (f"{slug}-figure" if len(pics) == 1 else f"{slug}-figure-{i}"))],
                    check=True)
 print(f"{len(pics)} figure(s) -> {out}")

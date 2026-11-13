@@ -1,12 +1,26 @@
 {
   "issue": "00",
   "slug": "hoeffding",
-  "status": "accepted",
-  "date": "2026-11-08",
+  "status": "published",
+  "date": "2026-11-09",
   "links": {
     "x_thread": "",
     "x_tweet": "",
-    "substack": "",
+    "substack": "https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings",
     "pages": ""
+  },
+  "substack": {
+    "url": "https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings",
+    "published": "2026-11-09T09:49:00-08:00",
+    "audience": "everyone",
+    "editor": "https://omidsolari.substack.com/publish/post/224169408",
+    "draft_id": 224169408,
+    "pdf_attachment": "https://omidsolari.substack.com/api/v1/file/4c024c81-13d7-418b-b924-661aac38df84.pdf",
+    "pdf_attached": "pdf/pn-00-hoeffding.pdf",
+    "images": {
+      "hoeffding-figure.png": "https://substack-post-media.s3.amazonaws.com/public/images/83fa447e-ebaa-4cee-8574-1d6e232d1e4c_583x309.png"
+    },
+    "byline": "Omid Solari",
+    "frozen": true
   }
 }

@@ -1,6 +1,6 @@
 # Probability Notes: topic backlog (snapshot)
 
-Snapshot of the live backlog doc, taken 13 Nov 2026. The doc is the source of truth: <https://claude.ai/artifact/4i9oRaXXahj9CRiEAvSVUH>
+Snapshot of the live backlog doc, taken 13 Nov 2026 (No. 00 status updated after its Substack publication). The doc is the source of truth: <https://claude.ai/artifact/4i9oRaXXahj9CRiEAvSVUH>
 
 Scores 1 to 5 (author's judgement): **S**urprise (how little-known to a statistically literate ML audience), **E**legance (one-line statement), **D**epth (what a careful derivation adds), **R**elevance (to modern ML). Ties broken by Surprise, then Relevance.
 
@@ -8,7 +8,7 @@ Note: SURE (2) rests on Stein's lemma (16); a Stein's lemma, SURE, Tweedie arc i
 
 | Rank | Topic | One-line statement | S | E | D | R | Total | Status |
 |---|---|---|---|---|---|---|---|---|
-| 0 | Hoeffding's covariance identity | Cov(X,Y) = ∬ [H(x,y) − F(x)G(y)] dx dy | 4 | 5 | 5 | 4 | 18 | Accepted (No. 00) |
+| 0 | Hoeffding's covariance identity | Cov(X,Y) = ∬ [H(x,y) − F(x)G(y)] dx dy | 4 | 5 | 5 | 4 | 18 | Published (No. 00) |
 | 1 | de Bruijn's identity | d/dt h(X + √t Z) = ½ J(X + √t Z): entropy grows at half the Fisher information | 5 | 5 | 5 | 4 | 19 | Drafted (No. 01) |
 | 2 | Stein's unbiased risk estimate (SURE) | E‖f(y) − θ‖² is estimable without θ: ‖f(y) − y‖² − nσ² + 2σ² div f(y) | 5 | 4 | 4 | 5 | 18 | Queued |
 | 3 | James–Stein estimator | In d ≥ 3 the sample mean is inadmissible under squared loss | 5 | 4 | 5 | 4 | 18 | Queued |

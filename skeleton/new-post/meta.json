@@ -8,5 +8,17 @@
     "x_tweet": "",
     "substack": "",
     "pages": ""
+  },
+  "substack": {
+    "url": "",
+    "published": "",
+    "audience": "everyone",
+    "editor": "",
+    "draft_id": null,
+    "pdf_attachment": "",
+    "pdf_attached": "pdf/pn-NN-SLUG.pdf",
+    "images": {},
+    "byline": "Omid Solari",
+    "frozen": false
   }
 }

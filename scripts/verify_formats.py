@@ -1,7 +1,9 @@
 """Check a post's derived formats are complete and consistent.
 
-- article.md exists, every image/link to a local file resolves,
-  no unconverted LaTeX (\\cref, \\cite, @@ markers, ?? refs) remains
+- substack/article.md exists, every image/link to a local file resolves
+  (relative to substack/), no unconverted LaTeX (\\cref, \\cite, @@
+  markers, ?? refs) remains, the PDF-attachment line is present, and the
+  Output block equals `python3 code/check.py`
 - notebook.ipynb exists, has outputs, no error outputs, and its
   printed check numbers equal `python3 code/check.py` output
 - meta.json has the required keys and a known status
@@ -20,12 +22,20 @@ post = sys.argv[1]
 p = root / "docs" / "posts" / post
 bad = []
 
-md = (p / "article.md").read_text() if (p / "article.md").exists() else ""
+art = p / "substack" / "article.md"
+md = art.read_text() if art.exists() else ""
 if not md:
-    bad.append("article.md missing")
-for link in re.findall(r"\]\(([^)#]+)\)", md):
-    if not link.startswith("http") and not (p / link).exists():
+    bad.append("substack/article.md missing")
+for link in re.findall(r"\]\(([^)#\s]+)\)", md):
+    if not link.startswith("http") and not (art.parent / link).exists():
         bad.append(f"article.md: missing target {link}")
+if md and "[PDF attachment:" not in md:
+    bad.append("article.md: PDF attachment line missing")
+m = re.search(r"\*\*Output:\*\*\s*```\n(.*?)```", md, re.S)
+ref_out = subprocess.run([sys.executable, "check.py"], cwd=p / "code",
+                         capture_output=True, text=True).stdout
+if md and (not m or m.group(1).strip() != ref_out.strip()):
+    bad.append("article.md: Output block differs from check.py")
 for pat in [r"\\cref", r"\\citep?", r"@@", r"\?\?", r"\\label", r"\\ref\{"]:
     if re.search(pat, md):
         bad.append(f"article.md: leftover {pat}")
@@ -40,9 +50,7 @@ else:
         bad.append("notebook: error output")
     printed = "".join(o.get("text", "") for o in outs
                       if o.output_type == "stream")
-    ref = subprocess.run([sys.executable, "check.py"], cwd=p / "code",
-                         capture_output=True, text=True).stdout
-    if printed.strip() != ref.strip():
+    if printed.strip() != ref_out.strip():
         bad.append("notebook: printed numbers differ from check.py")
 
 meta = json.loads((p / "meta.json").read_text())
@@ -51,10 +59,18 @@ if meta.get("status") not in ("draft", "accepted", "published"):
 for k in ("issue", "slug", "date", "links"):
     if k not in meta:
         bad.append(f"meta.json: missing {k}")
+sub = meta.get("substack", {})
 if meta.get("status") == "published":
-    for k in ("x_thread", "x_tweet", "substack", "pages"):
+    if not meta["links"].get("substack") or not sub.get("url"):
+        bad.append("meta.json: published but no Substack URL")
+    if not sub.get("frozen"):
+        bad.append("meta.json: published but substack.frozen is false")
+    for img in re.findall(r"!\[[^\]]*\]\(([^)]+)\)", md):
+        if not img.startswith("http") and img not in sub.get("images", {}):
+            bad.append(f"meta.json: no Substack URL recorded for {img}")
+    for k in ("x_thread", "x_tweet"):
         if not meta["links"].get(k):
-            bad.append(f"meta.json: published but links.{k} empty")
+            print(f"note: links.{k} empty (X not yet posted)")
 
 print("\n".join(bad) if bad else f"{post}: formats OK")
 sys.exit(1 if bad else 0)

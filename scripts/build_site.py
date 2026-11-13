@@ -2,8 +2,8 @@
 
 Only posts whose meta.json status is "accepted" or "published" are
 included (pass --all to preview drafts locally). Per post:
-  site/posts/<post>/index.html   article.md rendered (pandoc + MathJax)
-  site/posts/<post>/notebook.html, notebook.ipynb, pdf/, img/, code/
+  site/posts/<post>/index.html   substack/article.md rendered (pandoc + MathJax)
+  site/posts/<post>/notebook.html, notebook.ipynb, pdf/, code/, figures
   site/posts/<post>/pn_<NN>_<slug>.zip   Overleaf-ready package
 Usage: python3 scripts/build_site.py [--all] [--repo owner/name]
 --repo (or $PAGES_REPO) adds GitHub source and Colab links.
@@ -74,12 +74,14 @@ def main():
         nn, slug = meta["issue"], meta["slug"]
         out = site / "posts" / post
         out.mkdir(parents=True)
-        for sub in ("pdf", "img", "code"):
+        for sub in ("pdf", "code"):
             if (pdir / sub).exists():
                 shutil.copytree(pdir / sub, out / sub)
-        for f in ("notebook.ipynb", "main.tex", "article.md"):
+        for f in ("notebook.ipynb", "main.tex"):
             if (pdir / f).exists():
                 shutil.copy(pdir / f, out / f)
+        for f in (pdir / "substack").iterdir():
+            shutil.copy(f, out / f.name)
         # Overleaf-ready package
         run(["make", "-s", "zip", f"P={post}"], cwd=root,
             stdout=subprocess.DEVNULL)
@@ -89,25 +91,23 @@ def main():
              "notebook", str(out / "notebook.ipynb")],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         # article page
-        md = (pdir / "article.md").read_text()
-        md = md.replace("(notebook.ipynb)", "(notebook.html)")
-        extra = f" · [Overleaf package](pn_{nn}_{slug}.zip)"
+        md = (pdir / "substack" / "article.md").read_text()
+        bar = [f"[PDF (A4)](pdf/pn-{nn}-{slug}.pdf)",
+               f"[PDF (screen)](pdf/pn-{nn}-{slug}-screen.pdf)",
+               "[Notebook](notebook.html)", "[LaTeX source](main.tex)",
+               f"[Overleaf package](pn_{nn}_{slug}.zip)"]
+        names = {"substack": "Substack", "x_thread": "X thread",
+                 "x_tweet": "X post"}
+        for k in ("x_tweet", "x_thread", "substack"):
+            if meta["links"].get(k):
+                bar.insert(0, f"[{names[k]}]({meta['links'][k]})")
         if repo:
             gh = f"https://github.com/{repo}/blob/main/docs/posts/{post}"
             colab = ("https://colab.research.google.com/github/"
                      f"{repo}/blob/main/docs/posts/{post}/notebook.ipynb")
-            extra += f" · [Source]({gh}) · [Open in Colab]({colab})"
-        md = md.replace("[LaTeX source](main.tex)",
-                        "[LaTeX source](main.tex)" + extra, 1)
-        links = {k: v for k, v in meta["links"].items() if v and k != "pages"}
-        if links:
-            names = {"x_thread": "X thread", "x_tweet": "X post",
-                     "substack": "Substack"}
-            md = md.replace(
-                "\n\n> **TL;DR.**",
-                "\n\n" + " · ".join(f"[{names[k]}]({v})"
-                                    for k, v in links.items())
-                + "\n\n> **TL;DR.**", 1)
+            bar += [f"[Source]({gh})", f"[Open in Colab]({colab})"]
+        md = re.sub(r"(?m)^\[PDF attachment:.*$", " · ".join(bar), md,
+                    count=1)
         tmp = out / "_article.md"
         tmp.write_text(md)
         title = project_field((pdir / "project.tex").read_text(),
