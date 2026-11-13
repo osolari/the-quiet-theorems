@@ -1,4 +1,4 @@
-"""Probability Notes No. 01: numerical check.
+"""The Quiet Theorems No. 01: numerical check.
 
 Prints every number in the PDF's check table.
 Requires Python >= 3.8, NumPy >= 1.20 and

@@ -4,4 +4,4 @@ formula
 
 One-line meaning.
 
-Probability Notes No. NN (proofs and code): [link]
+The Quiet Theorems No. NN (proofs and code): [link]

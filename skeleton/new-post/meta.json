@@ -1,6 +1,9 @@
 {
   "issue": "NN",
   "slug": "SLUG",
+  "series": "The Quiet Theorems",
+  "prefix": "qt",
+  "package_frozen": false,
   "status": "draft",
   "date": "YYYY-MM-DD",
   "links": {
@@ -16,7 +19,7 @@
     "editor": "",
     "draft_id": null,
     "pdf_attachment": "",
-    "pdf_attached": "pdf/pn-NN-SLUG.pdf",
+    "pdf_attached": "pdf/qt-NN-SLUG.pdf",
     "images": {},
     "byline": "Omid Solari",
     "frozen": false

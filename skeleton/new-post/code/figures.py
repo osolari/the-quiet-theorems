@@ -1,4 +1,4 @@
-"""Probability Notes No. NN: figures (matplotlib).
+"""The Quiet Theorems No. NN: figures (matplotlib).
 
 Runs in the notebook after check.py, in the same namespace.
 One block per PDF figure, same order, palette below.

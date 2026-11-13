@@ -1,6 +1,9 @@
 {
   "issue": "01",
   "slug": "debruijn",
+  "series": "The Quiet Theorems",
+  "prefix": "qt",
+  "package_frozen": false,
   "status": "draft",
   "date": "2026-11-09",
   "links": {
@@ -16,7 +19,7 @@
     "editor": "",
     "draft_id": null,
     "pdf_attachment": "",
-    "pdf_attached": "pdf/pn-01-debruijn.pdf",
+    "pdf_attached": "pdf/qt-01-debruijn.pdf",
     "images": {},
     "byline": "Omid Solari",
     "frozen": false

@@ -4,7 +4,7 @@ Only posts whose meta.json status is "accepted" or "published" are
 included (pass --all to preview drafts locally). Per post:
   site/posts/<post>/index.html   substack/article.md rendered (pandoc + MathJax)
   site/posts/<post>/notebook.html, notebook.ipynb, pdf/, code/, figures
-  site/posts/<post>/pn_<NN>_<slug>.zip   Overleaf-ready package
+  site/posts/<post>/<prefix>-<NN>-<slug>.zip   Overleaf-ready package
 Usage: python3 scripts/build_site.py [--all] [--repo owner/name]
 --repo (or $PAGES_REPO) adds GitHub source and Colab links.
 """
@@ -46,7 +46,10 @@ font-size:.8rem}.links a{margin-right:1rem}
 footer{margin-top:3rem;color:var(--muted);font-size:.85rem;
 border-top:1px solid var(--rule);padding-top:1rem}
 """
-FOOT = ("<footer>Probability Notes · Omid Shams Solari, Ph.D. · sAIm Labs"
+TAGLINE = ("Theorems from probability, statistics and machine learning that "
+           "deserve to be better known: one a week, stated with minimal "
+           "conditions, proved in full, and checked in code.")
+FOOT = ("<footer>The Quiet Theorems · Omid Shams Solari, Ph.D. · sAIm Labs"
         "</footer>")
 
 
@@ -72,6 +75,7 @@ def main():
             continue
         post = pdir.name
         nn, slug = meta["issue"], meta["slug"]
+        pk = f"{meta.get('prefix', 'qt')}-{nn}-{slug}"
         out = site / "posts" / post
         out.mkdir(parents=True)
         for sub in ("pdf", "code"):
@@ -85,17 +89,17 @@ def main():
         # Overleaf-ready package
         run(["make", "-s", "zip", f"P={post}"], cwd=root,
             stdout=subprocess.DEVNULL)
-        shutil.copy(root / "dist" / f"pn_{nn}_{slug}.zip", out)
+        shutil.copy(root / "dist" / f"{pk}.zip", out)
         # notebook as HTML (outputs already stored)
         run(["jupyter", "nbconvert", "--to", "html", "--output",
              "notebook", str(out / "notebook.ipynb")],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         # article page
         md = (pdir / "substack" / "article.md").read_text()
-        bar = [f"[PDF (A4)](pdf/pn-{nn}-{slug}.pdf)",
-               f"[PDF (screen)](pdf/pn-{nn}-{slug}-screen.pdf)",
+        bar = [f"[PDF (A4)](pdf/{pk}.pdf)",
+               f"[PDF (screen)](pdf/{pk}-screen.pdf)",
                "[Notebook](notebook.html)", "[LaTeX source](main.tex)",
-               f"[Overleaf package](pn_{nn}_{slug}.zip)"]
+               f"[Overleaf package]({pk}.zip)"]
         names = {"substack": "Substack", "x_thread": "X thread",
                  "x_tweet": "X post"}
         for k in ("x_tweet", "x_thread", "substack"):
@@ -115,7 +119,7 @@ def main():
         run(["pandoc", str(tmp), "-f", "gfm+tex_math_dollars", "-t",
              "html5", "-s",
              "--mathjax=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js", "--css", "../../style.css",
-             "--metadata", f"pagetitle={title} · Probability Notes",
+             "--metadata", f"pagetitle={title} · The Quiet Theorems",
              "-A", "/dev/stdin", "-o", str(out / "index.html")],
             input=(f'<p><a href="../../">All issues</a></p>{FOOT}'),
             text=True)
@@ -125,22 +129,20 @@ def main():
         date = project_field(proj, "ProjectDate")
         tag = "" if meta["status"] != "draft" else " (draft)"
         cards.append(
-            f'<div class="card"><div class="eyebrow">No. {nn} · '
+            f'<div class="card"><div class="eyebrow">{html.escape(meta.get("series", "The Quiet Theorems"))} No. {nn} · '
             f'{html.escape(date)}{tag}</div><h2><a href="posts/{post}/">'
             f'{html.escape(title)}</a></h2><p>{html.escape(sub)}</p>'
             f'<p class="links"><a href="posts/{post}/">Article</a>'
-            f'<a href="posts/{post}/pdf/pn-{nn}-{slug}.pdf">PDF</a>'
+            f'<a href="posts/{post}/pdf/{pk}.pdf">PDF</a>'
             f'<a href="posts/{post}/notebook.html">Notebook</a>'
-            f'<a href="posts/{post}/pn_{nn}_{slug}.zip">Overleaf zip</a>'
+            f'<a href="posts/{post}/{pk}.zip">Overleaf zip</a>'
             f'</p></div>')
     index = (
         '<!doctype html><html lang="en-GB"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
-        '<title>Probability Notes</title><link rel="stylesheet" '
+        '<title>The Quiet Theorems</title><link rel="stylesheet" '
         'href="style.css"></head><body><div class="eyebrow">sAIm Labs</div>'
-        "<h1>Probability Notes</h1><p class=\"muted\">One result in "
-        "probability or statistics a week: the statement, a complete proof, "
-        "insights, uses, a worked example and a numerical check.</p>"
+        "<h1>The Quiet Theorems</h1><p class=\"muted\">" + TAGLINE + "</p>"
         + "".join(reversed(cards)) + FOOT + "</body></html>")
     (site / "index.html").write_text(index)
     print(f"{len(cards)} post(s) -> {site}")

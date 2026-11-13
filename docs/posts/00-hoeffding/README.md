@@ -1,4 +1,6 @@
-# No. 00: Hoeffding's covariance identity
+# Probability Notes No. 00: Hoeffding's covariance identity
+
+Published under the series' earlier name, *Probability Notes*; the series is now *The Quiet Theorems*. Everything published (PDF, Substack article, Overleaf package) is kept exactly as published.
 
 Cov(X,Y) = ∬ [F_{X,Y}(x,y) − F_X(x)F_Y(y)] dx dy (Hoeffding, 1940).
 
@@ -6,7 +8,7 @@ Cov(X,Y) = ∬ [F_{X,Y}(x,y) − F_X(x)F_Y(y)] dx dy (Hoeffding, 1940).
 |---|---|
 | Status | Published on Substack 9 Nov 2026, 09:49 PST; package accepted. Reference post for the series |
 | Backlog rank | 0 |
-| Package | `make zip P=00-hoeffding` → `dist/pn_00_hoeffding.zip` (identical to the published package) |
+| Package | [`pn-00-hoeffding.zip`](pn-00-hoeffding.zip), archived as published; `make zip P=00-hoeffding` copies it to `dist/` |
 | PDF | [A4](pdf/pn-00-hoeffding.pdf) (8 pp., Result box on p. 1), [screen](pdf/pn-00-hoeffding-screen.pdf) (12 pp.) |
 | Substack article | [`substack/article.md`](substack/article.md), as published (frozen), with [`hoeffding-figure.png`](substack/hoeffding-figure.png) |
 | Notebook | [`notebook.ipynb`](notebook.ipynb) (executed) |

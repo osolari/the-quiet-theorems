@@ -1,8 +1,10 @@
-# Probability Notes: topic backlog (snapshot)
+# The Quiet Theorems: topic backlog (snapshot)
 
 Snapshot of the live backlog doc, taken 13 Nov 2026 (No. 00 status updated after its Substack publication). The doc is the source of truth: <https://claude.ai/artifact/4i9oRaXXahj9CRiEAvSVUH>
 
 Scores 1 to 5 (author's judgement): **S**urprise (how little-known to a statistically literate ML audience), **E**legance (one-line statement), **D**epth (what a careful derivation adds), **R**elevance (to modern ML). Ties broken by Surprise, then Relevance.
+
+Scope now includes machine-learning and AI theorems; the list will be extended accordingly.
 
 Note: SURE (2) rests on Stein's lemma (16); a Stein's lemma, SURE, Tweedie arc is an option.
 

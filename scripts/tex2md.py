@@ -4,7 +4,7 @@ Usage: python3 scripts/tex2md.py <post> [--force]
 
 Writes docs/posts/<post>/substack/article.md in the Substack house style
 fixed by the published No. 00 (see docs/POST_GUIDE.md, "Substack"):
-  * title "Probability Notes No. NN: <Title>", italic subtitle,
+  * title "<Series> No. NN: <Title>", italic subtitle,
     "Published <date>: <url>" once meta.json has the Substack link;
   * TL;DR blockquote, then the PDF-attachment placeholder line;
   * no tables (Substack has none): tables become numbered lists;
@@ -400,12 +400,13 @@ def main(post, force=False):
 
     title, subt = field(proj, "ProjectTitle"), field(proj, "ProjectSubtitle")
     issue = field(proj, "ProjectIssue")
+    series = field(proj, "ProjectSeriesLabel") or meta.get("series", "The Quiet Theorems")
     date = field(proj, "ProjectDate")
-    head = f"# Probability Notes {issue}: {title}\n\n*{subt}*\n\n"
+    head = f"# {series} {issue}: {title}\n\n*{subt}*\n\n"
     if sub.get("url"):
         head += f"Published {date}: {sub['url']}\n\n"
     md = md.strip()
-    pdf_line = (f"[PDF attachment: *Probability Notes {issue}: {title} (PDF)*. "
+    pdf_line = (f"[PDF attachment: *{series} {issue}: {title} (PDF)*. "
                 "Full proofs, references and the numerical-check code.]")
     md = re.sub(r"^(> \*\*TL;DR\.\*\*.*?)(\n\n|$)", lambda m: m.group(1) + "\n\n" + pdf_line + "\n\n", md, count=1, flags=re.S)
     refs = sorted((ref_entry(*bib[k]) for k in bib), key=lambda s: s.lower())

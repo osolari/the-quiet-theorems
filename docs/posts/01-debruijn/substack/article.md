@@ -1,10 +1,10 @@
-# Probability Notes No. 01: De Bruijn's identity
+# The Quiet Theorems No. 01: De Bruijn's identity
 
 *Under Gaussian smoothing, differential entropy grows at exactly half the rate of Fisher information*
 
 > **TL;DR.** Adding independent Gaussian noise to a random variable makes it more spread out, so its differential entropy grows with the noise variance. De Bruijn’s identity, published by Stam (1959), gives the rate exactly: the derivative of the entropy with respect to the noise variance is half the Fisher information of the noisy variable. Fisher information is therefore the speed at which Gaussian smoothing creates entropy.
 
-[PDF attachment: *Probability Notes No. 01: De Bruijn's identity (PDF)*. Full proofs, references and the numerical-check code.]
+[PDF attachment: *The Quiet Theorems No. 01: De Bruijn's identity (PDF)*. Full proofs, references and the numerical-check code.]
 
 ## Setup and notation
 
@@ -236,7 +236,7 @@ Rows 1–2 check the remark; rows 3–5 check (1), Corollary 3 and Corollary 2 f
 **Code.** Every number above is printed by the script below (Python 3, NumPy, SciPy); its docstring gives the requirements.
 
 ```python
-"""Probability Notes No. 01: numerical check.
+"""The Quiet Theorems No. 01: numerical check.
 
 Prints every number in the PDF's check table.
 Requires Python >= 3.8, NumPy >= 1.20 and

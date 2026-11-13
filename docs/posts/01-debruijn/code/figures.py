@@ -1,4 +1,4 @@
-"""Probability Notes No. 01: figures (matplotlib).
+"""The Quiet Theorems No. 01: figures (matplotlib).
 
 Runs in the notebook after check.py, in the same namespace
 (uses J and rade from check.py).

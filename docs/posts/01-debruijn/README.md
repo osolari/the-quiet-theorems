@@ -1,4 +1,4 @@
-# No. 01: De Bruijn's identity
+# The Quiet Theorems No. 01: De Bruijn's identity
 
 d/dt h(X + √t Z) = ½ J(X + √t Z) (de Bruijn; Stam, 1959).
 
@@ -6,8 +6,8 @@ d/dt h(X + √t Z) = ½ J(X + √t Z) (de Bruijn; Stam, 1959).
 |---|---|
 | Status | Draft delivered 9 Nov 2026, awaiting approval |
 | Backlog rank | 1 |
-| Package | `make zip P=01-debruijn` → `dist/pn_01_debruijn.zip` |
-| PDF | [A4](pdf/pn-01-debruijn.pdf) (9 pp.), [screen](pdf/pn-01-debruijn-screen.pdf) (11 pp.) |
+| Package | `make zip P=01-debruijn` → `dist/qt-01-debruijn.zip` |
+| PDF | [A4](pdf/qt-01-debruijn.pdf) (9 pp.), [screen](pdf/qt-01-debruijn-screen.pdf) (11 pp.) |
 | Thread | [`post.txt`](post.txt) (226 / 280 weighted) |
 | Substack article | [`substack/article.md`](substack/article.md) (generated draft; hand-finish to the house style before publishing), figure [`debruijn-figure.png`](substack/debruijn-figure.png) |
 | Notebook | [`notebook.ipynb`](notebook.ipynb) (executed) |
@@ -30,7 +30,7 @@ Keep in sync with `meta.json` `links`.
 1. De Bruijn's communication to Stam, "equation (2.12)", and Barron's integral-form proof are confirmed via secondary sources only.
 2. The optional "Alternative route" paragraph was dropped to keep the author card off an orphan page.
 3. Thread tweet 2 is exactly 280 weighted characters.
-4. File naming: zip `pn_01_debruijn.zip` (underscores, as the accepted upload) vs `pn-NN-slug.zip` in `STANDARD.md`.
+4. ~~File naming~~ resolved 13 Nov 2026: hyphens throughout (`qt-01-debruijn.zip`, as in the published No. 00 package `pn-00-hoeffding.zip`).
 5. Backlog doc: status dropdown still reads Queued.
 6. Substack draft `substack/article.md` needs hand-finishing against the house style (docs/POST_GUIDE.md, 7a) before publication.
 

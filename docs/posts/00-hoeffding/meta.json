@@ -1,6 +1,9 @@
 {
   "issue": "00",
   "slug": "hoeffding",
+  "series": "Probability Notes",
+  "prefix": "pn",
+  "package_frozen": true,
   "status": "published",
   "date": "2026-11-09",
   "links": {

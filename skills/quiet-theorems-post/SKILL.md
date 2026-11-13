@@ -1,19 +1,21 @@
 ---
-name: probability-notes-issue
-description: Build and publish a complete Probability Notes post (PDF source + A4/screen PDFs, Substack article, Jupyter notebook, X thread and tweet, Overleaf zip, GitHub Pages) in the probability-notes repo to the published No. 00 standard.
+name: quiet-theorems-post
+description: Build and publish a complete post for The Quiet Theorems (formerly Probability Notes): PDF source and A4/screen PDFs, Substack article, notebook, X posts, Overleaf zip and GitHub Pages, in the the-quiet-theorems repo.
 ---
 
-# Probability Notes: building a full post
+# The Quiet Theorems: building a full post
+
+The series: theorems from probability, statistics and machine learning that deserve to be better known, one a week, stated with minimal conditions, proved in full and checked in code. Formerly *Probability Notes*; No. 00 was published under that name and keeps it (file prefix `pn`); every later post is *The Quiet Theorems No. NN* with prefix `qt` (`meta.json` `series`, `prefix`).
 
 Reference: No. 00, Hoeffding's covariance identity, published on Substack 9 Nov 2026 (https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings); its files are `docs/posts/00-hoeffding/` and its package is `pn_00_hoeffding.zip`. Every post must match it in structure, tone, rigour, formats, packaging and links. British English, no em-dashes, terse.
 
 ## 0. Where things are
 
-- **Repo** `probability-notes`: on the author's Mac at `~/workspace/projects/probability-notes`; on GitHub once a remote exists. Read `README.md`, `STANDARD.md` and `docs/POST_GUIDE.md` first; the guide is the step-by-step procedure and wins over this summary on details.
+- **Repo**: `git@github.com:osolari/the-quiet-theorems.git` (on the author's Mac at `~/workspace/projects/the-quiet-theorems`). Site: https://osolari.github.io/the-quiet-theorems/. Read `README.md`, `STANDARD.md` and `docs/POST_GUIDE.md` first; the guide is the step-by-step procedure and wins over this summary on details.
 - **Backlog doc** (live, ranked, status dropdowns, draw log): https://claude.ai/artifact/4i9oRaXXahj9CRiEAvSVUH ; snapshot in `BACKLOG.md`. Take the highest-ranked Queued topic unless told otherwise; respect noted dependencies (e.g. SURE needs Stein's lemma).
 - **Substack**: https://omidsolari.substack.com (byline "Omid Solari").
-- **claude.ai Project "prob notes"**: `reference/pn-00-STANDARD.md`, `reference/pn-00-main.tex`, `claude/HANDOFF.md`.
-- If the repo is not in the session, ask the user to connect `~/workspace/projects` or attach the latest repo or zip; never rebuild the skeleton from memory.
+- **claude.ai Project "prob notes"**: read-only copies of the No. 00 reference (`reference/`); the repo is the source of truth, no handoff packages.
+- If the repo is not in the session, clone it (or ask the user to connect `~/workspace/projects`); never rebuild the skeleton from memory.
 
 Repo layout (do not change it):
 
@@ -21,7 +23,7 @@ Repo layout (do not change it):
 skeleton/                 SAIM blog template v1.2 + series layer, shared by every post
 skeleton/new-post/        starter files for `make new`
 docs/posts/NN-slug/       ALL issue-specific files
-docs/POST_GUIDE.md        full procedure        docs/HANDOFF.md   session handoff
+docs/POST_GUIDE.md        full procedure
 scripts/                  assemble.sh tex2md.py figures.py make_notebook.py verify_formats.py
                           build_site.py publish_pages.sh wlen.py
 .github/workflows/pages.yml   builds the site on push to main, deploys to gh-pages
@@ -40,9 +42,10 @@ Never edit `skeleton/saim-blog.cls`, `skeleton/shared/brand/*`, other `skeleton/
 | `code/check.py` | hand | section 4 |
 | `code/figures.py` | hand | matplotlib twin of each PDF figure, same order and meaning, palette constants; runs after check.py in the notebook namespace |
 | `post.txt`, `tweet.txt` | hand | section 5 |
-| `meta.json` | hand | `issue`, `slug`, `status` (draft/accepted/published), `date`, `links` {x_thread, x_tweet, substack, pages}, `substack` {url, published, audience, editor, draft_id, pdf_attachment, pdf_attached, images, byline, frozen} |
+| `meta.json` | hand | `issue`, `slug`, `series`, `prefix`, `package_frozen`, `status` (draft/accepted/published), `date`, `links` {x_thread, x_tweet, substack, pages}, `substack` {url, published, audience, editor, draft_id, pdf_attachment, pdf_attached, images, byline, frozen} |
 | `README.md` | hand | status, file map, published-links table, open points, references |
-| `pdf/pn-NN-slug.pdf`, `pdf/pn-NN-slug-screen.pdf` | `make pdfs` | never hand-made |
+| `pdf/qt-NN-slug.pdf`, `pdf/qt-NN-slug-screen.pdf` | `make pdfs` | never hand-made |
+| `qt-NN-slug.zip` | archived at publication | the published Overleaf package; `make zip` copies it (`package_frozen: true`) |
 | `substack/article.md` | `make formats` draft, then hand-finished; frozen when published | Substack house style (section 5a) |
 | `substack/<slug>-figure.png` (`-N.png` if several) | `make formats` | TikZ pictures inside `figure` environments, in order; uploaded to Substack |
 | `notebook.ipynb` | `make formats` | executed; title, TL;DR, Result, check list, check.py by `# N.` sections, figures |
@@ -81,19 +84,19 @@ Conventions: sections unnumbered; refer with `\cref` only, never to sections by 
 
 ## 4. code/check.py
 
-Docstring "Probability Notes No. NN: numerical check.", what it prints, minimum and tested versions, run command. Lines ≤ 60 characters. Top-level sections start `# N. ...` (or `# 1-2. ...`); the notebook is split there. One labelled print per table number. Exact arithmetic (fractions) where possible, quadrature otherwise. The table copies the output digit for digit.
+Docstring "The Quiet Theorems No. NN: numerical check.", what it prints, minimum and tested versions, run command. Lines ≤ 60 characters. Top-level sections start `# N. ...` (or `# 1-2. ...`); the notebook is split there. One labelled print per table number. Exact arithmetic (fractions) where possible, quadrature otherwise. The table copies the output digit for digit.
 
 ## 5. Posts on X (no Premium)
 
 Weighted length: code points 0-4351, 8192-8205, 8208-8223, 8242-8247 count 1; everything else (minus U+2212, ≤, ∬, subscript digits) counts 2; a URL or `[link]` counts 23. Check with `make tweets` (`scripts/wlen.py`).
 - `post.txt`: thread headed `1/2` and `2/2`, each ≤ 280. Tweet 1: familiar fact, question, "Originator (Year)" and the formula on its own line, one line on symbols. Tweet 2: meaning in words, one consequence with attribution, "Proofs, examples and code: [link]".
-- `tweet.txt`: ≤ 280: fact, formula with originator and year, one-line meaning, "Probability Notes No. NN (proofs and code): [link]".
+- `tweet.txt`: ≤ 280: fact, formula with originator and year, one-line meaning, "The Quiet Theorems No. NN (proofs and code): [link]".
 - Plain text, Unicode maths, no hashtags, emoji or @-mentions. `[link]` becomes the post's Substack URL only at publication.
 
 ## 5a. Substack article (house style of the published No. 00)
 
-- Head: `# Probability Notes No. NN: <Title>`, italic subtitle, then `Published <date>: <url>` once published.
-- TL;DR blockquote, then `[PDF attachment: *Probability Notes No. NN: <Title> (PDF)*. Full proofs, references and the numerical-check code.]`; in the editor this becomes the A4 PDF file block right after the TL;DR.
+- Head: `# The Quiet Theorems No. NN: <Title>`, italic subtitle, then `Published <date>: <url>` once published.
+- TL;DR blockquote, then `[PDF attachment: *The Quiet Theorems No. NN: <Title> (PDF)*. Full proofs, references and the numerical-check code.]`; in the editor this becomes the A4 PDF file block right after the TL;DR.
 - Same eight sections as the PDF; no author card, no appendix. No tables (Substack has none): symbol table and check table become numbered lists ("Case. Exact x; numerical y.").
 - Result heads in bold, a kind numbered only if there are several, each kind on its own counter ("**Theorem (Hoeffding, 1940).**", "**Lemma.**", "**Corollary 1** (Lehmann, 1966)**.**"); proof steps "**Step k: name.**"; "*Justification (...).*"; ∎.
 - LaTeX maths in `$...$` / `$$...$$`; only referenced equations numbered, typed `\qquad (k)`; `\,\mathrm{d}x` for differentials.
@@ -103,7 +106,7 @@ Weighted length: code points 0-4351, 8192-8205, 8208-8223, 8242-8247 count 1; ev
 
 ## 5b. Publishing on Substack
 
-Paste the finished article on https://omidsolari.substack.com; drag the A4 PDF in after the TL;DR (no file button; the block's "Replace" swaps the file); upload figures with captions; audience everyone; publish. Never edit one draft in two browsers or tabs (the stale one gets HTTP 409 and Publish fails silently; reload first). The "may be truncated in some email clients" banner is only a warning. Then record in `meta.json`: `links.substack` and the whole `substack` block (url, published time, audience, editor URL, draft id, attached-PDF URL, which build was attached, image URLs by file name, byline), set `frozen: true`, and add the `Published <date>: <url>` line to the article head.
+Paste the finished article (title `The Quiet Theorems No. NN: <Title>`) on https://omidsolari.substack.com; drag the A4 PDF in after the TL;DR (no file button; the block's "Replace" swaps the file); upload figures with captions; audience everyone; publish. Never edit one draft in two browsers or tabs (the stale one gets HTTP 409 and Publish fails silently; reload first). The "may be truncated in some email clients" banner is only a warning. Then record in `meta.json`: `links.substack` and the whole `substack` block (url, published time, audience, editor URL, draft id, attached-PDF URL, which build was attached, image URLs by file name, byline), set `frozen: true`, add the `Published <date>: <url>` line to the article head, and archive the published package as `docs/posts/NN-slug/qt-NN-slug.zip` with `package_frozen: true`.
 
 ## 6. Commands (in order)
 
@@ -114,13 +117,13 @@ make qa P=NN-slug        # A4+screen build, zero warnings/boxes/undefined, Type 
 make pdfs P=NN-slug      # PDFs into docs/posts/NN-slug/pdf/
 make formats P=NN-slug   # substack/<slug>-figure.png, substack/article.md draft, notebook.ipynb (executed)
 make verify P=NN-slug    # article links, PDF line, Output == check.py, notebook == check.py, meta.json
-make zip P=NN-slug       # dist/pn_NN_slug.zip (Overleaf: main.tex A4, main-screen.tex screen, PDFs in pdf/)
+make zip P=NN-slug       # dist/qt-NN-slug.zip (Overleaf: main.tex A4, main-screen.tex screen, PDFs in pdf/)
 make all                 # qa + verify for every post
 make site [SITE_ALL=1]   # site/ preview; drafts only with SITE_ALL=1
 make pages [PUSH=1]      # commit site/ to the gh-pages branch (orphan); PUSH=1 pushes
 ```
 
-QA gate also includes: render every PDF page to PNG and look (`mainresult` not split, author card not orphaned (cut text, never touch the template), figure labels clear, listing not wrapping, cross-reference names right); read `substack/article.md` rendered once (rebuild the notebook after hand-finishing it); unzip `dist/pn_NN_slug.zip` into an empty folder and run `make`; proofread for overclaims (every claim proved or flagged, minimal conditions, correct equality cases).
+QA gate also includes: render every PDF page to PNG and look (`mainresult` not split, author card not orphaned (cut text, never touch the template), figure labels clear, listing not wrapping, cross-reference names right); read `substack/article.md` rendered once (rebuild the notebook after hand-finishing it); unzip `dist/qt-NN-slug.zip` into an empty folder and run `make`; proofread for overclaims (every claim proved or flagged, minimal conditions, correct equality cases).
 
 ## 7. Links and status to update (all must agree)
 

@@ -1,9 +1,9 @@
-# Probability Notes: build, check and package posts.
+# The Quiet Theorems: build, check and package posts.
 #   make build P=01-debruijn   A4 + screen PDFs in build/01-debruijn/build/
 #   make check P=01-debruijn   run the numerical check
 #   make tweets P=01-debruijn  weighted tweet lengths
 #   make qa P=01-debruijn      build + log scan + fonts + tweets
-#   make zip P=01-debruijn     dist/pn_01_debruijn.zip (Overleaf-ready, PDFs in pdf/)
+#   make zip P=01-debruijn     dist/qt-01-debruijn.zip (Overleaf-ready, PDFs in pdf/); frozen posts copy their archived package
 #   make pdfs P=01-debruijn    copy built PDFs into docs/posts/<P>/pdf/
 #   make new P=02-sure         start a post from skeleton/new-post
 #   make formats P=01-debruijn img/figure-N.png, article.md, notebook.ipynb (executed)
@@ -15,6 +15,8 @@ P ?=
 POSTS := $(notdir $(wildcard docs/posts/[0-9]*))
 NUM   = $(firstword $(subst -, ,$(P)))
 SLUG  = $(patsubst $(NUM)-%,%,$(P))
+PFX   = $(shell python3 -c "import json;print(json.load(open('docs/posts/$(P)/meta.json')).get('prefix','qt'))" 2>/dev/null)
+PKG   = $(PFX)-$(NUM)-$(SLUG)
 B     = build/$(P)
 
 .PHONY: build check tweets qa zip pdfs new formats verify site pages all clean need-p
@@ -38,14 +40,17 @@ qa: build tweets
 	 echo "non-Type-1 fonts: $$n"; test $$n -eq 0
 
 pdfs: build
-	cp $(B)/build/saim-post.pdf docs/posts/$(P)/pdf/pn-$(NUM)-$(SLUG).pdf
-	cp $(B)/build/saim-post-screen.pdf docs/posts/$(P)/pdf/pn-$(NUM)-$(SLUG)-screen.pdf
+	cp $(B)/build/saim-post.pdf docs/posts/$(P)/pdf/$(PKG).pdf
+	cp $(B)/build/saim-post-screen.pdf docs/posts/$(P)/pdf/$(PKG)-screen.pdf
 
 zip: need-p
-	scripts/assemble.sh $(P) >/dev/null
-	mkdir -p dist && rm -f dist/pn_$(NUM)_$(SLUG).zip
-	cd $(B) && rm -rf build && zip -qr ../../dist/pn_$(NUM)_$(SLUG).zip .
-	@echo dist/pn_$(NUM)_$(SLUG).zip
+	mkdir -p dist && rm -f dist/$(PKG).zip
+	@if [ -f docs/posts/$(P)/$(PKG).zip ]; then \
+	  cp docs/posts/$(P)/$(PKG).zip dist/; echo "frozen package copied"; \
+	else \
+	  scripts/assemble.sh $(P) >/dev/null && cd $(B) && rm -rf build && zip -qr ../../dist/$(PKG).zip .; \
+	fi
+	@echo dist/$(PKG).zip
 
 formats: build
 	python3 scripts/figures.py $(P)

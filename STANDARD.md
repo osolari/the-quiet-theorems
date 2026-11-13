@@ -1,4 +1,4 @@
-# Probability Notes: series standard (v1.1, 8 Nov 2026)
+# The Quiet Theorems: series standard (v1.1, 8 Nov 2026)
 
 Built on the SAIM blog template v1.2 (`saim-blog.cls`). Series additions live in `shared/components/math.tex` (notation, appended) and `shared/components/theorems.tex` (theorem system, section skeleton, `mainresult` box). Template files are otherwise untouched.
 
@@ -18,7 +18,7 @@ No hashtags, no emoji.
 
 ## 2. The PDF: fixed skeleton
 
-Input `shared/components/math.tex` then `shared/components/theorems.tex` in `main.tex`. Set identity in `project.tex` (series label `Probability Notes`, issue `No. NN`, reading time, tags). Open with a `tldr` box. Use the section macros in this order; none may be dropped or renamed.
+Input `shared/components/math.tex` then `shared/components/theorems.tex` in `main.tex`. Set identity in `project.tex` (series label `The Quiet Theorems`, issue `No. NN`, reading time, tags). Open with a `tldr` box. Use the section macros in this order; none may be dropped or renamed.
 
 | § | Macro | Contents | Length guide |
 |---|---|---|---|
@@ -55,11 +55,11 @@ Input `shared/components/math.tex` then `shared/components/theorems.tex` in `mai
 ## 5. Files
 
 ```
-pn-NN-slug/          % SAIM blog template tree, main.tex at the root
+qt-NN-slug/          % SAIM blog template tree, main.tex at the root
   main.tex  main-screen.tex  project.tex  people.tex  saim-blog.cls  shared/ ...
   code/check.py      % numerical check, listed in the PDF
   post.txt           % the X thread (two tweets, each at most 280)
   tweet.txt          % the X short post (at most 280, link counted as 23)
   STANDARD.md        % this file
 ```
-Zip: `pn-NN-slug.zip`, containing `main.tex` (A4 entry), `main-screen.tex` (screen entry) and both built PDFs in `pdf/`. PDFs: `pn-NN-slug.pdf` (A4) and `pn-NN-slug-screen.pdf` (160 x 240 mm, for attaching to posts).
+Zip: `qt-NN-slug.zip`, containing `main.tex` (A4 entry), `main-screen.tex` (screen entry) and both built PDFs in `pdf/`. PDFs: `qt-NN-slug.pdf` (A4) and `qt-NN-slug-screen.pdf` (160 x 240 mm, for attaching to posts).

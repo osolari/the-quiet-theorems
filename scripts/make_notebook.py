@@ -33,8 +33,9 @@ title = lines[0]
 subtitle = next((l for l in lines[1:] if l.startswith("*")), "")
 tldr = "\n".join(l for l in lines if l.startswith(">"))
 nn, slug = meta["issue"], meta["slug"]
-links = [f"[PDF (A4)](pdf/pn-{nn}-{slug}.pdf)",
-         f"[PDF (screen)](pdf/pn-{nn}-{slug}-screen.pdf)",
+pk = f"{meta.get('prefix', 'qt')}-{nn}-{slug}"
+links = [f"[PDF (A4)](pdf/{pk}.pdf)",
+         f"[PDF (screen)](pdf/{pk}-screen.pdf)",
          "[Article](substack/article.md)", "[LaTeX source](main.tex)"]
 if meta["links"].get("substack"):
     links.insert(0, f"[Substack]({meta['links']['substack']})")

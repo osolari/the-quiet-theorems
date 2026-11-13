@@ -4,4 +4,4 @@ d/dt h(X + √t Z) = ½ J(X + √t Z)
 
 Fisher information is the speed of entropy under smoothing.
 
-Probability Notes No. 01 (proofs and code): [link]
+The Quiet Theorems No. 01 (proofs and code): [link]

@@ -1,4 +1,4 @@
-# How to make a Probability Notes post
+# How to make a post for The Quiet Theorems
 
 The complete procedure, from picking a topic to publishing. Follow it in order; every post must come out with the same files, structure and links. `STANDARD.md` governs the content of the PDF; this guide governs everything around it.
 
@@ -17,14 +17,17 @@ Everything issue-specific lives in `docs/posts/NN-slug/` (NN two digits, slug lo
 | `tweet.txt` | hand | single X post, ≤ 280 weighted |
 | `meta.json` | hand | status, published links and Substack details (machine-readable source of truth) |
 | `README.md` | hand | status, file map, published links, open points, references |
-| `pdf/pn-NN-slug.pdf`, `pdf/pn-NN-slug-screen.pdf` | `make pdfs` | the two PDF layouts |
+| `pdf/qt-NN-slug.pdf`, `pdf/qt-NN-slug-screen.pdf` | `make pdfs` | the two PDF layouts |
+| `qt-NN-slug.zip` (published posts only) | archived at publication | the exact Overleaf package that was published; `make zip` then copies it instead of rebuilding |
 | `substack/article.md` | `make formats` (draft), then hand-finished; frozen once published | the Substack post: Markdown + LaTeX, house style below |
 | `substack/<slug>-figure.png` (`-N.png` if several) | `make formats` | the PDF's TikZ figures, as uploaded to Substack |
 | `notebook.ipynb` | `make formats` | executed notebook: title, TL;DR, result, check list, check code, figures |
 
-Never edit generated files by hand: change the source and regenerate. The one exception is `substack/article.md`: it is generated as a draft, finished by hand to the Substack house style, and frozen (`meta.json` `substack.frozen: true`) the moment it is published; `make formats` then leaves it and its figures untouched. The reference is No. 00 (`docs/posts/00-hoeffding/`), published on Substack on 9 Nov 2026.
+Never edit generated files by hand: change the source and regenerate. Published posts are records: their Substack article, figures and Overleaf package are frozen. No. 00 was published under the series' earlier name, *Probability Notes*, with the file prefix `pn`; every later post uses *The Quiet Theorems* and the prefix `qt` (set by `series` and `prefix` in `meta.json`). The one exception to "never edit generated files" is `substack/article.md`: it is generated as a draft, finished by hand to the Substack house style, and frozen (`meta.json` `substack.frozen: true`) the moment it is published; `make formats` then leaves it and its figures untouched. The reference is No. 00 (`docs/posts/00-hoeffding/`), published on Substack on 9 Nov 2026.
 
 ## 1. Pick the topic
+
+Scope: theorems from probability, statistics and machine learning (including results behind modern ML/AI methods) that deserve to be better known.
 
 1. Open the backlog doc (link in `README.md`); take the highest-ranked Queued topic unless the user says otherwise. Note dependencies flagged in `BACKLOG.md` (e.g. SURE needs Stein's lemma).
 2. `make new P=NN-slug`. This copies `skeleton/new-post/` (main.tex, project.tex, references.bib, code/check.py, code/figures.py, post.txt, tweet.txt, meta.json with issue and slug filled in).
@@ -52,7 +55,7 @@ Never edit generated files by hand: change the source and regenerate. The one ex
 ## 5. Write the posts
 
 - `post.txt`: `1/2` anchor fact, question, "Originator (Year)" and the formula on its own line, one line on the symbols. `2/2` meaning in words, one consequence with attribution, "Proofs, examples and code: [link]".
-- `tweet.txt`: fact, formula with originator and year, one-line meaning, "Probability Notes No. NN (proofs and code): [link]".
+- `tweet.txt`: fact, formula with originator and year, one-line meaning, "The Quiet Theorems No. NN (proofs and code): [link]".
 - Plain text, Unicode maths, no hashtags, emoji or @-mentions. `make tweets P=NN-slug`: every tweet ≤ 280 (URL or `[link]` counts 23; characters outside X's weight-1 ranges count 2).
 - `[link]` is replaced by the post's Substack URL only at publication (step 10).
 
@@ -79,8 +82,8 @@ make verify P=NN-slug    # links resolve, no leftover LaTeX, PDF line present, O
 
 The Substack post is the same content as the PDF, adapted to what Substack can render:
 
-- **Head:** `# Probability Notes No. NN: <Title>`, the subtitle in italics, then (once published) `Published <date>: <url>`.
-- **TL;DR** as a blockquote, then the line `[PDF attachment: *Probability Notes No. NN: <Title> (PDF)*. Full proofs, references and the numerical-check code.]`. In the editor this line is replaced by the PDF file block (the A4 build), placed right after the TL;DR.
+- **Head:** `# The Quiet Theorems No. NN: <Title>`, the subtitle in italics, then (once published) `Published <date>: <url>`.
+- **TL;DR** as a blockquote, then the line `[PDF attachment: *The Quiet Theorems No. NN: <Title> (PDF)*. Full proofs, references and the numerical-check code.]`. In the editor this line is replaced by the PDF file block (the A4 build), placed right after the TL;DR.
 - **Same eight sections** as the PDF (`## Setup and notation` ... `## Notes`), same order; no author card, no appendix.
 - **No tables** (Substack has none): the symbol table becomes a numbered list ("symbol for meaning"), and the check table a numbered list ("Case. Exact x; numerical y.").
 - **Results:** bold run-in heads. A kind is numbered only if there is more than one of it, each kind on its own counter: "**Theorem (Hoeffding, 1940).**", "**Lemma.**", "**Corollary 1** (Lehmann, 1966)**.**". Proof steps "**Step k: name.**"; interchanges "*Justification (...).*"; proofs end with ∎.
@@ -94,17 +97,18 @@ The Substack post is the same content as the PDF, adapted to what Substack can r
 ## 7b. Publishing on Substack (procedure and lessons)
 
 1. New post on https://omidsolari.substack.com; paste the finished `substack/article.md` section by section (LaTeX blocks for display maths, inline LaTeX for inline maths).
-2. Drag `pdf/pn-NN-slug.pdf` into the editor right after the TL;DR, replacing the placeholder line. There is no file button; dragging creates a file block, and "Replace" on the block swaps the file.
+2. Drag `pdf/qt-NN-slug.pdf` into the editor right after the TL;DR, replacing the placeholder line. There is no file button; dragging creates a file block, and "Replace" on the block swaps the file.
 3. Upload each `substack/<slug>-figure*.png` at its place, with the caption.
 4. Set audience (everyone), check the preview, publish.
 5. Never edit a draft in two browsers or tabs at once: the stale one gets HTTP 409 and Publish fails silently. Reload before publishing.
 6. The banner "may be truncated in some email clients" is a warning only; it does not block publishing.
-7. Record in `meta.json` `substack`: `url`, `published` (ISO time), `audience`, `editor` URL and `draft_id`, `pdf_attachment` (the file URL Substack assigns), `pdf_attached` (which build), `images` (file name to Substack image URL), `byline`; set `frozen: true` and `links.substack`. Add the published-on line to the article head (it is the record of what was published).
+7. Archive the Overleaf package that matches what was published: `make zip P=NN-slug` and copy `dist/qt-NN-slug.zip` to `docs/posts/NN-slug/qt-NN-slug.zip`; set `package_frozen: true`.
+8. Record in `meta.json` `substack`: `url`, `published` (ISO time), `audience`, `editor` URL and `draft_id`, `pdf_attachment` (the file URL Substack assigns), `pdf_attached` (which build), `images` (file name to Substack image URL), `byline`; set `frozen: true` and `links.substack`. Add the published-on line to the article head (it is the record of what was published).
 
 ## 8. Package
 
 ```sh
-make zip P=NN-slug       # dist/pn_NN_slug.zip: Overleaf-ready, A4 main.tex + main-screen.tex, PDFs in pdf/
+make zip P=NN-slug       # dist/qt-NN-slug.zip: Overleaf-ready, A4 main.tex + main-screen.tex, PDFs in pdf/
 ```
 
 Unzip into an empty folder and run `make` there once to confirm it builds cleanly.
@@ -135,5 +139,5 @@ Commit after each change of status (`git add -A && git commit`), with the sessio
 ## 11. Final checks (all must hold)
 
 - `make all` passes (QA and verify for every post).
-- `dist/pn_NN_slug.zip` builds from a clean unzip.
+- `dist/qt-NN-slug.zip` builds from a clean unzip.
 - Links agree across `meta.json`, the post README, `README.md`, the backlog doc, the Substack post and the site.
