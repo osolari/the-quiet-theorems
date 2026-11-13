@@ -6,7 +6,7 @@ Every issue = one post + one PDF + one Overleaf-ready zip. British English. No e
 
 ## 1. The post (X)
 
-Plain text, Unicode maths only. No X Premium: every tweet must be at most 280 by X's count (links count 23; maths symbols such as − and ∬ count 2). `post.txt` is a two-tweet thread; `tweet.txt` is the single-tweet version.
+Plain text, Unicode maths only. No X Premium: every tweet must be at most 280 by X's count (links count 23; maths symbols such as − and ∬ count 2). `post.txt` is a two-tweet thread; `tweet.txt` is the single-tweet version. Both open with the link: the first line is `<Title> (The Quiet Theorems No. NN): [link]`.
 
 1. **Anchor**: the familiar fact the reader already knows (one or two lines).
 2. **Question**: the natural question it raises.

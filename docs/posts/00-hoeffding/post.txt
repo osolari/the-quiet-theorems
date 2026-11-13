@@ -1,11 +1,10 @@
 1/2
-X and Y are independent exactly when their joint CDF factorises at every point:
-F_XY(x,y) − F_X(x)F_Y(y) = 0 for all (x,y).
+Hoeffding's covariance identity (Probability Notes No. 00): [link]
 
-Hoeffding (1940) showed that the covariance is the integral of the same difference:
+Hoeffding (1940) showed that
 Cov(X,Y) = ∬ [F_XY(x,y) − F_X(x)F_Y(y)] dx dy
 
-2/2
-So independence requires the difference to vanish everywhere, while zero covariance requires only that its positive and negative parts cancel. If it has a fixed sign, zero covariance does imply independence (Lehmann, 1966).
+X and Y are independent exactly when the bracket, joint CDF minus product of marginals, is zero everywhere.
 
-Proofs, examples and code: [link]
+2/2
+So independence requires the bracket to vanish everywhere, while zero covariance requires only that its positive and negative parts cancel. If it has a fixed sign, zero covariance does imply independence (Lehmann, 1966).

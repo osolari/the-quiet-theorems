@@ -54,8 +54,9 @@ Scope: theorems from probability, statistics and machine learning (including res
 
 ## 5. Write the posts
 
-- `post.txt`: `1/2` anchor fact, question, "Originator (Year)" and the formula on its own line, one line on the symbols. `2/2` meaning in words, one consequence with attribution, "Proofs, examples and code: [link]".
-- `tweet.txt`: fact, formula with originator and year, one-line meaning, "The Quiet Theorems No. NN (proofs and code): [link]".
+- The link goes at the top: the first line of tweet 1, and of the single post, is `<Title> (The Quiet Theorems No. NN): [link]`. Nothing after it repeats the link. `make tweets` fails otherwise.
+- `post.txt`: `1/2` the heading line, then "Originator (Year) showed that" and the formula on its own line, then one line on the symbols and the familiar fact the result sharpens. `2/2` meaning in words and one consequence with attribution.
+- `tweet.txt`: the heading line, then "Originator (Year): formula", then a one-line meaning.
 - Plain text, Unicode maths, no hashtags, emoji or @-mentions. `make tweets P=NN-slug`: every tweet ≤ 280 (URL or `[link]` counts 23; characters outside X's weight-1 ranges count 2).
 - `[link]` is replaced by the post's Substack URL only at publication (step 10).
 

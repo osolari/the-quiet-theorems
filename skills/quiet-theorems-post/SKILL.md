@@ -99,8 +99,9 @@ Docstring "The Quiet Theorems No. NN: numerical check.", what it prints, minimum
 ## 5. Posts on X (no Premium)
 
 Weighted length: code points 0-4351, 8192-8205, 8208-8223, 8242-8247 count 1; everything else (minus U+2212, ≤, ∬, subscript digits) counts 2; a URL or `[link]` counts 23. Check with `make tweets` (`scripts/wlen.py`).
-- `post.txt`: thread headed `1/2` and `2/2`, each ≤ 280. Tweet 1: familiar fact, question, "Originator (Year)" and the formula on its own line, one line on symbols. Tweet 2: meaning in words, one consequence with attribution, "Proofs, examples and code: [link]".
-- `tweet.txt`: ≤ 280: fact, formula with originator and year, one-line meaning, "The Quiet Theorems No. NN (proofs and code): [link]".
+- **Link at the top**: the first line of tweet 1, and of the single post, is `<Title> (The Quiet Theorems No. NN): [link]`; the link appears nowhere else. `make tweets` fails if the first line lacks it.
+- `post.txt`: thread headed `1/2` and `2/2`, each ≤ 280. Tweet 1: heading line; "Originator (Year) showed that" and the formula on its own line; one line on the symbols and the familiar fact it sharpens. Tweet 2: meaning in words, one consequence with attribution.
+- `tweet.txt`: ≤ 280: heading line; "Originator (Year): formula"; one-line meaning.
 - Plain text, Unicode maths, no hashtags, emoji or @-mentions. `[link]` becomes the post's Substack URL only at publication.
 
 ## 5a. Substack article (house style of the published No. 00)

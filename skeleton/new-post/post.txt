@@ -1,12 +1,10 @@
 1/2
-Anchor fact. Question.
+Title (The Quiet Theorems No. NN): [link]
 
-Originator (Year) showed:
+Originator (Year) showed that
 formula
 
-One line on the symbols.
+What the symbols are, and the familiar fact it sharpens.
 
 2/2
 Meaning in words. One consequence (Author, Year).
-
-Proofs, examples and code: [link]

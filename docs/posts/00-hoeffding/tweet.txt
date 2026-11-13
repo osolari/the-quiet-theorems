@@ -1,7 +1,5 @@
-X and Y are independent iff F_XY(x,y) = F_X(x)F_Y(y) at every point.
+Hoeffding's covariance identity (Probability Notes No. 00): [link]
 
 Hoeffding (1940): Cov(X,Y) = ∬ [F_XY(x,y) − F_X(x)F_Y(y)] dx dy.
 
-Zero covariance only requires that difference to integrate to zero.
-
-Probability Notes No. 00 (proofs and code): [link]
+X and Y are independent iff the bracket is zero everywhere; zero covariance only needs it to integrate to zero.

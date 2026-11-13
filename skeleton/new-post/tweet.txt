@@ -1,7 +1,5 @@
-Fact. Formula (Originator, Year):
+Title (The Quiet Theorems No. NN): [link]
 
-formula
+Originator (Year): formula
 
 One-line meaning.
-
-The Quiet Theorems No. NN (proofs and code): [link]

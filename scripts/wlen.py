@@ -3,6 +3,9 @@
 Rules: code points 0-4351, 8192-8205, 8208-8223 and
 8242-8247 weigh 1; all others weigh 2; a URL or the
 placeholder [link] weighs 23. Limit 280 (no Premium).
+The first line of each file's first tweet must carry
+the link (the post's [link] or its URL), so it shows
+at the top of the thread or single post.
 Usage: python3 scripts/wlen.py docs/posts/<post>/post.txt
 """
 import re
@@ -25,7 +28,12 @@ def tweets(text):
 if __name__ == "__main__":
     bad = 0
     for path in sys.argv[1:]:
-        for i, t in enumerate(tweets(open(path).read()), 1):
+        ts = tweets(open(path).read())
+        first = ts[0].splitlines()[0]
+        if "[link]" not in first and not re.search(r"https?://", first):
+            bad = 1
+            print(f"{path}: link not in the first line of tweet 1")
+        for i, t in enumerate(ts, 1):
             n = wlen(t)
             bad |= n > 280
             flag = "OVER" if n > 280 else "ok"
