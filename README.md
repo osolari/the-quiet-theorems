@@ -8,7 +8,7 @@ Author: Omid Shams Solari, Ph.D. (sAIm Labs). The series was called *Probability
 
 ## Start here
 
-1. Clone: `git clone git@github.com:osolari/the-quiet-theorems.git`
+1. Clone: `git clone git@github-personal:osolari/the-quiet-theorems.git` (the `github-personal` SSH host alias; commits as `osolari <solari@berkeley.edu>`)
 2. Read [`docs/POST_GUIDE.md`](docs/POST_GUIDE.md) (full procedure, file map, Substack style, link checklist) and [`STANDARD.md`](STANDARD.md) (PDF standard).
 3. For Claude: load the `quiet-theorems-post` skill (copy in [`skills/quiet-theorems-post/SKILL.md`](skills/quiet-theorems-post/SKILL.md)). Status lives in this README, `BACKLOG.md` and each post's `meta.json`; no handoff package is needed.
 

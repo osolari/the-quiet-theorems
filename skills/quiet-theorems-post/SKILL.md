@@ -7,11 +7,11 @@ description: Build and publish a complete post for The Quiet Theorems (formerly 
 
 The series: theorems from probability, statistics and machine learning that deserve to be better known, one a week, stated with minimal conditions, proved in full and checked in code. Formerly *Probability Notes*; No. 00 was published under that name and keeps it (file prefix `pn`); every later post is *The Quiet Theorems No. NN* with prefix `qt` (`meta.json` `series`, `prefix`).
 
-Reference: No. 00, Hoeffding's covariance identity, published on Substack 9 Nov 2026 (https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings); its files are `docs/posts/00-hoeffding/` and its package is `pn_00_hoeffding.zip`. Every post must match it in structure, tone, rigour, formats, packaging and links. British English, no em-dashes, terse.
+Reference: No. 00, Hoeffding's covariance identity, published on Substack 9 Nov 2026 (https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings); its files are `docs/posts/00-hoeffding/` and its published package is archived there as `pn-00-hoeffding.zip`. Every post must match it in structure, tone, rigour, formats, packaging and links. British English, no em-dashes, terse.
 
 ## 0. Where things are
 
-- **Repo**: `git@github.com:osolari/the-quiet-theorems.git` (on the author's Mac at `~/workspace/projects/the-quiet-theorems`). Site: https://osolari.github.io/the-quiet-theorems/. Read `README.md`, `STANDARD.md` and `docs/POST_GUIDE.md` first; the guide is the step-by-step procedure and wins over this summary on details.
+- **Repo**: https://github.com/osolari/the-quiet-theorems. On the author's Mac it is `~/workspace/projects/the-quiet-theorems` with remote `git@github-personal:osolari/the-quiet-theorems.git` (the `github-personal` SSH host alias is required for this repo). Commit as `osolari <solari@berkeley.edu>` (set in the repo's git config). Site: https://osolari.github.io/the-quiet-theorems/. Read `README.md`, `STANDARD.md` and `docs/POST_GUIDE.md` first; the guide is the step-by-step procedure and wins over this summary on details.
 - **Backlog doc** (live, ranked, status dropdowns, draw log): https://claude.ai/artifact/4i9oRaXXahj9CRiEAvSVUH ; snapshot in `BACKLOG.md`. Take the highest-ranked Queued topic unless told otherwise; respect noted dependencies (e.g. SURE needs Stein's lemma).
 - **Substack**: https://omidsolari.substack.com (byline "Omid Solari").
 - **claude.ai Project "prob notes"**: read-only copies of the No. 00 reference (`reference/`); the repo is the source of truth, no handoff packages.
@@ -137,7 +137,7 @@ QA gate also includes: render every PDF page to PNG and look (`mainresult` not s
 | Substack post | (none) | (none) | published with the PDF attached |
 | `post.txt`, `tweet.txt` | `[link]` | `[link]` | the Substack post URL |
 
-The site shows only accepted and published posts. Commit after each status change with the session attribution lines. From a Claude session, git in the Mac folder needs delete permission (lock files); otherwise commit in a cloud copy and transfer with `tar --overwrite`, or ask the user to commit.
+The site shows only accepted and published posts. Commit after each status change, as `osolari <solari@berkeley.edu>`, with the session attribution lines. From a Claude session, git in the Mac folder needs delete permission (lock files), and pushing needs the Mac's `github-personal` SSH key: if the session cannot push, leave the commits in place and ask the user to run `git push origin main gh-pages`.
 
 ## 8. Workflow
 
