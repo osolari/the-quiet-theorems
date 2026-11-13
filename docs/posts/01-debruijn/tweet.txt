@@ -1,7 +1,7 @@
+De Bruijn's identity (The Quiet Theorems No. 01): [link]
+
 Add Gaussian noise of variance t to X. Entropy grows at half the Fisher information (de Bruijn; Stam, 1959):
 
 d/dt h(X + √t Z) = ½ J(X + √t Z)
 
 Fisher information is the speed of entropy under smoothing.
-
-The Quiet Theorems No. 01 (proofs and code): [link]

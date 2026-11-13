@@ -8,11 +8,11 @@ d/dt h(X + √t Z) = ½ J(X + √t Z) (de Bruijn; Stam, 1959).
 | Backlog rank | 1 |
 | Package | `make zip P=01-debruijn` → `dist/qt-01-debruijn.zip` |
 | PDF | [A4](pdf/qt-01-debruijn.pdf) (9 pp.), [screen](pdf/qt-01-debruijn-screen.pdf) (11 pp.) |
-| Thread | [`post.txt`](post.txt) (226 / 280 weighted) |
+| Thread | [`post.txt`](post.txt) (272 and 228 / 280 weighted; link on the first line) |
 | Substack article | [`substack/article.md`](substack/article.md) (hand-finished to the house style 13 Nov 2026), figure [`debruijn-figure.png`](substack/debruijn-figure.png) |
 | Notebook | [`notebook.ipynb`](notebook.ipynb) (executed) |
 | Metadata | [`meta.json`](meta.json) (status, links, Substack details) |
-| Single tweet | [`tweet.txt`](tweet.txt) (274 weighted) |
+| Single tweet | [`tweet.txt`](tweet.txt) (280 / 280 weighted; link on the first line) |
 
 ## Published links
 
@@ -31,7 +31,7 @@ Keep in sync with `meta.json` `links`.
 2. Stam cites the entropy power inequality as Shannon (1949), Theorem 15 (the book with Weaver); the post cites the 1948 paper, which contains the same theorem. Kept.
 3. Substack figure fixed 13 Nov 2026: its "≤ 1" label read "(??)" because `scripts/figures.py` does not resolve `\cref` inside TikZ; the label is now "(any X)" in both PDF and PNG. Development session: make `figures.py` fail on "??" (No. 00's figure should be checked too).
 4. The optional "Alternative route" paragraph was dropped to keep the author card off an orphan page.
-5. Thread tweet 2 is exactly 280 weighted characters.
+5. The single tweet is exactly 280 weighted characters.
 6. ~~File naming~~ resolved 13 Nov 2026: hyphens throughout (`qt-01-debruijn.zip`).
 7. ~~Backlog doc status~~ resolved 13 Nov 2026: dropdown set to Drafted, draw log row updated (planned date 16 Nov 2026).
 8. ~~Substack draft needs hand-finishing~~ resolved 13 Nov 2026: curly apostrophes, "Proof of the theorem" lead-in, Unicode figure caption, Barron Lemma 1 citation; notebook rebuilt from it.
