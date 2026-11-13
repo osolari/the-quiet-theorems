@@ -10,3 +10,4 @@ __pycache__/
 *.out
 *.synctex.gz
 .DS_Store
+.xfer/

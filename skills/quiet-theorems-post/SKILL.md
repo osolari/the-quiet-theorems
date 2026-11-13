@@ -15,7 +15,15 @@ Reference: No. 00, Hoeffding's covariance identity, published on Substack 9 Nov 
 - **Backlog doc** (live, ranked, status dropdowns, draw log): https://claude.ai/artifact/4i9oRaXXahj9CRiEAvSVUH ; snapshot in `BACKLOG.md`. Take the highest-ranked Queued topic unless told otherwise; respect noted dependencies (e.g. SURE needs Stein's lemma).
 - **Substack**: https://omidsolari.substack.com (byline "Omid Solari").
 - **claude.ai Project "prob notes"**: read-only copies of the No. 00 reference (`reference/`); the repo is the source of truth, no handoff packages.
-- If the repo is not in the session, clone it (or ask the user to connect `~/workspace/projects`); never rebuild the skeleton from memory.
+- If the repo is not in the session, ask the user to connect `~/workspace/projects`; never rebuild the skeleton from memory.
+
+## Sessions and the repo
+
+- **One Claude session per post.** Project-level work (skeleton, scripts, Makefile, site, this skill and the guide) happens in a separate development session; a post session changes only `docs/posts/NN-slug/`, the post's rows in `README.md` and `BACKLOG.md`, and the backlog doc. If a post needs a change to shared files, note it as an open point for the development session rather than making it.
+- **The Mac folder is the source of truth**: `~/workspace/projects/the-quiet-theorems` (connect `~/workspace/projects` to the session). Start every session with `git status` and `git log --oneline -3` there; never work from an older copy.
+- **Where to run what.** The session's shell on the Mac is a sandboxed Linux VM: it can read and write the repo and run `git add/commit`, but cannot reach GitHub (no `~/.ssh`, no port 22) and lacks TeX and Jupyter. Builds (`make qa/pdfs/formats/zip/site`) run in the cloud workspace: bundle on the Mac (`git bundle create .xfer/mac.bundle main`), stage `.xfer/mac.bundle`, `git fetch <bundle> main:refs/remotes/mac/main && git reset --hard mac/main` in the cloud clone, work and commit there, then bundle back (`git bundle create /mnt/user-data/outputs/cloud.bundle mac/main..main`), commit the file to `.xfer/` on the Mac and `git pull --ff-only .xfer/cloud.bundle main`. `.xfer/` is git-ignored. Git in the Mac folder needs delete permission (lock files); request it once for `~/workspace/projects`.
+- **Pushing is the author's job**: from the Mac, `git push origin main` (via the `github-personal` alias). The session ends by stating the exact command. Never force-push without saying why and using `--force-with-lease=main:<expected hash>`.
+- **Commits**: author and committer `osolari <solari@berkeley.edu>` (repo git config); no `Co-Authored-By`, `Claude-Session` or other attribution trailers.
 
 Repo layout (do not change it):
 
@@ -119,7 +127,7 @@ make formats P=NN-slug   # substack/<slug>-figure.png, substack/article.md draft
 make verify P=NN-slug    # article links, PDF line, Output == check.py, notebook == check.py, meta.json
 make zip P=NN-slug       # dist/qt-NN-slug.zip (Overleaf: main.tex A4, main-screen.tex screen, PDFs in pdf/)
 make all                 # qa + verify for every post
-make site [SITE_ALL=1]   # site/ preview; drafts only with SITE_ALL=1
+make site [SITE_ALL=1]   # site/ preview (article, PDFs, notebook, LaTeX source, Substack/X links; no zip); drafts only with SITE_ALL=1
 make pages [PUSH=1]      # commit site/ to the gh-pages branch (orphan); PUSH=1 pushes
 ```
 
@@ -137,7 +145,7 @@ QA gate also includes: render every PDF page to PNG and look (`mainresult` not s
 | Substack post | (none) | (none) | published with the PDF attached |
 | `post.txt`, `tweet.txt` | `[link]` | `[link]` | the Substack post URL |
 
-The site shows only accepted and published posts. Commit after each status change, as `osolari <solari@berkeley.edu>`, with the session attribution lines. From a Claude session, git in the Mac folder needs delete permission (lock files), and pushing needs the Mac's `github-personal` SSH key: if the session cannot push, leave the commits in place and ask the user to run `git push origin main gh-pages`.
+The site shows only accepted and published posts; its index and footer link the Substack publication, each card and page the post's Substack article; the Overleaf zip is not on the site. Commit after each status change, as `osolari <solari@berkeley.edu>` with no attribution trailers, then ask the author to push (see "Sessions and the repo").
 
 ## 8. Workflow
 

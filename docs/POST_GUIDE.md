@@ -127,7 +127,7 @@ Deliver the zip, both PDFs, `substack/article.md` with its figures, the notebook
 | Backlog doc: Draw log row | add row | update Post/PDF cells | add post links |
 | `meta.json` `substack` block | (empty) | (empty) | all fields, `frozen: true` |
 
-Commit after each change of status (`git add -A && git commit`), with the session attribution lines.
+Commit after each change of status (`git add -A && git commit`), authored as `osolari <solari@berkeley.edu>` with no `Co-Authored-By` or session trailers. Pushing is done by the author from the Mac (`git push origin main`); see the skill's "Sessions and the repo" for how a Claude session works on the Mac folder.
 
 ## 10. Publish
 
