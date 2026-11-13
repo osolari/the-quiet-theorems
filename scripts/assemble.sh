@@ -17,7 +17,7 @@ cp "$root/STANDARD.md" "$out/STANDARD.md"
 # post-specific files
 cp "$src/main.tex" "$src/project.tex" "$src/post.txt" "$src/tweet.txt" "$out/"
 mkdir -p "$out/code" "$out/pdf" "$out/shared/bibliography"
-cp "$src/code/"* "$out/code/"
+cp "$src/code/check.py" "$out/code/"
 cp "$src/references.bib" "$out/shared/bibliography/references.bib"
 [ -d "$src/pdf" ] && cp "$src/pdf/"*.pdf "$out/pdf/" 2>/dev/null || true
 [ -d "$src/figures" ] && cp -r "$src/figures" "$out/figures" || true
