@@ -1,0 +1,4 @@
+# Numerical checks (code/check.py). Pinned to the versions the
+# published numbers were produced with.
+numpy==2.5.3
+scipy==1.18.1

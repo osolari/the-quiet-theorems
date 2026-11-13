@@ -1,0 +1,44 @@
+% =============================================================================
+% theorems.tex - Probability Notes theorem system and section skeleton (v1.1)
+% =============================================================================
+% Input after shared/components/math.tex. Loads amsthm only.
+\RequirePackage{amsthm}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}{Assumption}
+\renewcommand{\theassumption}{A\arabic{assumption}}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\renewcommand{\qedsymbol}{\textcolor{Primary}{$\square$}}
+
+% cleveref names. The class loads cleveref before amsthm, so shared-counter
+% environments must be labelled with their type: \label[lemma]{lem:x},
+% \label[corollary]{cor:x}, \label[remark]{rem:x}. Theorems use plain \label.
+\crefname{theorem}{Theorem}{Theorems}
+\crefname{lemma}{Lemma}{Lemmas}
+\crefname{corollary}{Corollary}{Corollaries}
+\crefname{assumption}{Assumption}{Assumptions}
+\crefname{remark}{Remark}{Remarks}
+
+% Proof steps and flagged interchanges (\justify is taken by ragged2e)
+\newcommand{\step}[1]{\par\smallskip\noindent\textbf{\color{PrimaryDark}Step: #1.}\ }
+\newcommand{\interchange}[1]{\par\smallskip\noindent\textit{Justification (#1).}\ }
+
+% Mandatory section skeleton: use all eight, in this order.
+\newcommand{\SecSetup}{\section{Setup and notation}}
+\newcommand{\SecResult}{\section{Result}}
+\newcommand{\SecProof}{\section{Proof}}
+\newcommand{\SecInsight}{\section{Insights}}
+\newcommand{\SecUses}{\section{Uses and consequences}}
+\newcommand{\SecExample}{\section{Worked example}}
+\newcommand{\SecCheck}{\section{Numerical check}}
+\newcommand{\SecNotes}{\section{Notes}}
+
+% Headline result: exactly one per issue, never split across pages.
+\newtcolorbox{mainresult}[1][Main result]{saim/green,title={#1},breakable=false}

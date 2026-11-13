@@ -1,0 +1,7 @@
+Fact. Formula (Originator, Year):
+
+formula
+
+One-line meaning.
+
+Probability Notes No. NN (proofs and code): [link]

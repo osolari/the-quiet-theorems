@@ -1,0 +1,4 @@
+# pdfLaTeX + BibTeX. Errors stop the build: no force mode.
+$pdf_mode = 1;
+$bibtex_use = 2;
+$max_repeat = 7;

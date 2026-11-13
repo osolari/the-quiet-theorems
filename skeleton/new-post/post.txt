@@ -1,0 +1,12 @@
+1/2
+Anchor fact. Question.
+
+Originator (Year) showed:
+formula
+
+One line on the symbols.
+
+2/2
+Meaning in words. One consequence (Author, Year).
+
+Proofs, examples and code: [link]

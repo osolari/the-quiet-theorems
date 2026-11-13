@@ -1,0 +1,108 @@
+% Probability Notes No. NN on the SAIM blog template v1.2 (pdfLaTeX + BibTeX).
+% Page: default A4 reading layout. Use \documentclass[screen]{saim-blog} for a
+% 160 x 240 mm screen page. `make post-screen` builds it without editing this file.
+\documentclass{saim-blog}
+\input{shared/metadata.tex}
+\graphicspath{{figures/}{shared/brand/logos/}}
+\input{shared/components/math.tex}
+\input{shared/components/theorems.tex}
+
+\hypersetup{
+  pdftitle={\ProjectTitle},
+  pdfauthor={\ProjectAuthorsPDF},
+  pdfsubject={\ProjectSubtitle},
+  pdfkeywords={\ProjectKeywords}
+}
+
+\begin{document}
+\maketitle
+
+\begin{tldr}
+Familiar fact. The result, attributed to its originator with year. What it means.
+\end{tldr}
+
+% =====================================================================
+\SecSetup
+Probability space, objects, symbol table, numbered assumptions.
+
+\begin{assumption}\label{as:one}
+The minimal condition.
+\end{assumption}
+
+% =====================================================================
+\SecResult
+\begin{mainresult}
+\begin{theorem}[Originator, Year]\label{thm:main}
+Under \cref{as:one}, the statement.
+\end{theorem}
+\end{mainresult}
+
+% =====================================================================
+\SecProof
+\begin{lemma}\label[lemma]{lem:one}
+Auxiliary statement.
+\end{lemma}
+\begin{proof}
+Proof of the lemma.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:main}]
+\step{First idea} Text.
+\interchange{Fubini--Tonelli} Dominating function or Tonelli bound, joint measurability.
+\step{Conclusion} Text.
+\end{proof}
+
+% =====================================================================
+\SecInsight
+\begin{enumerate}
+\item \textbf{What it says.} Text.
+\item \textbf{Why it is surprising.} Text.
+\end{enumerate}
+
+\begin{pullquote}
+One sentence worth lifting out.
+\end{pullquote}
+
+% =====================================================================
+\SecUses
+One sentence on how the consequences follow.
+
+\subsection{First consequence}
+Statement and proof, using \cref{lem:one}.
+
+% =====================================================================
+\SecExample
+One fully explicit computation, a table, and a TikZ figure.
+
+% =====================================================================
+\SecCheck
+One sentence on the method per row.
+
+\begin{center}
+\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\SAIMTableHead{Case} & \SAIMTableHead{Exact} & \SAIMTableHead{Numerical}\\
+\midrule
+Case & value & value\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Code.} Every number in the table is printed by \texttt{code/check.py} (\cref{lst:check}; run \texttt{python3 code/check.py}), whose docstring gives the requirements.
+
+% =====================================================================
+\SecNotes
+Originator history only: who, when, original title, what it contains, how it reached a wide audience.
+\bibliographystyle{plainnat}
+\bibliography{shared/bibliography/references}
+
+{\let\SAIMplainauthors\ProjectAuthorsPlainDisplay
+ \renewcommand{\ProjectAuthorsPlainDisplay}{\SAIMplainauthors\ProjectAuthorPostnominal}%
+ \postauthorcard}
+
+\clearpage
+\appendix
+\section{Code}
+\lstinputlisting[style=python,basicstyle=\ttfamily\footnotesize\color{Ink},caption={Numerical check (\texttt{code/check.py}).},label={lst:check}]{code/check.py}
+\end{document}

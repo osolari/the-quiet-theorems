@@ -1,0 +1,299 @@
+% Probability Notes No. 00 on the SAIM blog template v1.2 (pdfLaTeX + BibTeX).
+% Page: default A4 reading layout. Use \documentclass[screen]{saim-blog} for a
+% 160 x 240 mm screen page. `make post-screen` builds it without editing this file.
+\documentclass{saim-blog}
+\input{shared/metadata.tex}
+\graphicspath{{figures/}{shared/brand/logos/}}
+\input{shared/components/math.tex}
+\input{shared/components/theorems.tex}
+
+\hypersetup{
+  pdftitle={\ProjectTitle},
+  pdfauthor={\ProjectAuthorsPDF},
+  pdfsubject={\ProjectSubtitle},
+  pdfkeywords={\ProjectKeywords}
+}
+
+\begin{document}
+\maketitle
+
+\begin{tldr}
+Two random variables are independent exactly when their joint distribution function factorises into the product of its marginals. Hoeffding (1940) showed that their covariance is the integral of the difference between the two. Independence requires that difference to vanish everywhere; zero covariance requires only that its integral vanish.
+\end{tldr}
+
+% =====================================================================
+\SecSetup
+
+Let $(X,Y)$ be a random vector on a probability space $(\Omega,\mathcal{F},\Prob)$, taking values in $\R^2$.
+
+\begin{center}
+\small
+\begin{tabular}{@{}ll@{}}
+\toprule
+\SAIMTableHead{Symbol} & \SAIMTableHead{Meaning}\\
+\midrule
+$F_{X,Y}(x,y)=\Prob(X\le x,\,Y\le y)$ & joint distribution function\\
+$F_X(x)$, $F_Y(y)$ & marginal distribution functions\\
+$\bar F_X=1-F_X$, $\bar F_Y=1-F_Y$ & survival functions\\
+$D(x,y)=F_{X,Y}(x,y)-F_X(x)F_Y(y)$ & dependence function\\
+$(X_1,Y_1),(X_2,Y_2)$ & independent copies of $(X,Y)$ (see the proof)\\
+$C$ & copula of $(X,Y)$ (continuous marginals)\\
+\bottomrule
+\end{tabular}
+
+\end{center}
+
+By definition, $X\indep Y$ if and only if $D(x,y)=0$ for every $(x,y)\in\R^2$.
+
+\begin{assumption}\label{as:moments}
+$\E|X|<\infty$, $\E|Y|<\infty$ and $\E|XY|<\infty$.
+\end{assumption}
+
+\Cref{as:moments} follows from $\E X^2,\E Y^2<\infty$ (Cauchy--Schwarz), the form usually quoted; the proof requires only \cref{as:moments}. \emph{Uncorrelated} means $\Cov(X,Y)=0$.
+
+% =====================================================================
+\SecResult
+
+\begin{mainresult}
+\begin{theorem}[Hoeffding, 1940]\label{thm:main}
+Under \cref{as:moments}, $D$ is Lebesgue integrable on $\R^2$ and
+\begin{equation}\label{eq:main}
+\Cov(X,Y)=\iint_{\R^2}\big[F_{X,Y}(x,y)-F_X(x)F_Y(y)\big]\dd x\dd y .
+\end{equation}
+\end{theorem}
+\end{mainresult}
+
+\begin{remark}\label[remark]{rem:survival}
+Equivalently,
+\[
+\Cov(X,Y)=\iint_{\R^2}\big[\Prob(X>x,Y>y)-\bar F_X(x)\bar F_Y(y)\big]\dd x\dd y,
+\]
+since by inclusion--exclusion $\Prob(X>x,Y>y)-\bar F_X(x)\bar F_Y(y)=D(x,y)$ pointwise.
+\end{remark}
+
+% =====================================================================
+\SecProof
+
+\begin{lemma}\label[lemma]{lem:diff}
+For $a,b\in\R$,
+\begin{equation}\label{eq:diff}
+\begin{aligned}
+a-b&=\int_{\R}\big[\ind{b\le u}-\ind{a\le u}\big]\dd u,\\
+|a-b|&=\int_{\R}\big|\ind{b\le u}-\ind{a\le u}\big|\dd u.
+\end{aligned}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+If $a=b$ the integrand vanishes. If $a>b$ it equals $1$ on $[b,a)$ and $0$ elsewhere; if $a<b$ it equals $-1$ on $[a,b)$ and $0$ elsewhere. Both identities follow.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:main}]
+\step{Symmetrisation}
+Let $(X_1,Y_1)$ and $(X_2,Y_2)$ be independent copies of $(X,Y)$: two independent draws from the joint law of $(X,Y)$, realised on $\Omega\times\Omega$ if necessary. The argument follows \citet{lehmann1966}. Expanding,
+\[
+\begin{aligned}
+\E\big[(X_1-X_2)(Y_1-Y_2)\big]&=\E[X_1Y_1]+\E[X_2Y_2]-\E[X_1Y_2]-\E[X_2Y_1]\\
+&=2\E[XY]-2\E X\,\E Y.
+\end{aligned}
+\]
+Each same-copy term equals $\E[XY]$, since $(X_i,Y_i)$ has the law of $(X,Y)$. Each cross term has its factors in different copies: on $\Omega\times\Omega$, with points $(\omega_1,\omega_2)$, $X_1$ depends only on $\omega_1$ and $Y_2$ only on $\omega_2$, so $\E|X_1Y_2|=\E|X|\,\E|Y|$ by Tonelli and $\E[X_1Y_2]=\E X\,\E Y$ by Fubini; likewise for $X_2Y_1$. \Cref{as:moments} makes all four terms finite, which justifies the expansion. Hence $\Cov(X,Y)=\tfrac12\,\E[(X_1-X_2)(Y_1-Y_2)]$. The means have dropped out: $X-\E X$ and $Y-\E Y$ are replaced by the differences $X_1-X_2$ and $Y_1-Y_2$, to which \cref{lem:diff} applies directly.
+
+\step{Integral representation}
+Apply \cref{lem:diff} in $u$ to $X_1-X_2$ and in $v$ to $Y_1-Y_2$, and multiply:
+\begin{equation}\label{eq:product}
+(X_1-X_2)(Y_1-Y_2)=\iint_{\R^2}\Phi(u,v)\dd u\dd v,
+\end{equation}
+where
+\[
+\Phi(u,v)\coloneqq\big[\ind{X_2\le u}-\ind{X_1\le u}\big]\big[\ind{Y_2\le v}-\ind{Y_1\le v}\big].
+\]
+
+\interchange{Fubini--Tonelli}
+By the second identity in \eqref{eq:diff}, $\iint|\Phi|\dd u\dd v=|X_1-X_2|\,|Y_1-Y_2|$, and
+\[
+\begin{aligned}
+\E\big[|X_1-X_2|\,|Y_1-Y_2|\big]&\le\E\big[(|X_1|+|X_2|)(|Y_1|+|Y_2|)\big]\\
+&=2\E|XY|+2\E|X|\,\E|Y|<\infty .
+\end{aligned}
+\]
+Here $\Phi$ depends on $(u,v)$ and on the outcome $\omega$, and is jointly measurable, being built from indicators of sets such as $\{(u,\omega):X_2(\omega)\le u\}$. By Tonelli the two displays give $\E\iint|\Phi|\dd u\dd v<\infty$, so $\Phi$ is integrable for the product of Lebesgue measure on $\R^2$ and $\Prob$, and Fubini gives
+\[
+\E\iint_{\R^2}\Phi\dd u\dd v=\iint_{\R^2}\E\,\Phi(u,v)\dd u\dd v .
+\]
+
+\step{Expectation of the integrand}
+Expanding $\Phi$ into four products of indicators,
+\[
+\begin{aligned}
+\E\,\Phi(u,v)
+&=\Prob(X_2\le u,Y_2\le v)-\Prob(X_2\le u,Y_1\le v)\\
+&\quad-\Prob(X_1\le u,Y_2\le v)+\Prob(X_1\le u,Y_1\le v)\\
+&=2F_{X,Y}(u,v)-2F_X(u)F_Y(v)=2D(u,v).
+\end{aligned}
+\]
+Terms with both coordinates from the same copy give $F_{X,Y}$; terms mixing the copies factorise.
+
+\step{Conclusion}
+Combining the three steps, $\Cov(X,Y)=\tfrac12\iint\E\,\Phi\dd u\dd v=\iint D\dd u\dd v$. Integrability of $D$ follows from $|D|=\tfrac12|\E\Phi|\le\tfrac12\E|\Phi|$ and the bound in the justification step.
+\end{proof}
+
+\paragraph{Alternative route (sketch).}
+Write $X=\int_0^\infty\ind{X>t}\dd t-\int_{-\infty}^0\ind{X\le t}\dd t$, do the same for $Y$, multiply, take expectations quadrant by quadrant, and subtract $\E X\,\E Y$ written the same way. In every quadrant the integrand is $\pm[\text{joint}-\text{product}]$, and identities such as $\Prob(X\le u,Y>v)-F_X(u)\bar F_Y(v)=-D(u,v)$ make the four signs agree. The symmetrisation proof avoids this bookkeeping.
+
+% =====================================================================
+\SecInsight
+
+\begin{enumerate}
+\item \textbf{Independence and zero covariance compared.} Independence says $D\equiv0$, a condition on a whole function on $\R^2$. Zero covariance says $\iint D=0$, a single linear functional of the same function. The first implies the second at once. The converse fails exactly when $D$ takes both signs and its positive and negative parts cancel, as in the worked example below.
+\item \textbf{The role of Lebesgue measure.} Covariance integrates $D$ against $\dd x\dd y$, which depends on the scale of each axis. For continuous marginals, $D$ written in the coordinates $(F_X(x),F_Y(y))$ does not. This is why covariance changes under strictly increasing transformations of the variables while rank correlation does not. Invariance under such rescalings was the subject of Hoeffding's dissertation.
+\item \textbf{Sign information.} When $D$ has constant sign, $|\Cov(X,Y)|=\iint|D|$ is the $L^1$ norm of $D$, so zero covariance forces $D\equiv0$ (\cref{cor:pqd}).
+\end{enumerate}
+
+\begin{pullquote}
+Independence requires $D$ to vanish everywhere; zero covariance requires only that its integral vanish.
+\end{pullquote}
+
+% =====================================================================
+\SecUses
+The results below follow from \cref{thm:main} by choosing a particular pair, integrand or integrating measure.
+
+\subsection{Variance and mean absolute difference}
+Take $Y=X$ with $\E X^2<\infty$. Then $F_{X,X}(x,y)=F_X(x\wedge y)$ and, for $x\le y$, $D(x,y)=F_X(x)\bar F_X(y)$. By symmetry in $(x,y)$,
+\begin{equation}\label{eq:var}
+\Var(X)=2\iint_{x<y}F_X(x)\,\bar F_X(y)\dd x\dd y ,
+\end{equation}
+while taking expectations in the second identity of \cref{lem:diff} gives the mean absolute difference \citep{gini1912},
+\[
+\E|X_1-X_2|=2\int_{\R}F_X(x)\,\bar F_X(x)\dd x .
+\]
+Both are built from the kernel $F_X(x)\bar F_X(y)$, variance by integrating it over the plane and the mean absolute difference by integrating it along the diagonal.
+
+\subsection{Positive quadrant dependence}
+$(X,Y)$ is \emph{positively quadrant dependent} (PQD) if $D\ge0$ on $\R^2$ \citep{lehmann1966}.
+
+\begin{corollary}[\citet{lehmann1966}]\label[corollary]{cor:pqd}
+Under \cref{as:moments}: (i) if $(X,Y)$ is PQD then $\Cov(X,Y)\ge0$; (ii) if $(X,Y)$ is PQD and $\Cov(X,Y)=0$, then $X\indep Y$.
+\end{corollary}
+\begin{proof}
+(i) is immediate from \eqref{eq:main}. For (ii), $D\ge0$ and $\iint D=0$ give $D=0$ Lebesgue-almost everywhere. Fix $(x,y)$. A null set contains no open square, so each square $(x,x+\tfrac1n)\times(y,y+\tfrac1n)$ contains a point $(x_n,y_n)$ with $D(x_n,y_n)=0$. Monotonicity gives $F_{X,Y}(x,y)\le F_{X,Y}(x_n,y_n)\le F_{X,Y}(x+\tfrac1n,y+\tfrac1n)$, and the right side tends to $F_{X,Y}(x,y)$ by continuity of $\Prob$ along decreasing events; likewise for $F_X,F_Y$. Hence $D(x,y)=\lim_n D(x_n,y_n)=0$.
+\end{proof}
+So zero covariance does imply independence when the dependence has a fixed sign. The bivariate normal with $\rho\ge0$ is PQD, by a Gaussian comparison inequality \citep{slepian1962} (not proved here).
+
+\subsection{An association inequality}
+\begin{corollary}[association; see \citet{esary1967}]\label[corollary]{cor:cheb}
+If $f,g$ are non-decreasing and $f(X),g(X)$ have finite second moments, then $\Cov(f(X),g(X))\ge0$.
+\end{corollary}
+\begin{proof}
+Let $U=f(X)$ and $V=g(X)$. Each of the events $\{U\le u\}$ and $\{V\le v\}$ has the form $\{X\in I\}$ with $I$ a down-set of $\R$, so one contains the other and
+\[
+\Prob(U\le u,V\le v)=\min\{\Prob(U\le u),\Prob(V\le v)\}\ge\Prob(U\le u)\Prob(V\le v).
+\]
+Thus $(U,V)$ is PQD; apply \cref{cor:pqd}(i).
+\end{proof}
+
+\subsection{Copulas and rank correlation}
+Let $F_X,F_Y$ be continuous. Then $(U,V)=(F_X(X),F_Y(Y))$ has uniform marginals, and its distribution function $C$, the copula, satisfies $F_{X,Y}(x,y)=C(F_X(x),F_Y(y))$ \citep[not proved here; see][]{sklar1959,nelsen2006}. Applying \cref{thm:main} to $(U,V)$, with $\Var U=\Var V=\tfrac1{12}$, gives the population form of the rank correlation of \citet{spearman1904},
+\begin{equation}\label{eq:spearman}
+\rho_S(X,Y)\coloneqq\Corr(U,V)=12\iint_{[0,1]^2}\big[C(s,t)-st\big]\dd s\dd t ,
+\end{equation}
+whereas for the original variables
+\[
+\Cov(X,Y)=\iint_{\R^2}\big[C(F_X(x),F_Y(y))-F_X(x)F_Y(y)\big]\dd x\dd y .
+\]
+Rank correlation therefore depends on $C$ alone, while covariance also depends on the marginals through the measure of integration.
+
+\subsection{Extremal covariance for fixed marginals}
+Fix marginals with $\E X^2,\E Y^2<\infty$, so that \cref{as:moments} holds for every coupling (with only first moments the comonotone covariance can be $+\infty$). Every joint distribution function with these marginals satisfies the copula bounds \citep{hoeffding1940,frechet1951}
+\[
+\max\{F_X(x)+F_Y(y)-1,0\}\le F_{X,Y}(x,y)\le\min\{F_X(x),F_Y(y)\},
+\]
+which follow from $\Prob(A\cap B)\ge\Prob(A)+\Prob(B)-1$ and $\Prob(A\cap B)\le\min\{\Prob(A),\Prob(B)\}$. The upper bound is attained by the comonotone coupling $(F_X^{-1}(W),F_Y^{-1}(W))$ and the lower by the countermonotone coupling $(F_X^{-1}(W),F_Y^{-1}(1-W))$, $W\sim\Unif(0,1)$ \citep[attainment not proved here; see][]{nelsen2006}. Inserting the bounds in \eqref{eq:main}, these two couplings maximise and minimise the covariance among all couplings with the given marginals. Correlation $\pm1$ needs an exact affine relation (the equality case of Cauchy--Schwarz), which the marginals may forbid: if $X,Y$ are lognormal, $Y=a-bX$ with $b>0$ is negative for large $X$, so correlation $-1$ is unattainable \citep{embrechts2002}.
+
+\subsection{Functions of the variables}
+Let $f,g$ be monotone and absolutely continuous, and let \cref{as:moments} hold for $(f(X),g(Y))$. Replacing \eqref{eq:diff} by $f(a)-f(b)=\int_{\R}[\ind{b\le u}-\ind{a\le u}]f'(u)\dd u$, and noting that monotonicity gives $|f(a)-f(b)|=\int_{\R}|\ind{b\le u}-\ind{a\le u}|\,|f'(u)|\dd u$, the proof of \cref{thm:main} goes through verbatim \citep{cuadras2002}:
+\[
+\Cov\big(f(X),g(Y)\big)=\iint_{\R^2}D(x,y)\,f'(x)\,g'(y)\dd x\dd y .
+\]
+
+% =====================================================================
+\SecExample
+
+Let $X$ be uniform on $\{-1,0,1\}$ and $Y=X^2$. Since $\E X=\E X^3=0$, $\Cov(X,Y)=\E X^3-\E X\,\E X^2=0$, yet $Y$ is a function of $X$.
+
+\paragraph{Marginals.}
+$F_X$ equals $0,\tfrac13,\tfrac23,1$ on $(-\infty,-1)$, $[-1,0)$, $[0,1)$, $[1,\infty)$, and $F_Y$ equals $0,\tfrac13,1$ on $(-\infty,0)$, $[0,1)$, $[1,\infty)$.
+
+\paragraph{Dependence function.}
+For $y<0$, $F_{X,Y}=F_Y=0$, so $D=0$. For $y\ge1$, $F_{X,Y}=F_X$ and $F_Y=1$, so $D=0$. For $0\le y<1$, $\{Y\le y\}=\{X=0\}$, so $F_{X,Y}(x,y)=\tfrac13\ind{x\ge0}$ and $D(x,y)=\tfrac13[\ind{x\ge0}-F_X(x)]$:
+\begin{center}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\SAIMTableHead{$x$} & $(-\infty,-1)$ & $[-1,0)$ & $[0,1)$ & $[1,\infty)$\\
+\midrule
+$D(x,y)$, $0\le y<1$ & $0$ & $-\tfrac19$ & $+\tfrac19$ & $0$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{figure}[tbp]
+\centering
+\begin{tikzpicture}[scale=1.5,font=\footnotesize]
+  \fill[Secondary!25] (-1,0) rectangle (0,1);
+  \fill[Primary!20] (0,0) rectangle (1,1);
+  \draw[Rule,-{Stealth[length=4pt]}] (-2,0) -- (2,0) node[right,text=Ink] {$x$};
+  \draw[Rule,-{Stealth[length=4pt]}] (0,-0.5) -- (0,1.55) node[above,text=Ink] {$y$};
+  \draw[RuleDark] (-1,0) rectangle (1,1);
+  \node[text=Ink] at (-0.5,0.5) {$-\tfrac19$};
+  \node[text=Ink] at (0.5,0.5) {$+\tfrac19$};
+  \foreach \t in {-1,1} \draw[RuleDark] (\t,0.05) -- (\t,-0.05) node[below,text=Muted] {$\t$};
+  \draw[RuleDark] (0.05,1) -- (-0.05,1) node[left,text=Muted] {$1$};
+  \node[below left,text=Muted] at (0,0) {$0$};
+  \node[anchor=west,text=Muted] at (1.1,1.3) {$D=0$ elsewhere};
+\end{tikzpicture}
+\caption{Dependence function $D$ for $X\sim\Unif\{-1,0,1\}$, $Y=X^2$. The two squares cancel, so $\Cov(X,Y)=0$ although $Y$ is a function of $X$.}
+\label{fig:counter}
+\end{figure}
+
+The function $D$ is supported on two unit squares of opposite sign (\cref{fig:counter}), so $\iint D=-\tfrac19+\tfrac19=0$, as \eqref{eq:main} requires. For $x$ just below $0$, the events $\{X\le x\}$ and $\{Y=0\}$ are disjoint, a negative dependence; just above $0$ the dependence is positive. Covariance does not register this, but a functional of $|D|$ does, for instance $\sup|D|=\tfrac19$. Hoeffding's test of independence \citep{hoeffding1948} is built on $\iint D^2\dd F_{X,Y}$, which characterises independence for continuous joint distributions.
+
+% =====================================================================
+\SecCheck
+
+Rows 1 to 3 integrate $D$ by trapezoidal quadrature on a grid; row 4 integrates the step function $D$ exactly in rational arithmetic.
+
+\begin{center}
+\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\SAIMTableHead{Case} & \SAIMTableHead{Exact} & \SAIMTableHead{Numerical}\\
+\midrule
+Normal, unit variances, $\rho=\tfrac12$: $\iint D\dd x\dd y$ & $0.5$ & $0.500000$\\
+Same $D$: $12\iint D\dd F_X\dd F_Y$, i.e.\ \eqref{eq:spearman} & $0.4826^{\dagger}$ & $0.4826$\\
+$X=Y\sim\Expo(1)$: $\iint D$, i.e.\ \eqref{eq:var} & $1$ & $0.999992$\\
+Worked example: $\iint D$ & $0$ & $0$ (exact)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textsuperscript{$\dagger$}From the closed form $\tfrac6\pi\arcsin(\rho/2)$ \citep[not proved here; see][]{kruskal1958}. Rows 1 and 2 integrate the same $D$, against $\dd x\dd y$ and against $\dd F_X\dd F_Y$ respectively (substitute $s=F_X(x)$, $t=F_Y(y)$ in \eqref{eq:spearman}); only the measure differs.
+
+\paragraph{Code.} Every number in the table is printed by \texttt{code/check.py}, listed in full in the appendix (\cref{lst:check}); run it with \texttt{python3 code/check.py}. Its docstring gives the requirements.
+
+% =====================================================================
+\SecNotes
+
+Wassily Hoeffding proved \eqref{eq:main} in his Berlin doctoral dissertation, \emph{Ma{\ss}stabinvariante Korrelationstheorie} (`Scale-invariant correlation theory'), published in 1940 \citep{hoeffding1940}. The dissertation develops a theory of dependence invariant under monotone rescaling of the axes, the rank-based view of the copula section above, and already contains the copula bounds. In 1948 he based a test of independence on the whole of $D$ \citep{hoeffding1948}. The identity reached a wide audience through \citet{lehmann1966}.
+\bibliographystyle{plainnat}
+\bibliography{shared/bibliography/references}
+
+{\let\SAIMplainauthors\ProjectAuthorsPlainDisplay
+ \renewcommand{\ProjectAuthorsPlainDisplay}{\SAIMplainauthors\ProjectAuthorPostnominal}%
+ \postauthorcard}
+
+\clearpage
+\appendix
+\section{Code}
+\lstinputlisting[style=python,basicstyle=\ttfamily\footnotesize\color{Ink},caption={Numerical check (\texttt{code/check.py}).},label={lst:check}]{code/check.py}
+\end{document}

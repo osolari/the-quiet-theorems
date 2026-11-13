@@ -1,0 +1,12 @@
+1/2
+Add independent Gaussian noise of variance t to any random variable X. Its entropy grows. How fast?
+
+De Bruijn's identity (Stam, 1959):
+d/dt h(X + √t Z) = ½ J(X + √t Z)
+
+h is differential entropy and J is Fisher information.
+
+2/2
+So Fisher information is the speed at which Gaussian smoothing creates entropy, even for discrete X. Since 1/(σ²+t) ≤ J ≤ 1/t, Gaussian inputs gain entropy most slowly. The identity is also dI/dsnr = ½ mmse (Guo et al., 2005).
+
+Proofs, examples and code: [link]
