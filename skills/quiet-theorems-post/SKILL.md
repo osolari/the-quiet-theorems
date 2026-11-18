@@ -115,9 +115,13 @@ Weighted length: code points 0-4351, 8192-8205, 8208-8223, 8242-8247 count 1; ev
 - Numerical check: method sentence, numbered list, "**Code.** Every number above is printed by the script below (Python 3, NumPy, SciPy); its docstring gives the requirements.", full `check.py`, "**Output:**" with its exact output.
 - Author–year citations in text (up to three authors in full, then "et al."); `### References` at the end, alphabetical: `Surname, I. (Year). Title. *Journal*, vol(no), pages.` The PDF keeps numeric citations.
 
-## 5b. Publishing on Substack
+## 5b. Substack: draft before approval, publish after
 
-Paste the finished article (title `The Quiet Theorems No. NN: <Title>`) on https://omidsolari.substack.com; drag the A4 PDF in after the TL;DR (no file button; the block's "Replace" swaps the file); upload figures with captions; audience everyone; publish. Never edit one draft in two browsers or tabs (the stale one gets HTTP 409 and Publish fails silently; reload first). The "may be truncated in some email clients" banner is only a warning. Then record in `meta.json`: `links.substack` and the whole `substack` block (url, published time, audience, editor URL, draft id, attached-PDF URL, which build was attached, image URLs by file name, byline), set `frozen: true`, add the `Published <date>: <url>` line to the article head, and archive the published package as `docs/posts/NN-slug/qt-NN-slug.zip` with `package_frozen: true`.
+Two stages: an unpublished draft is part of every package (before approval); publishing happens only after approval, on the author's explicit word.
+
+**Create the draft (after QA passes, before delivery).** Load the `built-in-browser` skill first, then work in the built-in browser, where the author is already signed in to https://omidsolari.substack.com. New post: title `The Quiet Theorems No. NN: <Title>`, the subtitle, then the finished `substack/article.md` pasted section by section (LaTeX blocks for display maths, inline LaTeX for inline maths). Drag the A4 PDF (`pdf/qt-NN-slug.pdf`) in right after the TL;DR in place of the `[PDF attachment: ...]` line (there is no file button; dragging creates a file block, and the block's "Replace" swaps the file). Upload each `substack/<slug>-figure*.png` at its place with its caption. Audience everyone. **Never press Publish.** Record `substack.editor` (the editor URL) and `substack.draft_id` in `meta.json`; leave `links.substack` and `substack.url` empty (the editor link is private and never goes on the site). If the browser is unavailable or Substack refuses an action (sign-in wall, upload error, HTTP 409), do what can be done, say exactly what failed, and list it as an open point instead of stopping.
+
+**Publish (after approval, only when the author says so).** Reload the draft first (never edit one draft in two browsers or tabs: the stale one gets HTTP 409 and Publish fails silently), check the preview, publish. The "may be truncated in some email clients" banner is only a warning. Then record in `meta.json`: `links.substack` and the rest of the `substack` block (url, published time, audience, attached-PDF URL, which build was attached, image URLs by file name, byline), set `frozen: true`, add the `Published <date>: <url>` line to the article head, and archive the published package as `docs/posts/NN-slug/qt-NN-slug.zip` with `package_frozen: true`.
 
 ## 6. Commands (in order)
 
@@ -134,23 +138,37 @@ make site [SITE_ALL=1]   # site/ preview (article, PDFs, notebook, LaTeX source,
 make pages [PUSH=1]      # commit site/ to the gh-pages branch (orphan); PUSH=1 pushes
 ```
 
-QA gate also includes: render every PDF page to PNG and look (`mainresult` not split, author card not orphaned (cut text, never touch the template), figure labels clear, listing not wrapping, cross-reference names right); read `substack/article.md` rendered once (rebuild the notebook after hand-finishing it); unzip `dist/qt-NN-slug.zip` into an empty folder and run `make`; proofread for overclaims (every claim proved or flagged, minimal conditions, correct equality cases).
+QA gate also includes: `make site SITE_ALL=1` and open `site/posts/NN-slug/index.html` (article maths rendered, figure shown, PDF and notebook links resolve, Substack and X links absent or blank but never broken), and say in the delivery that the page was checked; render every PDF page to PNG and look (`mainresult` not split, author card not orphaned (cut text, never touch the template), figure labels clear, listing not wrapping, cross-reference names right); read `substack/article.md` rendered once (rebuild the notebook after hand-finishing it); unzip `dist/qt-NN-slug.zip` into an empty folder and run `make`; proofread for overclaims (every claim proved or flagged, minimal conditions, correct equality cases).
 
 ## 7. Links and status to update (all must agree)
 
 | Place | Draft | Accepted | Published |
 |---|---|---|---|
-| `meta.json` status | draft | accepted | published (+ links and the `substack` block, frozen) |
+| `meta.json` status | draft (+ `substack.editor`, `substack.draft_id`) | accepted | published (+ links and the `substack` block, frozen) |
 | post `README.md` | status row, open points | status | status + Published links table |
 | `docs/DEVELOPING.md` Posts table | add row | status | status |
 | `README.md` Posts list (readers) | (none) | (none) | add entry: title, date, one-sentence claim, links |
 | `BACKLOG.md` | Drafted (No. NN) | Accepted (No. NN) | Published (No. NN) |
 | backlog doc | Status dropdown Drafted, Draw log row | update row | Status Posted, links in row |
-| Substack post | (none) | (none) | published with the PDF attached |
+| Substack post | draft created (editor link) | draft, unchanged | published with the PDF attached |
+| Pages page | checked locally (`make site SITE_ALL=1`) | `make site` checked; live once the author pushes `main` | live; `links.pages` recorded |
 | `post.txt`, `tweet.txt` | `[link]` | `[link]` | the Substack post URL |
 
 The site shows only accepted and published posts; its index and footer link the Substack publication, each card and page the post's Substack article; the Overleaf zip is not on the site. Commit after each status change, as `osolari <solari@berkeley.edu>` with no attribution trailers, then ask the author to push (see "Sessions and the repo").
 
 ## 8. Workflow
 
-Phased, one consolidated approval gate per post: deliver the zip, both PDFs, the finished `substack/article.md` with its figures, the notebook and the posts, list open points (unverified reference details, unproved facts, layout trade-offs), and wait for approval before setting `accepted`.
+Phased, one consolidated approval gate per post. Before the gate the session does, without being asked: the full QA (section 6, including the site preview), the zip and its clean-unzip build, and the unpublished Substack draft (section 5b).
+
+**Delivery** (one message): the zip, both PDFs, the finished `substack/article.md` with its figures, the notebook, the X posts, and the open points (unverified reference details, unproved facts, layout trade-offs, anything the browser could not do). It must state, for each of these two, either "done" with the link or why not:
+- **Substack draft**: "done", with the editor link, or what failed;
+- **Pages page**: "done: checked locally with `make site SITE_ALL=1`" (it goes live only after approval and the author's push), or what failed.
+
+Then wait for approval.
+
+**On approval**, without further prompting:
+1. Set `accepted` in `meta.json`, the post `README.md`, the `docs/DEVELOPING.md` Posts table, `BACKLOG.md` and the backlog doc.
+2. `make site` (accepted and published posts only) and check the post's page again.
+3. Commit as `osolari <solari@berkeley.edu>`, no attribution trailers.
+4. Give the author the push command (`cd ~/workspace/projects/the-quiet-theorems && git push origin main`) and say that pushing `main` deploys the Pages site through the workflow; once it is live, record `links.pages` (`https://osolari.github.io/the-quiet-theorems/posts/NN-slug/`).
+5. Only on the author's explicit word to publish: publish the Substack draft (section 5b), archive the zip, freeze the article, fill `meta.json` `links` and the `substack` block, replace `[link]` in `post.txt` and `tweet.txt` with the Substack URL, rerun `make tweets`, set `published` everywhere in section 7 (including the `README.md` Posts list), commit again and give the push command. Posting on X is the author's, unless they ask the session to do it.
