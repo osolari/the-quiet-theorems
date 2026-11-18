@@ -95,9 +95,8 @@ def main():
         bar = [f"[PDF (A4)](pdf/{pk}.pdf)",
                f"[PDF (screen)](pdf/{pk}-screen.pdf)",
                "[Notebook](notebook.html)", "[LaTeX source](main.tex)"]
-        names = {"substack": "Substack", "x_thread": "X thread",
-                 "x_tweet": "X post"}
-        for k in ("x_tweet", "x_thread", "substack"):
+        names = {"substack": "Substack", "x_post": "X post"}
+        for k in ("x_post", "substack"):
             if meta["links"].get(k):
                 bar.insert(0, f"[{names[k]}]({meta['links'][k]})")
         if repo:

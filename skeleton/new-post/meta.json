@@ -7,8 +7,7 @@
   "status": "draft",
   "date": "YYYY-MM-DD",
   "links": {
-    "x_thread": "",
-    "x_tweet": "",
+    "x_post": "",
     "substack": "",
     "pages": ""
   },

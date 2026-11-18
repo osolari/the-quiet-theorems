@@ -6,7 +6,7 @@ Every issue = one post + one PDF + one Overleaf-ready zip. British English. No e
 
 ## 1. The post (X)
 
-Plain text, Unicode maths only. No X Premium: every tweet must be at most 280 by X's count (links count 23; maths symbols such as − and ∬ count 2). `post.txt` is a two-tweet thread; `tweet.txt` is the single-tweet version. Both open with the link: the first line is `<Title> (The Quiet Theorems No. NN): [link]`.
+Plain text, Unicode maths only. X Premium: `post.txt` is one X Premium long post, with the post's plot attached (`substack/<slug>-figure.png`; the first figure if there are several). Line 1: `<Title> (The Quiet Theorems No. NN): [link]`. Line 2: a one-sentence hook on what the plot shows. These two lines are the lead: at most 280 weighted, so the lead and the plot appear before X's "Show more". After a blank line: "Originator (Year) showed that", the formula on its own line, the weakest condition and what the symbols are; then the meaning in words and the familiar fact it sharpens; then one consequence with its attribution. The link appears only on line 1. Aim for 600 to 1,500 weighted in total (hard limit 25,000). Weights follow X's count (links count 23; maths symbols such as − and ∬ count 2).
 
 1. **Anchor**: the familiar fact the reader already knows (one or two lines).
 2. **Question**: the natural question it raises.
@@ -58,8 +58,7 @@ Input `shared/components/math.tex` then `shared/components/theorems.tex` in `mai
 qt-NN-slug/          % SAIM blog template tree, main.tex at the root
   main.tex  main-screen.tex  project.tex  people.tex  saim-blog.cls  shared/ ...
   code/check.py      % numerical check, listed in the PDF
-  post.txt           % the X thread (two tweets, each at most 280)
-  tweet.txt          % the X short post (at most 280, link counted as 23)
+  post.txt           % the X post (one long post, lead at most 280, plot attached)
   STANDARD.md        % this file
 ```
 Zip: `qt-NN-slug.zip`, containing `main.tex` (A4 entry), `main-screen.tex` (screen entry) and both built PDFs in `pdf/`. PDFs: `qt-NN-slug.pdf` (A4) and `qt-NN-slug-screen.pdf` (160 x 240 mm, for attaching to posts).

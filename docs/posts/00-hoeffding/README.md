@@ -13,8 +13,7 @@ Cov(X,Y) = ∬ [F_{X,Y}(x,y) − F_X(x)F_Y(y)] dx dy (Hoeffding, 1940).
 | Substack article | [`substack/article.md`](substack/article.md), revised edition, hand-finished (frozen against `make formats`), with [`hoeffding-figure.png`](substack/hoeffding-figure.png) |
 | Notebook | [`notebook.ipynb`](notebook.ipynb) (executed) |
 | Metadata | [`meta.json`](meta.json) (status, links, Substack details) |
-| Thread | [`post.txt`](post.txt) (271 / 220 weighted) |
-| Single tweet | [`tweet.txt`](tweet.txt) (265 weighted) |
+| X post | [`post.txt`](post.txt) (one long post: lead 201 / 280, total 643; attach `substack/hoeffding-figure.png`) |
 
 ## Published links
 
@@ -26,8 +25,7 @@ Keep in sync with `meta.json`.
 | Substack editor (draft id 224169408) | https://omidsolari.substack.com/publish/post/224169408 |
 | PDF attached on Substack | https://omidsolari.substack.com/api/v1/file/4c024c81-13d7-418b-b924-661aac38df84.pdf (9 Nov build, `pn-00-hoeffding.pdf`; to be swapped for `qt-00-hoeffding.pdf`) |
 | Figure on Substack | https://substack-post-media.s3.amazonaws.com/public/images/83fa447e-ebaa-4cee-8574-1d6e232d1e4c_583x309.png (9 Nov figure; the revised figure relabels the y = 1 tick) |
-| X thread | (not yet posted; `post.txt` carries the Substack URL) |
-| X single tweet | (not yet posted; `tweet.txt` carries the Substack URL) |
+| X post | (not yet posted; `post.txt` carries the Substack URL) |
 | Pages article | https://osolari.github.io/the-quiet-theorems/posts/00-hoeffding/ (live; redirects to `solari.stat.berkeley.edu/the-quiet-theorems/posts/00-hoeffding/`) |
 
 ## Content
@@ -73,7 +71,7 @@ Keep in sync with `meta.json`.
 
 ## QA, 18 Nov 2026 (revised edition)
 
-- `make qa`: log issues 0, non-Type-1 fonts 0; tweets 271 / 220 (thread) and 265 (single).
+- `make qa`: log issues 0, non-Type-1 fonts 0; X post lead 201 / 280, total 643 (one long post, plot attached).
 - `make check` matches the table digit for digit; `make verify` and `make all` pass.
 - Pages rendered and inspected: Result box on p. 1, author card on the references page, listing on one page, cross-reference names right (Lemma 3–4, Corollary 5–10).
 - `dist/qt-00-hoeffding.zip` builds from a clean unzip.

@@ -1,10 +1,10 @@
-1/2
 Hoeffding's covariance identity (The Quiet Theorems No. 00): https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings
+Plotted: X uniform on {−1, 0, 1} and Y = X². The two squares cancel, so Cov(X,Y) = 0 although Y is a function of X.
 
 Hoeffding (1940) showed that
 Cov(X,Y) = ∬ [F_XY(x,y) − F_X(x)F_Y(y)] dx dy
+whenever X, Y and XY have finite means. The bracket is the joint CDF minus the product of the marginals.
 
-X and Y are independent exactly when the bracket, joint CDF minus product of marginals, is zero everywhere.
+X and Y are independent exactly when the bracket is zero everywhere. Zero covariance asks much less: only that its positive and negative parts cancel, as in the plot.
 
-2/2
-So independence requires the bracket to vanish everywhere, while zero covariance requires only that its positive and negative parts cancel. If it has a fixed sign, zero covariance does imply independence (Lehmann, 1966).
+If the bracket has a fixed sign, zero covariance does imply independence (Lehmann, 1966).

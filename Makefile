@@ -1,8 +1,8 @@
 # The Quiet Theorems: build, check and package posts.
 #   make build P=01-debruijn   A4 + screen PDFs in build/01-debruijn/build/
 #   make check P=01-debruijn   run the numerical check
-#   make tweets P=01-debruijn  weighted tweet lengths
-#   make qa P=01-debruijn      build + log scan + fonts + tweets
+#   make tweets P=01-debruijn  X post: link first, lead <= 280, plot present
+#   make qa P=01-debruijn      build + log scan + fonts + X post
 #   make zip P=01-debruijn     dist/qt-01-debruijn.zip (Overleaf-ready, PDFs in pdf/); frozen posts copy their archived package
 #   make pdfs P=01-debruijn    copy built PDFs into docs/posts/<P>/pdf/
 #   make new P=02-sure         start a post from skeleton/new-post
@@ -31,7 +31,7 @@ check: need-p
 	cd docs/posts/$(P) && python3 code/check.py
 
 tweets: need-p
-	python3 scripts/wlen.py docs/posts/$(P)/post.txt docs/posts/$(P)/tweet.txt
+	python3 scripts/wlen.py docs/posts/$(P)/post.txt
 
 qa: build tweets
 	@n=$$(grep -hE "Warning|Overfull|Underfull|^!|undefined" $(B)/build/*.log | grep -v infwarerr | wc -l); \

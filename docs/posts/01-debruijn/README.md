@@ -8,11 +8,10 @@ d/dt h(X + √t Z) = ½ J(X + √t Z) (de Bruijn; Stam, 1959).
 | Backlog rank | 1 |
 | Package | `make zip P=01-debruijn` → `dist/qt-01-debruijn.zip` |
 | PDF | [A4](pdf/qt-01-debruijn.pdf) (12 pp.), [screen](pdf/qt-01-debruijn-screen.pdf) (15 pp.) |
-| Thread | [`post.txt`](post.txt) (274 and 240 / 280 weighted; link on the first line) |
+| X post | [`post.txt`](post.txt) (one long post: lead 237 / 280, total 764; attach `substack/debruijn-figure.png`) |
 | Substack article | [`substack/article.md`](substack/article.md) (hand-finished to the house style 13 Nov 2026), figure [`debruijn-figure.png`](substack/debruijn-figure.png) |
 | Notebook | [`notebook.ipynb`](notebook.ipynb) (executed) |
 | Metadata | [`meta.json`](meta.json) (status, links, Substack details) |
-| Single tweet | [`tweet.txt`](tweet.txt) (272 / 280 weighted; link on the first line) |
 
 ## Published links
 
@@ -21,8 +20,7 @@ Keep in sync with `meta.json` `links`.
 | Where | Link |
 |---|---|
 | Substack post | https://omidsolari.substack.com/p/the-quiet-theorems-no-01-de-bruijns |
-| X thread | (not yet posted) |
-| X single tweet | (not yet posted) |
+| X post | (not yet posted; `post.txt` carries the Substack URL) |
 | Pages article | https://osolari.github.io/the-quiet-theorems/posts/01-debruijn/ |
 
 ## Open points before approval

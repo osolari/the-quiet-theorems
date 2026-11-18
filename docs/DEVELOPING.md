@@ -38,7 +38,7 @@ skeleton/            SAIM blog template v1.2 + series layer (shared by every pos
   new-post/          starter files for a new post
 docs/posts/NN-slug/  one folder per post: only what is post-specific
   hand-written: main.tex project.tex references.bib code/check.py code/figures.py
-                post.txt tweet.txt meta.json README.md
+                post.txt meta.json README.md
   generated:    pdf/ notebook.ipynb
   substack/:    article.md (drafted, hand-finished, frozen on publication) + <slug>-figure.png
   published:    <prefix>-NN-slug.zip (the Overleaf package as published)
@@ -50,7 +50,7 @@ scripts/make_notebook.py  substack/article.md + code/ -> executed notebook.ipynb
 scripts/verify_formats.py checks article, Output block, notebook == check.py, meta.json
 scripts/build_site.py     site/ for GitHub Pages (accepted/published posts only)
 scripts/publish_pages.sh  commit site/ to the gh-pages branch (--push to push)
-scripts/wlen.py      weighted X length checker (limit 280, URL = 23)
+scripts/wlen.py      X post checker (link on line 1, lead <= 280, total <= 25,000, plot present; URL = 23)
 .github/workflows/pages.yml  on push to main: build site, deploy to gh-pages
 skills/quiet-theorems-post/SKILL.md  Claude skill for building posts
 ```
@@ -62,7 +62,7 @@ File names use the prefix `qt` (`qt-01-debruijn.pdf`, `qt-01-debruijn.zip`); No.
 ```sh
 make new P=02-sure          # start a post from skeleton/new-post
 make check P=02-sure        # run its numerical check
-make qa P=02-sure           # build A4 + screen, zero-warning scan, Type 1 fonts, tweet weights
+make qa P=02-sure           # build A4 + screen, zero-warning scan, Type 1 fonts, X post checks
 make pdfs P=02-sure         # copy built PDFs into docs/posts/02-sure/pdf/
 make formats P=02-sure      # Substack draft + figure, notebook.ipynb (executed)
 make verify P=02-sure       # article/notebook/meta checks

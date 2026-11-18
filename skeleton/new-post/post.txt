@@ -1,10 +1,10 @@
-1/2
 Title (The Quiet Theorems No. NN): [link]
+One-sentence hook: what the attached plot shows and why it is surprising.
 
 Originator (Year) showed that
 formula
+under <the weakest condition>. What the symbols are.
 
-What the symbols are, and the familiar fact it sharpens.
+What it means in words, and the familiar fact it sharpens.
 
-2/2
-Meaning in words. One consequence (Author, Year).
+One consequence, with its attribution (Author, Year).

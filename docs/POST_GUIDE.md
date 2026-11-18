@@ -13,8 +13,7 @@ Everything issue-specific lives in `docs/posts/NN-slug/` (NN two digits, slug lo
 | `references.bib` | hand | every work used; checked against primary records |
 | `code/check.py` | hand | prints every number in the check table; sections start `# N. ` |
 | `code/figures.py` | hand | matplotlib versions of the PDF figures, for the notebook |
-| `post.txt` | hand | X thread, `1/2` and `2/2`, each ≤ 280 weighted |
-| `tweet.txt` | hand | single X post, ≤ 280 weighted |
+| `post.txt` | hand | the X post: one long post, lead ≤ 280 weighted, posted with the plot attached |
 | `meta.json` | hand | status, published links and Substack details (machine-readable source of truth) |
 | `README.md` | hand | status, file map, published links, open points, references |
 | `pdf/qt-NN-slug.pdf`, `pdf/qt-NN-slug-screen.pdf` | `make pdfs` | the two PDF layouts |
@@ -30,7 +29,7 @@ Never edit generated files by hand: change the source and regenerate. Published 
 Scope: theorems from probability, statistics and machine learning (including results behind modern ML/AI methods) that deserve to be better known.
 
 1. Open the backlog doc (link in `BACKLOG.md`); take the highest-ranked Queued topic unless the user says otherwise. Note dependencies flagged in `BACKLOG.md` (e.g. SURE needs Stein's lemma).
-2. `make new P=NN-slug`. This copies `skeleton/new-post/` (main.tex, project.tex, references.bib, code/check.py, code/figures.py, post.txt, tweet.txt, meta.json with issue and slug filled in).
+2. `make new P=NN-slug`. This copies `skeleton/new-post/` (main.tex, project.tex, references.bib, code/check.py, code/figures.py, post.txt, meta.json with issue and slug filled in).
 
 ## 2. Research and references
 
@@ -54,16 +53,14 @@ Scope: theorems from probability, statistics and machine learning (including res
 
 ## 5. Write the posts
 
-- The link goes at the top: the first line of tweet 1, and of the single post, is `<Title> (The Quiet Theorems No. NN): [link]`. Nothing after it repeats the link. `make tweets` fails otherwise.
-- `post.txt`: `1/2` the heading line, then "Originator (Year) showed that" and the formula on its own line, then one line on the symbols and the familiar fact the result sharpens. `2/2` meaning in words and one consequence with attribution.
-- `tweet.txt`: the heading line, then "Originator (Year): formula", then a one-line meaning.
-- Plain text, Unicode maths, no hashtags, emoji or @-mentions. `make tweets P=NN-slug`: every tweet ≤ 280 (URL or `[link]` counts 23; characters outside X's weight-1 ranges count 2).
+- `post.txt` is one X Premium long post, with the post's plot attached (`substack/<slug>-figure.png`; the first figure if there are several). Line 1: `<Title> (The Quiet Theorems No. NN): [link]`. Line 2: a one-sentence hook on what the plot shows. These two lines are the lead: at most 280 weighted, so the lead and the plot appear before X's "Show more". After a blank line: "Originator (Year) showed that", the formula on its own line, the weakest condition and what the symbols are; then the meaning in words and the familiar fact it sharpens; then one consequence with its attribution. The link appears only on line 1. Aim for 600 to 1,500 weighted in total (hard limit 25,000). `make tweets` fails if line 1 lacks the link, the lead exceeds 280, the total exceeds 25,000 or the plot is missing; it prints the file to attach.
+- Plain text, Unicode maths, no hashtags, emoji or @-mentions. Weights: a URL or `[link]` counts 23; characters outside X's weight-1 ranges count 2.
 - `[link]` is replaced by the post's Substack URL only at publication (step 10).
 
 ## 6. Build and QA the PDF
 
 ```sh
-make qa P=NN-slug      # A4 + screen; zero warnings/overfull/underfull/undefined; Type 1 fonts; tweet weights
+make qa P=NN-slug      # A4 + screen; zero warnings/overfull/underfull/undefined; Type 1 fonts; X post checks
 make pdfs P=NN-slug    # copies the PDFs into docs/posts/NN-slug/pdf/
 ```
 
@@ -173,10 +170,10 @@ Without further prompting:
 Only on the author's explicit word, without further prompting once it is given:
 
 1. Publish the Substack draft and record it (step 7b, second stage): archive the zip, freeze the article, fill `meta.json` `links.substack` and the `substack` block.
-2. Put the Substack URL in place of `[link]` in `post.txt` and `tweet.txt` and rerun `make tweets`.
+2. Put the Substack URL in place of `[link]` in `post.txt` and rerun `make tweets`.
 3. Set status `published` everywhere in step 9, including the `README.md` Posts list; mirror the links in the post README's "Published links" table.
 4. Commit and give the push command. Pushing `main` redeploys the site; record `links.pages` (`https://osolari.github.io/the-quiet-theorems/posts/NN-slug/`) once the page is live.
-5. Posting on X (thread or single post) is the author's, unless they ask the session to do it; record `links.x_thread` / `links.x_tweet` and commit.
+5. Posting on X is the author's, unless they ask the session to do it: paste `post.txt` as one post and attach `substack/<slug>-figure.png`. Record `links.x_post` and commit.
 
 ## 11. Final checks (all must hold)
 

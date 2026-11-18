@@ -51,8 +51,8 @@ Never edit `skeleton/saim-blog.cls`, `skeleton/shared/brand/*`, other `skeleton/
 | `references.bib` | hand | section 3 |
 | `code/check.py` | hand | section 4 |
 | `code/figures.py` | hand | matplotlib twin of each PDF figure, same order and meaning, palette constants; runs after check.py in the notebook namespace |
-| `post.txt`, `tweet.txt` | hand | section 5 |
-| `meta.json` | hand | `issue`, `slug`, `series`, `prefix`, `package_frozen`, `status` (draft/accepted/published), `date`, `links` {x_thread, x_tweet, substack, pages}, `substack` {url, published, audience, editor, draft_id, pdf_attachment, pdf_attached, images, byline, frozen} |
+| `post.txt` | hand | section 5 |
+| `meta.json` | hand | `issue`, `slug`, `series`, `prefix`, `package_frozen`, `status` (draft/accepted/published), `date`, `links` {x_post, substack, pages}, `substack` {url, published, audience, editor, draft_id, pdf_attachment, pdf_attached, images, byline, frozen} |
 | `README.md` | hand | status, file map, published-links table, open points, references |
 | `pdf/qt-NN-slug.pdf`, `pdf/qt-NN-slug-screen.pdf` | `make pdfs` | never hand-made |
 | `qt-NN-slug.zip` | archived at publication | the published Overleaf package; `make zip` copies it (`package_frozen: true`) |
@@ -96,12 +96,11 @@ Conventions: sections unnumbered; refer with `\cref` only, never to sections by 
 
 Docstring "The Quiet Theorems No. NN: numerical check.", what it prints, minimum and tested versions, run command. Lines ≤ 60 characters. Top-level sections start `# N. ...` (or `# 1-2. ...`); the notebook is split there. One labelled print per table number. Exact arithmetic (fractions) where possible, quadrature otherwise. The table copies the output digit for digit.
 
-## 5. Posts on X (no Premium)
+## 5. The X post (X Premium)
 
 Weighted length: code points 0-4351, 8192-8205, 8208-8223, 8242-8247 count 1; everything else (minus U+2212, ≤, ∬, subscript digits) counts 2; a URL or `[link]` counts 23. Check with `make tweets` (`scripts/wlen.py`).
-- **Link at the top**: the first line of tweet 1, and of the single post, is `<Title> (The Quiet Theorems No. NN): [link]`; the link appears nowhere else. `make tweets` fails if the first line lacks it.
-- `post.txt`: thread headed `1/2` and `2/2`, each ≤ 280. Tweet 1: heading line; "Originator (Year) showed that" and the formula on its own line; one line on the symbols and the familiar fact it sharpens. Tweet 2: meaning in words, one consequence with attribution.
-- `tweet.txt`: ≤ 280: heading line; "Originator (Year): formula"; one-line meaning.
+- `post.txt` is one X Premium long post, with the post's plot attached (`substack/<slug>-figure.png`; the first figure if there are several). Line 1: `<Title> (The Quiet Theorems No. NN): [link]`. Line 2: a one-sentence hook on what the plot shows. These two lines are the lead: at most 280 weighted, so the lead and the plot appear before X's "Show more". After a blank line: "Originator (Year) showed that", the formula on its own line, the weakest condition and what the symbols are; then the meaning in words and the familiar fact it sharpens; then one consequence with its attribution. The link appears only on line 1. Aim for 600 to 1,500 weighted in total (hard limit 25,000).
+- `make tweets` fails if line 1 lacks the link, the lead exceeds 280, the total exceeds 25,000 or the plot is missing; it prints the file to attach.
 - Plain text, Unicode maths, no hashtags, emoji or @-mentions. `[link]` becomes the post's Substack URL only at publication.
 
 ## 5a. Substack article (house style of the published No. 00)
@@ -128,7 +127,7 @@ Two stages: an unpublished draft is part of every package (before approval); pub
 ```sh
 make new P=NN-slug       # start the post (meta.json gets issue and slug)
 make check P=NN-slug     # numbers for the table
-make qa P=NN-slug        # A4+screen build, zero warnings/boxes/undefined, Type 1 fonts, tweet weights
+make qa P=NN-slug        # A4+screen build, zero warnings/boxes/undefined, Type 1 fonts, X post checks
 make pdfs P=NN-slug      # PDFs into docs/posts/NN-slug/pdf/
 make formats P=NN-slug   # substack/<slug>-figure.png, substack/article.md draft, notebook.ipynb (executed)
 make verify P=NN-slug    # article links, PDF line, Output == check.py, notebook == check.py, meta.json
@@ -152,7 +151,7 @@ QA gate also includes: `make site SITE_ALL=1` and open `site/posts/NN-slug/index
 | backlog doc | Status dropdown Drafted, Draw log row | update row | Status Posted, links in row |
 | Substack post | draft created (editor link) | draft, unchanged | published with the PDF attached |
 | Pages page | checked locally (`make site SITE_ALL=1`) | `make site` checked; live once the author pushes `main` | live; `links.pages` recorded |
-| `post.txt`, `tweet.txt` | `[link]` | `[link]` | the Substack post URL |
+| `post.txt` | `[link]` | `[link]` | the Substack post URL |
 
 The site shows only accepted and published posts; its index and footer link the Substack publication, each card and page the post's Substack article; the Overleaf zip is not on the site. Commit after each status change, never adding the AI agent as a co-author, then ask the author to push (see "Sessions and the repo").
 
@@ -171,4 +170,4 @@ Then wait for approval.
 2. `make site` (accepted and published posts only) and check the post's page again.
 3. Commit; never add the AI agent as a co-author.
 4. Give the author the push command (`cd ~/workspace/projects/the-quiet-theorems && git push origin main`) and say that pushing `main` deploys the Pages site through the workflow; once it is live, record `links.pages` (`https://osolari.github.io/the-quiet-theorems/posts/NN-slug/`).
-5. Only on the author's explicit word to publish: publish the Substack draft (section 5b), archive the zip, freeze the article, fill `meta.json` `links` and the `substack` block, replace `[link]` in `post.txt` and `tweet.txt` with the Substack URL, rerun `make tweets`, set `published` everywhere in section 7 (including the `README.md` Posts list), commit again and give the push command. Posting on X is the author's, unless they ask the session to do it.
+5. Only on the author's explicit word to publish: publish the Substack draft (section 5b), archive the zip, freeze the article, fill `meta.json` `links` and the `substack` block, replace `[link]` in `post.txt` with the Substack URL, rerun `make tweets`, set `published` everywhere in section 7 (including the `README.md` Posts list), commit again and give the push command. Posting on X is the author's, unless they ask the session to do it: `post.txt` as one post with `substack/<slug>-figure.png` attached; record `links.x_post`.

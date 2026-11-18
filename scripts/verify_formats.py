@@ -68,9 +68,8 @@ if meta.get("status") == "published":
     for img in re.findall(r"!\[[^\]]*\]\(([^)]+)\)", md):
         if not img.startswith("http") and img not in sub.get("images", {}):
             bad.append(f"meta.json: no Substack URL recorded for {img}")
-    for k in ("x_thread", "x_tweet"):
-        if not meta["links"].get(k):
-            print(f"note: links.{k} empty (X not yet posted)")
+    if not meta["links"].get("x_post"):
+        print("note: links.x_post empty (X not yet posted)")
 
 print("\n".join(bad) if bad else f"{post}: formats OK")
 sys.exit(1 if bad else 0)

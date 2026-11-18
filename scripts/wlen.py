@@ -1,18 +1,27 @@
-"""Weighted X (Twitter) length of each tweet in a post file.
+"""Check a post's X post (X Premium long post) in docs/posts/<post>/post.txt.
 
-Rules: code points 0-4351, 8192-8205, 8208-8223 and
-8242-8247 weigh 1; all others weigh 2; a URL or the
-placeholder [link] weighs 23. Limit 280 (no Premium).
-The first line of each file's first tweet must carry
-the link (the post's [link] or its URL), so it shows
-at the top of the thread or single post.
+Weights: code points 0-4351, 8192-8205, 8208-8223 and 8242-8247
+weigh 1; all others weigh 2; a URL or the placeholder [link]
+weighs 23.
+Rules (failures exit non-zero):
+- the first line carries the link ([link] or the Substack URL);
+- the lead (everything before the first blank line: heading line
+  and hook) is at most 280, so the whole lead and the attached plot
+  show before X's "Show more";
+- the whole post is at most 25,000 (X Premium limit);
+- the plot to attach exists: substack/<slug>-figure.png
+  (or <slug>-figure-1.png when there are several).
+The total above 1,500 is reported as a note (aim: 600 to 1,500).
 Usage: python3 scripts/wlen.py docs/posts/<post>/post.txt
 """
 import re
 import sys
+from pathlib import Path
 
 ONE = [(0, 4351), (8192, 8205), (8208, 8223),
        (8242, 8247)]
+LEAD, TOTAL, AIM = 280, 25000, 1500
+
 
 def wlen(s):
     s = s.replace("[link]", "x" * 23)
@@ -20,22 +29,33 @@ def wlen(s):
     return sum(1 if any(a <= c <= b for a, b in ONE)
                else 2 for c in map(ord, s))
 
-def tweets(text):
-    parts = re.split(r"^\d+/\d+\s*$", text, flags=re.M)
-    parts = [p.strip() for p in parts if p.strip()]
-    return parts or [text.strip()]
+
+def check(path):
+    p = Path(path)
+    text = p.read_text().strip()
+    bad = []
+    first = text.splitlines()[0] if text else ""
+    if "[link]" not in first and not re.search(r"https?://", first):
+        bad.append("link not in the first line")
+    lead = text.split("\n\n", 1)[0]
+    nl, nt = wlen(lead), wlen(text)
+    if nl > LEAD:
+        bad.append(f"lead {nl} > {LEAD}")
+    if nt > TOTAL:
+        bad.append(f"total {nt} > {TOTAL}")
+    slug = p.parent.name.split("-", 1)[-1]
+    sub = p.parent / "substack"
+    figs = [sub / f"{slug}-figure.png", sub / f"{slug}-figure-1.png"]
+    fig = next((f for f in figs if f.exists()), None)
+    if fig is None:
+        bad.append(f"no plot to attach ({figs[0].name})")
+    print(f"{path}: lead {nl}/{LEAD}, total {nt}"
+          + (f" (aim <= {AIM})" if nt > AIM else "")
+          + (f"; attach {fig.relative_to(p.parent)}" if fig else ""))
+    for b in bad:
+        print(f"{path}: {b}")
+    return bool(bad)
+
 
 if __name__ == "__main__":
-    bad = 0
-    for path in sys.argv[1:]:
-        ts = tweets(open(path).read())
-        first = ts[0].splitlines()[0]
-        if "[link]" not in first and not re.search(r"https?://", first):
-            bad = 1
-            print(f"{path}: link not in the first line of tweet 1")
-        for i, t in enumerate(ts, 1):
-            n = wlen(t)
-            bad |= n > 280
-            flag = "OVER" if n > 280 else "ok"
-            print(f"{path} tweet {i}: {n} {flag}")
-    sys.exit(bad)
+    sys.exit(any([check(a) for a in sys.argv[1:]]))

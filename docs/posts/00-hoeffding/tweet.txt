@@ -1,5 +1,0 @@
-Hoeffding's covariance identity (The Quiet Theorems No. 00): https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings
-
-Hoeffding (1940): Cov(X,Y) = ∬ [F_XY(x,y) − F_X(x)F_Y(y)] dx dy.
-
-X and Y are independent iff the bracket is zero everywhere; zero covariance only needs it to integrate to zero.

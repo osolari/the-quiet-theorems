@@ -15,7 +15,7 @@ rm -rf "$out"; mkdir -p "$out"
 mv "$out/TEMPLATE_README.md" "$out/README.md"
 cp "$root/STANDARD.md" "$out/STANDARD.md"
 # post-specific files
-cp "$src/main.tex" "$src/project.tex" "$src/post.txt" "$src/tweet.txt" "$out/"
+cp "$src/main.tex" "$src/project.tex" "$src/post.txt" "$out/"
 mkdir -p "$out/code" "$out/pdf" "$out/shared/bibliography"
 cp "$src/code/check.py" "$out/code/"
 cp "$src/references.bib" "$out/shared/bibliography/references.bib"
