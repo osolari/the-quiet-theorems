@@ -28,7 +28,7 @@ Keep in sync with `meta.json`.
 | Figure on Substack | https://substack-post-media.s3.amazonaws.com/public/images/83fa447e-ebaa-4cee-8574-1d6e232d1e4c_583x309.png |
 | X thread | (not yet posted; replace `[link]` with the Substack URL) |
 | X single tweet | (not yet posted) |
-| Pages article | (not yet published; will be `https://<owner>.github.io/<repo>/posts/00-hoeffding/`) |
+| Pages article | https://osolari.github.io/the-quiet-theorems/posts/00-hoeffding/ (live; redirects to `solari.stat.berkeley.edu/the-quiet-theorems/posts/00-hoeffding/`) |
 
 ## Content
 
@@ -50,8 +50,24 @@ Keep in sync with `meta.json`.
 
 ## Open items
 
-- Post the X thread or the single tweet with the Substack URL.
+- Post the X thread or the single tweet (both now carry the Substack URL).
 - Optional: change the Substack profile display name ("Omid Solari") to match the PDF byline.
+
+## QA, 18 Nov 2026
+
+Full gate rerun on the published post; nothing in the frozen package, PDFs or article changed.
+
+- `make qa`: log issues 0, non-Type-1 fonts 0; tweets 270 / 220 (thread), 264 (single). `make check` matches the table digit for digit; `make verify` passes (X links empty, as expected).
+- Rebuilt PDFs match the published ones page for page and in text (A4 8 pp., screen 12 pp.).
+- `make zip` copies the frozen package (sha256 `ac7b761e…4d14`); a clean unzip builds with zero log issues and only Type 1 fonts.
+- `make site SITE_ALL=1`: page builds, 60 local links resolve, 226 maths elements typeset with no MathJax errors.
+
+Findings, left for the development session because they touch frozen or shared files:
+
+1. **Site: `polyfill.io` script.** Pandoc 3.1.3's default HTML template adds `<script src="https://polyfill.io/v3/polyfill.min.js?features=es6">` with `--mathjax`. The domain was taken over in 2024 and served malicious code. `scripts/build_site.py` should use its own template (or strip the tag) and the live site be redeployed.
+2. **Site: two unrendered maths spans.** `$\Omega \times \Omega $` (Step 1 and the justification paragraph) has a space before the closing `$`, which pandoc's dollar-maths reader rejects, so it shows as raw text on the site. Substack rendered it. The article is frozen, so the fix belongs in `scripts/build_site.py` (normalise `\s+\$` before closing dollars).
+3. **Figure: y-axis tick "1" sits on the square's top edge** (PDF and PNG). Cosmetic; frozen as published.
+4. **Screen PDF: author card alone on p. 10**, listing over pp. 11 to 12. As published; accepted for the screen layout.
 
 ## References
 

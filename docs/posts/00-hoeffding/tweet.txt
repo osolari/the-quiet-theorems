@@ -1,4 +1,4 @@
-Hoeffding's covariance identity (Probability Notes No. 00): [link]
+Hoeffding's covariance identity (Probability Notes No. 00): https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings
 
 Hoeffding (1940): Cov(X,Y) = ∬ [F_XY(x,y) − F_X(x)F_Y(y)] dx dy.
 
