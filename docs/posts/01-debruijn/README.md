@@ -36,6 +36,7 @@ Keep in sync with `meta.json` `links`.
 7. ~~Backlog doc status~~ resolved 13 Nov 2026: dropdown set to Drafted, draw log row updated (planned date 16 Nov 2026).
 8. ~~Substack draft needs hand-finishing~~ resolved 13 Nov 2026: curly apostrophes, "Proof of the theorem" lead-in, Unicode figure caption, Barron Lemma 1 citation; notebook rebuilt from it.
 9. ~~Date~~ resolved 18 Nov 2026: publication date 18 November 2026 in `project.tex`, `meta.json`, the PDFs and the backlog doc.
+10. Substack draft created 18 Nov 2026, unpublished: https://omidsolari.substack.com/publish/post/225529600 (draft 225529600). Built from `substack/article.md` at 1f5d38e (254 inline and 17 display maths, all render in the editor without MathJax errors), A4 PDF attached after the TL;DR, figure uploaded with its caption, subscribe widgets placed as in No. 00, audience everyone. Publishing awaits the author's go-ahead.
 
 ## References
 

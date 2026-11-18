@@ -16,11 +16,13 @@
     "url": "",
     "published": "",
     "audience": "everyone",
-    "editor": "",
-    "draft_id": null,
-    "pdf_attachment": "",
+    "editor": "https://omidsolari.substack.com/publish/post/225529600",
+    "draft_id": 225529600,
+    "pdf_attachment": "https://omidsolari.substack.com/api/v1/file/a8ae518a-fe9a-4a76-9d82-59bb44a82f65.pdf",
     "pdf_attached": "pdf/qt-01-debruijn.pdf",
-    "images": {},
+    "images": {
+      "debruijn-figure.png": "https://substack-post-media.s3.amazonaws.com/public/images/be0123db-91ee-4979-9ac9-7ab5acd9519b_650x464.png"
+    },
     "byline": "Omid Solari",
     "frozen": false
   }
