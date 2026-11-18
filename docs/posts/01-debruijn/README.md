@@ -4,7 +4,7 @@ d/dt h(X + √t Z) = ½ J(X + √t Z) (de Bruijn; Stam, 1959).
 
 | Field | Value |
 |---|---|
-| Status | Draft, awaiting approval (revised 13 Nov 2026); publication planned for 16 Nov 2026 |
+| Status | Draft, awaiting approval (revised 13 Nov 2026); publication 18 Nov 2026 |
 | Backlog rank | 1 |
 | Package | `make zip P=01-debruijn` → `dist/qt-01-debruijn.zip` |
 | PDF | [A4](pdf/qt-01-debruijn.pdf) (9 pp.), [screen](pdf/qt-01-debruijn-screen.pdf) (11 pp.) |
@@ -35,8 +35,7 @@ Keep in sync with `meta.json` `links`.
 6. ~~File naming~~ resolved 13 Nov 2026: hyphens throughout (`qt-01-debruijn.zip`).
 7. ~~Backlog doc status~~ resolved 13 Nov 2026: dropdown set to Drafted, draw log row updated (planned date 16 Nov 2026).
 8. ~~Substack draft needs hand-finishing~~ resolved 13 Nov 2026: curly apostrophes, "Proof of the theorem" lead-in, Unicode figure caption, Barron Lemma 1 citation; notebook rebuilt from it.
-9. Date: `project.tex` and `meta.json` give 16 November 2026, the planned publication date, so the PDF carries it before publication.
-10. The planned publication date, 16 Nov 2026, has passed and the PDF still carries it. Set the real date (`project.tex`, `meta.json`, backlog doc) when publishing; it is a one-line change plus `make pdfs`.
+9. ~~Date~~ resolved 18 Nov 2026: publication date 18 November 2026 in `project.tex`, `meta.json`, the PDFs and the backlog doc.
 
 ## References
 

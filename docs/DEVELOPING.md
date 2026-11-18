@@ -24,7 +24,7 @@ How the series is built: repository layout, commands, pinned toolchain and the G
 | No. | Topic | Status | Substack article | PDF | Notebook |
 |---|---|---|---|---|---|
 | 00 | Hoeffding's covariance identity | Published 9 Nov 2026 as *Probability Notes* No. 00 ([Substack](https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings)) | [article](posts/00-hoeffding/substack/article.md) | [A4](posts/00-hoeffding/pdf/pn-00-hoeffding.pdf), [screen](posts/00-hoeffding/pdf/pn-00-hoeffding-screen.pdf) | [ipynb](posts/00-hoeffding/notebook.ipynb) |
-| 01 | De Bruijn's identity | Draft, awaiting approval (publication planned 16 Nov 2026) | [article](posts/01-debruijn/substack/article.md) | [A4](posts/01-debruijn/pdf/qt-01-debruijn.pdf), [screen](posts/01-debruijn/pdf/qt-01-debruijn-screen.pdf) | [ipynb](posts/01-debruijn/notebook.ipynb) |
+| 01 | De Bruijn's identity | Draft, awaiting approval (publication 18 Nov 2026) | [article](posts/01-debruijn/substack/article.md) | [A4](posts/01-debruijn/pdf/qt-01-debruijn.pdf), [screen](posts/01-debruijn/pdf/qt-01-debruijn-screen.pdf) | [ipynb](posts/01-debruijn/notebook.ipynb) |
 
 Published links (Substack, X, Pages) and Substack details are pinned in each post's `meta.json` and `README.md`. No. 00 is the reference post.
 
