@@ -13,7 +13,7 @@ Cov(X,Y) = ∬ [F_{X,Y}(x,y) − F_X(x)F_Y(y)] dx dy (Hoeffding, 1940).
 | Substack article | [`substack/article.md`](substack/article.md), revised edition as published, frozen, with [`hoeffding-figure.png`](substack/hoeffding-figure.png) |
 | Notebook | [`notebook.ipynb`](notebook.ipynb) (executed) |
 | Metadata | [`meta.json`](meta.json) (status, links, Substack details) |
-| X post | [`post.txt`](post.txt) (one long post: lead 201 / 280, total 643; attach `substack/hoeffding-figure.png`) |
+| X post | [`post.txt`](post.txt) (one long post: lead 225 / 280, total 677; attach `substack/hoeffding-figure.png`) |
 
 ## Published links
 
@@ -68,7 +68,7 @@ Keep in sync with `meta.json`.
 
 ## QA, 18 Nov 2026 (revised edition)
 
-- `make qa`: log issues 0, non-Type-1 fonts 0; X post lead 201 / 280, total 643 (one long post, plot attached).
+- `make qa`: log issues 0, non-Type-1 fonts 0; X post lead 225 / 280, total 677 (one long post, plot attached).
 - `make check` matches the table digit for digit; `make verify` and `make all` pass.
 - Pages rendered and inspected: Result box on p. 1, author card on the references page, listing on one page, cross-reference names right (Lemma 3–4, Corollary 5–10).
 - `dist/qt-00-hoeffding.zip` builds from a clean unzip.
