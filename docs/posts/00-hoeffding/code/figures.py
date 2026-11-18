@@ -1,4 +1,4 @@
-"""Probability Notes No. 00: figures (matplotlib).
+"""The Quiet Theorems No. 00: figures (matplotlib).
 
 Runs in the notebook after check.py, in the same namespace.
 Figure 1: the dependence function D(x, y) for

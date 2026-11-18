@@ -21,8 +21,8 @@ Every post comes as an article, a PDF with the full derivations (A4 for print, a
 ## Posts
 
 **No. 00. Hoeffding's covariance identity** (9 Nov 2026). The covariance of two random variables is the integral of the gap between their joint distribution function and the product of their marginals.
-[Substack](https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings) · [web](https://osolari.github.io/the-quiet-theorems/posts/00-hoeffding/) · PDF ([A4](docs/posts/00-hoeffding/pdf/pn-00-hoeffding.pdf), [screen](docs/posts/00-hoeffding/pdf/pn-00-hoeffding-screen.pdf)) · [notebook](docs/posts/00-hoeffding/notebook.ipynb) ([open in Colab](https://colab.research.google.com/github/osolari/the-quiet-theorems/blob/main/docs/posts/00-hoeffding/notebook.ipynb))
-*Published under the series' earlier name, Probability Notes.*
+[Substack](https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings) · [web](https://osolari.github.io/the-quiet-theorems/posts/00-hoeffding/) · PDF ([A4](docs/posts/00-hoeffding/pdf/qt-00-hoeffding.pdf), [screen](docs/posts/00-hoeffding/pdf/qt-00-hoeffding-screen.pdf)) · [notebook](docs/posts/00-hoeffding/notebook.ipynb) ([open in Colab](https://colab.research.google.com/github/osolari/the-quiet-theorems/blob/main/docs/posts/00-hoeffding/notebook.ipynb))
+*First published under the series' earlier name, Probability Notes; a revised edition with every proof written out step by step is awaiting approval.*
 
 ## Run the checks yourself
 
@@ -49,7 +49,7 @@ Found an error, a missing condition or a better reference? Want a theorem covere
 @misc{solari2026hoeffding,
   author       = {Omid Shams Solari},
   title        = {Hoeffding's covariance identity},
-  howpublished = {Probability Notes No. 00 (now The Quiet Theorems)},
+  howpublished = {The Quiet Theorems No. 00 (first published as Probability Notes No. 00)},
   year         = {2026},
   month        = nov,
   url          = {https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings}
