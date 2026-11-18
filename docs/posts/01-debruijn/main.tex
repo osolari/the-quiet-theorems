@@ -18,7 +18,7 @@
 \maketitle
 
 \begin{tldr}
-Adding independent Gaussian noise to a random variable makes it more spread out, so its differential entropy grows with the noise variance. De Bruijn's identity, published by Stam (1959), gives the rate exactly: the derivative of the entropy with respect to the noise variance is half the Fisher information of the noisy variable. Fisher information is therefore the speed at which Gaussian smoothing creates entropy.
+Adding independent Gaussian noise to a random variable makes it more spread out, so its differential entropy grows with the noise variance. De Bruijn's identity, published by Stam (1959), gives the rate exactly: the derivative of the entropy with respect to the noise variance is half the Fisher information of the noisy variable. Half the Fisher information is therefore the rate at which Gaussian smoothing creates entropy.
 \end{tldr}
 
 % =====================================================================
@@ -130,7 +130,7 @@ Let $g$ be bounded and Borel. Substituting $y=x+\sqrt t\,z$ in the inner integra
 =-\sqrt t\int_{\R}g\,p_t'\dd y,
 \end{aligned}
 \]
-using $\E[(y-X)\varphi_t(y-X)]=-t\,p_t'(y)$ from \eqref{eq:heat} and \cref{lem:kernel}. The exchange of $\E$ and $\dd y$ is Fubini: $\E\iint|z\,g|\varphi_1\dd z\le\sup|g|$. The right side equals $\E[g(Y_t)\,(-\sqrt t\,\rho_t(Y_t))]$, and $\E|\rho_t(Y_t)|=\int|p_t'|\dd y\le\E|Z|/\sqrt t$ by the same computation with $g=\operatorname{sign}p_t'$. As $-\sqrt t\rho_t(Y_t)$ is $\sigma(Y_t)$-measurable and integrable, it is $\E[Z\mid Y_t]$. Then $J(Y_t)=\E\rho_t(Y_t)^2=\E[(\E[Z\mid Y_t])^2]/t$, and conditional Jensen gives $\E[(\E[Z\mid Y_t])^2]\le\E Z^2=1$.
+using $\E[(y-X)\varphi_t(y-X)]=-t\,p_t'(y)$ from \eqref{eq:heat} and \cref{lem:kernel}. The exchange of $\E$ and $\dd y$ is Fubini: $\E\int_{\R}|z\,g(X+\sqrt t z)|\varphi_1(z)\dd z\le\sup|g|$. The right side equals $\E[g(Y_t)\,(-\sqrt t\,\rho_t(Y_t))]$, and $\E|\rho_t(Y_t)|=\int|p_t'|\dd y\le\E|Z|/\sqrt t$ by the same computation with $g=\operatorname{sign}p_t'$. As $-\sqrt t\rho_t(Y_t)$ is $\sigma(Y_t)$-measurable and integrable, it is $\E[Z\mid Y_t]$. Then $J(Y_t)=\E\rho_t(Y_t)^2=\E[(\E[Z\mid Y_t])^2]/t$, and conditional Jensen gives $\E[(\E[Z\mid Y_t])^2]\le\E Z^2=1$.
 \end{proof}
 
 \begin{lemma}\label[lemma]{lem:tails}
@@ -182,10 +182,10 @@ Hence $-\tfrac12\int p_t''\log p_t\dd y=\tfrac12J(Y_t)$, which is \eqref{eq:main
 \SecInsight
 
 \begin{enumerate}
-\item \textbf{Fisher information as a rate.} Entropy measures spread; Fisher information measures how sharply the density varies, through the size of its score. Under Gaussian smoothing the two are tied: the more structure $p_t$ still has, the faster smoothing destroys it. For a Gaussian input there is least structure for its variance, and entropy grows at the slowest possible rate (\cref{cor:cr}).
+\item \textbf{Fisher information as a rate.} Entropy measures spread; Fisher information measures how sharply the density varies, through the size of its score. Under Gaussian smoothing the two are tied: the more structure $p_t$ still has, the faster smoothing destroys it. Among inputs of a given variance the Gaussian has the least structure, and its entropy grows at the slowest rate (\cref{cor:cr}).
 \item \textbf{The heat equation underneath.} The density $p_t$ solves $\partial_tp_t=\tfrac12p_t''$, and \eqref{eq:main} says that the entropy production of this flow is $\tfrac12J$. Since $J(Y_t)>0$ (a density cannot have $p_t'\equiv0$ on $\R$), entropy increases strictly along the flow.
 \item \textbf{No regularity is needed from $X$.} $X$ can be discrete: one instant of noise already makes $p_t$ positive and smooth (\cref{lem:smooth}). This makes Gaussian smoothing a convenient device for transferring statements about smooth densities to arbitrary laws.
-\item \textbf{The score is a denoiser.} By \cref{lem:score}, $\rho_t(Y_t)=-\E[Z\mid Y_t]/\sqrt t$: the score of the noisy density is the best estimate of the injected noise, rescaled. Equivalently $\E[X\mid Y_t]=Y_t+t\,\rho_t(Y_t)$, the Gaussian case of an empirical Bayes formula for posterior means \citep{efron2011}. Fisher information is the mean square of this denoiser.
+\item \textbf{The score is a denoiser.} By \cref{lem:score}, $\rho_t(Y_t)=-\E[Z\mid Y_t]/\sqrt t$: the score of the noisy density is the best estimate of the injected noise, rescaled. Equivalently $\E[X\mid Y_t]=Y_t+t\,\rho_t(Y_t)$, the Gaussian case of an empirical Bayes formula for posterior means \citep{efron2011}. Fisher information is the mean square of this rescaled denoiser.
 \end{enumerate}
 
 \begin{pullquote}
@@ -237,7 +237,7 @@ Write $I(t)\coloneqq h(Y_t)-h(\sqrt tZ)=h(Y_t)-\tfrac12\log(2\pi et)$, which is 
 \[
 \frac{\dd I}{\dd s}=\frac12\,\mathrm{mmse}(1/s),
 \]
-the information--estimation relation of \citet{guo2005}. De Bruijn's identity and that relation are the same statement in different coordinates.
+the information--estimation relation of \citet{guo2005}. Through \cref{cor:immse}, de Bruijn's identity and that relation are the same statement in different coordinates.
 
 % =====================================================================
 \SecExample
@@ -317,7 +317,7 @@ Rows 1--2 check \cref{rem:gauss}; rows 3--5 check \eqref{eq:main}, \cref{cor:imm
 % =====================================================================
 \SecNotes
 
-The identity is due to N.\,G.\ de Bruijn, who communicated it to the director of physical research of the Netherlands Defence Research Council, at whose suggestion A.\,J.\ Stam had undertaken the work. Stam published it as equation (2.12) of \emph{Some inequalities satisfied by the quantities of information of Fisher and Shannon} \citep{stam1959}, where, together with an inequality for the Fisher information of sums, it yields a proof of the entropy power inequality stated by \citet{shannon1948}. Stam gave the identity in differential form. \Citet[Lemma~1]{barron1986} proved an integral form for every $X$ with finite variance, writing the relative entropy from the Gaussian as an integral of Fisher informations, and used it to prove a central limit theorem in relative entropy.
+The identity is due to N.\,G.\ de Bruijn, who communicated it to the director of physical research of the Netherlands Defence Research Council, at whose suggestion A.\,J.\ Stam had undertaken the work. Stam published it as equation (2.12) of \emph{Some inequalities satisfied by the quantities of information of Fisher and Shannon} \citep{stam1959}, where, together with an inequality for the Fisher information of sums, it yields a proof of the entropy power inequality stated by \citet{shannon1948}. Stam gave the identity in differential form. \Citet[Lemma~1]{barron1986} proved an integral form for $X$ with finite variance, writing the entropy as an integral of Fisher informations, and used it to prove a central limit theorem in relative entropy.
 \bibliographystyle{plainnat}
 \bibliography{shared/bibliography/references}
 

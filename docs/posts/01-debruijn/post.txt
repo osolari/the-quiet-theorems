@@ -3,10 +3,10 @@ De Bruijn's identity (The Quiet Theorems No. 01): [link]
 
 Add Gaussian noise of variance t to X. How fast does its entropy grow?
 
-De Bruijn (Stam, 1959) showed that
+De Bruijn (published by Stam, 1959):
 d/dt h(X + √t Z) = ½ J(X + √t Z)
 
 h is differential entropy and J is Fisher information.
 
 2/2
-So Fisher information is the speed at which Gaussian smoothing creates entropy, even for discrete X. Since 1/(σ²+t) ≤ J ≤ 1/t, Gaussian inputs gain entropy most slowly. The identity is also dI/dsnr = ½ mmse (Guo et al., 2005).
+So entropy grows at half the Fisher information of the noisy variable, even for discrete X. If Var X = σ², then 1/(σ²+t) ≤ J ≤ 1/t, so Gaussian inputs gain entropy most slowly. Equivalently, dI/dsnr = ½ mmse (Guo, Shamai and Verdú, 2005).

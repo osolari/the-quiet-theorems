@@ -4,4 +4,4 @@ Add Gaussian noise of variance t to X. Entropy grows at half the Fisher informat
 
 d/dt h(X + √t Z) = ½ J(X + √t Z)
 
-Fisher information is the speed of entropy under smoothing.
+Fisher information sets the rate of entropy growth.

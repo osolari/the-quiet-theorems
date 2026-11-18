@@ -8,11 +8,11 @@ d/dt h(X + √t Z) = ½ J(X + √t Z) (de Bruijn; Stam, 1959).
 | Backlog rank | 1 |
 | Package | `make zip P=01-debruijn` → `dist/qt-01-debruijn.zip` |
 | PDF | [A4](pdf/qt-01-debruijn.pdf) (9 pp.), [screen](pdf/qt-01-debruijn-screen.pdf) (11 pp.) |
-| Thread | [`post.txt`](post.txt) (272 and 228 / 280 weighted; link on the first line) |
+| Thread | [`post.txt`](post.txt) (274 and 240 / 280 weighted; link on the first line) |
 | Substack article | [`substack/article.md`](substack/article.md) (hand-finished to the house style 13 Nov 2026), figure [`debruijn-figure.png`](substack/debruijn-figure.png) |
 | Notebook | [`notebook.ipynb`](notebook.ipynb) (executed) |
 | Metadata | [`meta.json`](meta.json) (status, links, Substack details) |
-| Single tweet | [`tweet.txt`](tweet.txt) (280 / 280 weighted; link on the first line) |
+| Single tweet | [`tweet.txt`](tweet.txt) (272 / 280 weighted; link on the first line) |
 
 ## Published links
 
@@ -29,13 +29,14 @@ Keep in sync with `meta.json` `links`.
 
 1. ~~Stam and Barron checked only via secondary sources~~ resolved 13 Nov 2026 against the originals. Stam (1959), *Information and Control* 2(2), 101–112: eq. (2.12) is dH(p_v)/dv = ½ I₀(p_v), v > 0, in differential form; Stam says (2.3) and (2.12) were communicated by de Bruijn to J. L. van Soest (Director of Physical Research, Netherlands Defence Research Council, who suggested the investigation), not to Stam. The Notes are corrected accordingly, without naming van Soest (credit rule). Barron (1986), *Annals of Probability* 14(1), 336–342: Lemma 1 (p. 338), "Entropy is an integral of Fisher informations", for any X with finite variance, proved on p. 339 from de Bruijn's identity (citing Stam and Blachman, 1965); the Notes now cite Lemma 1. Stam was read via the ScienceDirect open-archive text (OCR), Barron via the author's scan of the JSTOR copy; the Project Euclid page sits behind a CAPTCHA.
 2. Stam cites the entropy power inequality as Shannon (1949), Theorem 15 (the book with Weaver); the post cites the 1948 paper, which contains the same theorem. Kept.
-3. Substack figure fixed 13 Nov 2026: its "≤ 1" label read "(??)" because `scripts/figures.py` does not resolve `\cref` inside TikZ; the label is now "(any X)" in both PDF and PNG. Development session: make `figures.py` fail on "??" (No. 00's figure should be checked too).
+3. ~~Substack figure "(??)" label~~ resolved 13 Nov 2026: the label is now "≤ 1 (any X)" in PDF and PNG, and `scripts/figures.py` now resolves references from the A4 build and fails on "??" (commit 28f8696).
 4. The optional "Alternative route" paragraph was dropped to keep the author card off an orphan page.
-5. The single tweet is exactly 280 weighted characters.
+5. Proofread 18 Nov 2026 (PDF, article, posts): the TL;DR, insights and posts no longer call Fisher information itself the rate (the rate is half of it); the Gaussian-is-slowest claim is now restricted to inputs of a given variance; the Fubini bound in the score lemma is written out; the I–MMSE equivalence is stated as passing through Corollary 3 (PDF Corollary 9); Barron's Lemma 1 is described by its own content (entropy as an integral of Fisher informations); reading time 13 → 11 min (the article has the same length as No. 00's, 10 min); thread 2/2 now names all three of Guo, Shamai and Verdú and defines σ².
 6. ~~File naming~~ resolved 13 Nov 2026: hyphens throughout (`qt-01-debruijn.zip`).
 7. ~~Backlog doc status~~ resolved 13 Nov 2026: dropdown set to Drafted, draw log row updated (planned date 16 Nov 2026).
 8. ~~Substack draft needs hand-finishing~~ resolved 13 Nov 2026: curly apostrophes, "Proof of the theorem" lead-in, Unicode figure caption, Barron Lemma 1 citation; notebook rebuilt from it.
 9. Date: `project.tex` and `meta.json` give 16 November 2026, the planned publication date, so the PDF carries it before publication.
+10. The planned publication date, 16 Nov 2026, has passed and the PDF still carries it. Set the real date (`project.tex`, `meta.json`, backlog doc) when publishing; it is a one-line change plus `make pdfs`.
 
 ## References
 
