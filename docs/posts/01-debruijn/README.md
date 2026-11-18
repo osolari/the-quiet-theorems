@@ -7,7 +7,7 @@ d/dt h(X + √t Z) = ½ J(X + √t Z) (de Bruijn; Stam, 1959).
 | Status | Draft, awaiting approval (revised 13 Nov 2026); publication 18 Nov 2026 |
 | Backlog rank | 1 |
 | Package | `make zip P=01-debruijn` → `dist/qt-01-debruijn.zip` |
-| PDF | [A4](pdf/qt-01-debruijn.pdf) (9 pp.), [screen](pdf/qt-01-debruijn-screen.pdf) (11 pp.) |
+| PDF | [A4](pdf/qt-01-debruijn.pdf) (12 pp.), [screen](pdf/qt-01-debruijn-screen.pdf) (15 pp.) |
 | Thread | [`post.txt`](post.txt) (274 and 240 / 280 weighted; link on the first line) |
 | Substack article | [`substack/article.md`](substack/article.md) (hand-finished to the house style 13 Nov 2026), figure [`debruijn-figure.png`](substack/debruijn-figure.png) |
 | Notebook | [`notebook.ipynb`](notebook.ipynb) (executed) |
@@ -37,6 +37,7 @@ Keep in sync with `meta.json` `links`.
 8. ~~Substack draft needs hand-finishing~~ resolved 13 Nov 2026: curly apostrophes, "Proof of the theorem" lead-in, Unicode figure caption, Barron Lemma 1 citation; notebook rebuilt from it.
 9. ~~Date~~ resolved 18 Nov 2026: publication date 18 November 2026 in `project.tex`, `meta.json`, the PDFs and the backlog doc.
 10. Substack draft created 18 Nov 2026, unpublished: https://omidsolari.substack.com/publish/post/225529600 (draft 225529600). Built from `substack/article.md` at 1f5d38e (254 inline and 17 display maths, all render in the editor without MathJax errors), A4 PDF attached after the TL;DR, figure uploaded with its caption, subscribe widgets placed as in No. 00, audience everyone. Publishing awaits the author's go-ahead.
+11. Proofs expanded 18 Nov 2026 at the author's request: every lemma, the main proof and the three corollaries now give each computation and limit step explicitly (kernel derivatives and Γ moments; the density via Tonelli and the substitution; dominating constants for each derivative; both Jensen steps in the log bound; both Fubini swaps and Doob–Dynkin in the score lemma; the tails lemma by construction; the chain rule and the moment expansion for the integrable bound G; the Cauchy–Schwarz equality case via an open null set; absolute continuity in the sandwich; the tower property in the MMSE corollary; the I–MMSE change of variables; Bayes and the tower step in the worked example). The Proof section is now about 3.5 A4 pages against the standard's guide of 1 to 2; A4 9 → 12 pp., screen 11 → 15 pp. Reading time 11 → 18 min (PDF prose 1.76 times No. 00's, which is marked 10 min). The Substack draft still has the earlier text and PDF: update it once this commit is pushed (it is built from the GitHub copy).
 
 ## References
 
