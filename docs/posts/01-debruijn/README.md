@@ -6,10 +6,10 @@ d/dt h(X + √t Z) = ½ J(X + √t Z) (de Bruijn; Stam, 1959).
 |---|---|
 | Status | Published 18 Nov 2026 |
 | Backlog rank | 1 |
-| Package | `make zip P=01-debruijn` → `dist/qt-01-debruijn.zip` |
+| Package | [`qt-01-debruijn.zip`](qt-01-debruijn.zip) (archived as published; `make zip` copies it) |
 | PDF | [A4](pdf/qt-01-debruijn.pdf) (12 pp.), [screen](pdf/qt-01-debruijn-screen.pdf) (15 pp.) |
 | X post | [`post.txt`](post.txt) (one long post: lead 237 / 280, total 764; attach `substack/debruijn-figure.png`) |
-| Substack article | [`substack/article.md`](substack/article.md) (hand-finished to the house style 13 Nov 2026), figure [`debruijn-figure.png`](substack/debruijn-figure.png) |
+| Substack article | [`substack/article.md`](substack/article.md) (hand-finished; frozen as published 18 Nov 2026), figure [`debruijn-figure.png`](substack/debruijn-figure.png) |
 | Notebook | [`notebook.ipynb`](notebook.ipynb) (executed) |
 | Metadata | [`meta.json`](meta.json) (status, links, Substack details) |
 
@@ -23,7 +23,7 @@ Keep in sync with `meta.json` `links`.
 | X post | (not yet posted; `post.txt` carries the Substack URL) |
 | Pages article | https://osolari.github.io/the-quiet-theorems/posts/01-debruijn/ |
 
-## Open points before approval
+## Open points and decisions
 
 1. ~~Stam and Barron checked only via secondary sources~~ resolved 13 Nov 2026 against the originals. Stam (1959), *Information and Control* 2(2), 101–112: eq. (2.12) is dH(p_v)/dv = ½ I₀(p_v), v > 0, in differential form; Stam says (2.3) and (2.12) were communicated by de Bruijn to J. L. van Soest (Director of Physical Research, Netherlands Defence Research Council, who suggested the investigation), not to Stam. The Notes are corrected accordingly, without naming van Soest (credit rule). Barron (1986), *Annals of Probability* 14(1), 336–342: Lemma 1 (p. 338), "Entropy is an integral of Fisher informations", for any X with finite variance, proved on p. 339 from de Bruijn's identity (citing Stam and Blachman, 1965); the Notes now cite Lemma 1. Stam was read via the ScienceDirect open-archive text (OCR), Barron via the author's scan of the JSTOR copy; the Project Euclid page sits behind a CAPTCHA.
 2. Stam cites the entropy power inequality as Shannon (1949), Theorem 15 (the book with Weaver); the post cites the 1948 paper, which contains the same theorem. Kept.
