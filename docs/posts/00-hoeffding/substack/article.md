@@ -192,7 +192,7 @@ $$
 
 The events $\{X\le x+\tfrac1n,\,Y\le y+\tfrac1n\}$ decrease to $\{X\le x,\,Y\le y\}$, so by continuity of $\mathbb{P}$ the right side tends to $F_{X,Y}(x,y)$; the same argument gives $F_X(x_n)\to F_X(x)$ and $F_Y(y_n)\to F_Y(y)$. Hence $D(x,y)=\lim_n D(x_n,y_n)=0$, and $X\mathrel{\perp\!\!\!\perp}Y$. ∎
 
-So zero covariance does imply independence when the dependence has a fixed sign. The bivariate normal with $\rho\ge0$ is PQD, by a Gaussian comparison inequality (Slepian, 1962) (not proved here).
+So zero covariance does imply independence when the dependence has a fixed sign. The bivariate normal with $\rho\ge0$ is PQD, by a Gaussian comparison inequality (Slepian, 1962; not proved here).
 
 ### An association inequality
 
@@ -257,7 +257,7 @@ Correlation $\pm1$ needs an exact affine relation, by the equality case of Cauch
 **Corollary 6** (Cuadras, 2002)**.** Let $f,g$ be monotone and absolutely continuous, and let A1 hold for $(f(X),g(Y))$. Then
 
 $$
-\operatorname{Cov}\big(f(X),g(Y)\big)=\iint_{\mathbb{R}^2}D(x,y)\,f’(x)\,g’(y)\,\mathrm{d}x\,\mathrm{d}y .
+\operatorname{Cov}\big(f(X),g(Y)\big)=\iint_{\mathbb{R}^2}D(x,y)\,f'(x)\,g'(y)\,\mathrm{d}x\,\mathrm{d}y .
 $$
 
 *Proof.* **Step 1: the indicator identity.** By absolute continuity, $f(a)-f(b)=\int_b^af'(u)\,\mathrm{d}u=\int_{\mathbb{R}}\big[\mathbf{1}\{b\le u\}-\mathbf{1}\{a\le u\}\big]f'(u)\,\mathrm{d}u$, by the case analysis of Lemma 1. As $f$ is monotone, $f'$ has one sign almost everywhere, so $|f(a)-f(b)|=\int_{\mathbb{R}}\big|\mathbf{1}\{b\le u\}-\mathbf{1}\{a\le u\}\big|\,|f'(u)|\,\mathrm{d}u$. The same holds for $g$.
@@ -278,24 +278,27 @@ Let $X$ be uniform on $\{-1,0,1\}$ and $Y=X^2$. Since $\mathbb{E}X=\mathbb{E}X^3
 
 **Dependence function.** For $y<0$, $\{Y\le y\}=\emptyset$, so $F_{X,Y}=F_Y=0$ and $D=0$. For $y\ge1$, $\{Y\le y\}=\Omega$, so $F_{X,Y}=F_X$, $F_Y=1$ and $D=0$. For $0\le y<1$, $\{Y\le y\}=\{X=0\}$, so $F_{X,Y}(x,y)=\mathbb{P}(X\le x,X=0)=\tfrac13\mathbf{1}\{x\ge 0\}$ and $D(x,y)=\tfrac13[\mathbf{1}\{x\ge 0\}-F_X(x)]$:
 
-1. $D(x,y)$, $0\le y<1$; $0$; $-\tfrac19$; $+\tfrac19$; $0$.
+1. $x<-1$: $D(x,y)=0$;
+2. $-1\le x<0$: $D(x,y)=-\tfrac19$;
+3. $0\le x<1$: $D(x,y)=+\tfrac19$;
+4. $x\ge1$: $D(x,y)=0$.
 
 ![Dependence function D for X ∼ Unif{−1, 0, 1}, Y = X². The two squares cancel, so Cov(X, Y) = 0 although Y is a function of X.](hoeffding-figure.png)
 
 *Dependence function D for X ∼ Unif{−1, 0, 1}, Y = X². The two squares cancel, so Cov(X, Y) = 0 although Y is a function of X.*
 
-The function $D$ is supported on two unit squares of opposite sign (the figure), so $\iint D=-\tfrac19+\tfrac19=0$, as (1) requires. For $x$ just below $0$, the events $\{X\le x\}$ and $\{Y=0\}$ are disjoint, a negative dependence; just above $0$ the dependence is positive. Covariance does not register this, but a functional of $|D|$ does, for instance $\sup|D|=\tfrac19$. Hoeffding’s test of independence (Hoeffding, 1948) is built on $\iint D^2\,\mathrm{d}F_{X,Y}$, which characterises independence for continuous joint distributions.
+The function $D$ is supported on two unit squares of opposite sign (see the figure above), so $\iint D=-\tfrac19+\tfrac19=0$, as (1) requires. For $x$ just below $0$, the events $\{X\le x\}$ and $\{Y=0\}$ are disjoint, a negative dependence; just above $0$ the dependence is positive. Covariance does not register this, but a functional of $|D|$ does, for instance $\sup|D|=\tfrac19$. Hoeffding’s test of independence (Hoeffding, 1948) is built on $\iint D^2\,\mathrm{d}F_{X,Y}$, which characterises independence for continuous joint distributions.
 
 ## Numerical check
 
 Rows 1 to 3 integrate $D$ by trapezoidal quadrature on a grid; row 4 integrates the step function $D$ exactly in rational arithmetic.
 
 1. Normal, unit variances, $\rho=\tfrac12$: $\iint D\,\mathrm{d}x\,\mathrm{d}y$. Exact $0.5$; numerical $0.500000$.
-2. Same $D$: $12\iint D\,\mathrm{d}F_X\,\mathrm{d}F_Y$, i.e. (8). Exact $0.4826^{\dagger}$; numerical $0.4826$.
+2. Same $D$: $12\iint D\,\mathrm{d}F_X\,\mathrm{d}F_Y$, i.e. (8). Exact $0.4826$ (from the closed form $\tfrac6\pi\arcsin(\rho/2)$; Kruskal, 1958; not proved here); numerical $0.4826$.
 3. $X=Y\sim\mathrm{Exp}(1)$: $\iint D$, i.e. (7). Exact $1$; numerical $0.999992$.
-4. Worked example: $\iint D$. Exact $0$; numerical $0$ (exact).
+4. Worked example: $\iint D$. Exact $0$; computed $0$ exactly.
 
-<sup>$\dagger$</sup>From the closed form $\tfrac6\pi\arcsin(\rho/2)$ (not proved here; see Kruskal, 1958). Rows 1 and 2 integrate the same $D$, against $\mathrm{d}x\,\mathrm{d}y$ and against $\mathrm{d}F_X\,\mathrm{d}F_Y$ respectively (substitute $s=F_X(x)$, $t=F_Y(y)$ in (8)); only the measure differs.
+Rows 1 and 2 integrate the same $D$, against $\mathrm{d}x\,\mathrm{d}y$ and against $\mathrm{d}F_X\,\mathrm{d}F_Y$ respectively (substitute $s=F_X(x)$, $t=F_Y(y)$ in (8)); only the measure differs.
 
 **Code.** Every number above is printed by the script below (Python 3, NumPy, SciPy); its docstring gives the requirements.
 
@@ -389,7 +392,7 @@ Kruskal, W. H. (1958). Ordinal measures of association. *Journal of the American
 
 Lehmann, E. L. (1966). Some concepts of dependence. *Annals of Mathematical Statistics*, 37(5), 1137–1153.
 
-Nelsen, R. B. (2006). *An Introduction to Copulas*, Secondth edn. Springer, New York.
+Nelsen, R. B. (2006). *An Introduction to Copulas*, 2nd edn. Springer, New York.
 
 Sklar, A. (1959). Fonctions de répartition à $n$ dimensions et leurs marges. *Publications de l’Institut de Statistique de l’Université de Paris*, 8, 229–231.
 

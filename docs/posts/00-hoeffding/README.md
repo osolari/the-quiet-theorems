@@ -1,16 +1,16 @@
 # The Quiet Theorems No. 00: Hoeffding's covariance identity
 
-First published on 9 Nov 2026 as *Probability Notes* No. 00, the series' earlier name. A revised edition was prepared on 18 Nov 2026 at the author's request. It is aligned with No. 01: the series name is The Quiet Theorems, the prefix is `qt`, and every proof and corollary is written out step by step. The live Substack post will be edited in place, at the same URL with the PDF swapped, once the author approves.
+First published on 9 Nov 2026 as *Probability Notes* No. 00, the series' earlier name. A revised edition, aligned with No. 01, was approved and published on 18 Nov 2026: the series name is The Quiet Theorems, the prefix is `qt`, and every proof and corollary is written out step by step. The live Substack post was edited in place (same URL and date, PDF and figure swapped, title changed, no new email).
 
 Cov(X,Y) = ∬ [F_{X,Y}(x,y) − F_X(x)F_Y(y)] dx dy (Hoeffding, 1940).
 
 | Field | Value |
 |---|---|
-| Status | Published 9 Nov 2026, 09:49 PST. Revised edition awaiting approval (18 Nov 2026) |
+| Status | Published 9 Nov 2026, 09:49 PST; revised 18 Nov 2026 (live post edited in place) |
 | Backlog rank | 0 |
-| Package | `make zip P=00-hoeffding` builds `dist/qt-00-hoeffding.zip`. [`pn-00-hoeffding.zip`](pn-00-hoeffding.zip) is the package published on 9 Nov; at re-publication it is replaced by `qt-00-hoeffding.zip` and `package_frozen` is set again |
+| Package | [`qt-00-hoeffding.zip`](qt-00-hoeffding.zip), the revised package as published on 18 Nov (`package_frozen`; `make zip` copies it). The 9 Nov package `pn-00-hoeffding.zip` is in the git history |
 | PDF | [A4](pdf/qt-00-hoeffding.pdf) (11 pp., Result box on p. 1), [screen](pdf/qt-00-hoeffding-screen.pdf) (15 pp.) |
-| Substack article | [`substack/article.md`](substack/article.md), revised edition, hand-finished (frozen against `make formats`), with [`hoeffding-figure.png`](substack/hoeffding-figure.png) |
+| Substack article | [`substack/article.md`](substack/article.md), revised edition as published, frozen, with [`hoeffding-figure.png`](substack/hoeffding-figure.png) |
 | Notebook | [`notebook.ipynb`](notebook.ipynb) (executed) |
 | Metadata | [`meta.json`](meta.json) (status, links, Substack details) |
 | X post | [`post.txt`](post.txt) (one long post: lead 201 / 280, total 643; attach `substack/hoeffding-figure.png`) |
@@ -23,8 +23,8 @@ Keep in sync with `meta.json`.
 |---|---|
 | Substack post (audience: everyone) | https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings |
 | Substack editor (draft id 224169408) | https://omidsolari.substack.com/publish/post/224169408 |
-| PDF attached on Substack | https://omidsolari.substack.com/api/v1/file/4c024c81-13d7-418b-b924-661aac38df84.pdf (9 Nov build, `pn-00-hoeffding.pdf`; to be swapped for `qt-00-hoeffding.pdf`) |
-| Figure on Substack | https://substack-post-media.s3.amazonaws.com/public/images/83fa447e-ebaa-4cee-8574-1d6e232d1e4c_583x309.png (9 Nov figure; the revised figure relabels the y = 1 tick) |
+| PDF attached on Substack | https://omidsolari.substack.com/api/v1/file/40023d45-8a0a-40f8-bc0e-8e3e4ac4fe7a.pdf (`qt-00-hoeffding.pdf`, revised edition) |
+| Figure on Substack | https://substack-post-media.s3.amazonaws.com/public/images/71c2bd65-3520-4b18-97ae-d462cada9ae8_659x344.png (revised figure) |
 | X post | (not yet posted; `post.txt` carries the Substack URL) |
 | Pages article | https://osolari.github.io/the-quiet-theorems/posts/00-hoeffding/ (live; redirects to `solari.stat.berkeley.edu/the-quiet-theorems/posts/00-hoeffding/`) |
 
@@ -55,19 +55,15 @@ Keep in sync with `meta.json`.
    - date "9 November 2026, revised 18 November 2026";
    - reading time 10 → 13 min;
    - figure tick relabelled "y = 1", so it no longer sits on the square's edge;
-   - live post to be edited in place, with no revision note.
+   - live post edited in place on 18 Nov, with no revision note and no new email.
 
-## Open points before approval
+## Open points (development session)
 
-1. **Shared files still describe No. 00 as `pn` / Probability Notes:** `skills/quiet-theorems-post/SKILL.md`, `docs/POST_GUIDE.md` and `STANDARD.md`. These are for the development session.
+1. **Shared files still describe No. 00 as `pn` / Probability Notes:** `skills/quiet-theorems-post/SKILL.md`, `docs/POST_GUIDE.md`, `STANDARD.md` and `docs/DEVELOPING.md` ("No. 00 keeps its published prefix `pn`"). These are for the development session.
 2. **Site: `polyfill.io` script.** Pandoc 3.1.3's default HTML template adds `<script src="https://polyfill.io/v3/polyfill.min.js?features=es6">` when run with `--mathjax`. The domain was taken over in 2024 and served malicious code. `scripts/build_site.py` should use its own template, or strip the tag, and the site be redeployed. This is for the development session and is urgent.
 3. **Site: maths written with a space before the closing `$`** (as in the 9 Nov article) is rejected by pandoc's dollar-maths reader. The revised article has none, but `build_site.py` could normalise this for robustness.
 4. **Screen PDF:** 15 pp.; the author card shares p. 13 with the references.
-5. **On approval:**
-   - archive `qt-00-hoeffding.zip` in place of `pn-00-hoeffding.zip`;
-   - edit the live post in place (same URL; swap the PDF and figure);
-   - update `meta.json` `substack` (`pdf_attachment`, `pdf_attached`, `images`);
-   - set the reader README note to "Revised 18 Nov 2026".
+5. **Article fixes at publication (18 Nov).** Conversion slips corrected in `substack/article.md` and on Substack: the worked-example table as a four-item list, "2nd edn" for Nelsen, plain primes in the Corollary 6 display, "(Slepian, 1962; not proved here)", and the check-list dagger replaced by an inline Kruskal citation. `tex2md.py` could handle these for later posts.
 
 ## QA, 18 Nov 2026 (revised edition)
 
