@@ -3,18 +3,18 @@
   "slug": "debruijn",
   "series": "The Quiet Theorems",
   "prefix": "qt",
-  "package_frozen": false,
-  "status": "accepted",
+  "package_frozen": true,
+  "status": "published",
   "date": "2026-11-18",
   "links": {
     "x_thread": "",
     "x_tweet": "",
-    "substack": "",
+    "substack": "https://omidsolari.substack.com/p/the-quiet-theorems-no-01-de-bruijns",
     "pages": ""
   },
   "substack": {
-    "url": "",
-    "published": "",
+    "url": "https://omidsolari.substack.com/p/the-quiet-theorems-no-01-de-bruijns",
+    "published": "2026-11-18T10:25:27-08:00",
     "audience": "everyone",
     "editor": "https://omidsolari.substack.com/publish/post/225529600",
     "draft_id": 225529600,
@@ -24,6 +24,6 @@
       "debruijn-figure.png": "https://substack-post-media.s3.amazonaws.com/public/images/be0123db-91ee-4979-9ac9-7ab5acd9519b_650x464.png"
     },
     "byline": "Omid Solari",
-    "frozen": false
+    "frozen": true
   }
 }

@@ -4,7 +4,7 @@ d/dt h(X + √t Z) = ½ J(X + √t Z) (de Bruijn; Stam, 1959).
 
 | Field | Value |
 |---|---|
-| Status | Package accepted 18 Nov 2026; Substack draft ready, publication 18 Nov 2026 |
+| Status | Published 18 Nov 2026 |
 | Backlog rank | 1 |
 | Package | `make zip P=01-debruijn` → `dist/qt-01-debruijn.zip` |
 | PDF | [A4](pdf/qt-01-debruijn.pdf) (12 pp.), [screen](pdf/qt-01-debruijn-screen.pdf) (15 pp.) |
@@ -20,10 +20,10 @@ Keep in sync with `meta.json` `links`.
 
 | Where | Link |
 |---|---|
-| Substack post | (not yet published) |
+| Substack post | https://omidsolari.substack.com/p/the-quiet-theorems-no-01-de-bruijns |
 | X thread | (not yet posted) |
 | X single tweet | (not yet posted) |
-| Pages article | (not yet published; will be `https://<owner>.github.io/<repo>/posts/01-debruijn/`) |
+| Pages article | https://osolari.github.io/the-quiet-theorems/posts/01-debruijn/ (live once the push deploys) |
 
 ## Open points before approval
 

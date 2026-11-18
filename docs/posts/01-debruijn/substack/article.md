@@ -2,6 +2,8 @@
 
 *Under Gaussian smoothing, differential entropy grows at exactly half the rate of Fisher information*
 
+Published 18 November 2026: https://omidsolari.substack.com/p/the-quiet-theorems-no-01-de-bruijns
+
 > **TL;DR.** Adding independent Gaussian noise to a random variable makes it more spread out, so its differential entropy grows with the noise variance. De Bruijn’s identity, published by Stam (1959), gives the rate exactly: the derivative of the entropy with respect to the noise variance is half the Fisher information of the noisy variable. Half the Fisher information is therefore the rate at which Gaussian smoothing creates entropy.
 
 [PDF attachment: *The Quiet Theorems No. 01: De Bruijn’s identity (PDF)*. Full proofs, references and the numerical-check code.]

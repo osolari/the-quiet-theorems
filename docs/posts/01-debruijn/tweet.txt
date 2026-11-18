@@ -1,4 +1,4 @@
-De Bruijn's identity (The Quiet Theorems No. 01): [link]
+De Bruijn's identity (The Quiet Theorems No. 01): https://omidsolari.substack.com/p/the-quiet-theorems-no-01-de-bruijns
 
 Add Gaussian noise of variance t to X. Entropy grows at half the Fisher information (de Bruijn; Stam, 1959):
 

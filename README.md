@@ -20,6 +20,9 @@ Every post comes as an article, a PDF with the full derivations (A4 for print, a
 
 ## Posts
 
+**No. 01. De Bruijn's identity** (18 Nov 2026). Under Gaussian smoothing, differential entropy grows at exactly half the rate of Fisher information.
+[Substack](https://omidsolari.substack.com/p/the-quiet-theorems-no-01-de-bruijns) · [web](https://osolari.github.io/the-quiet-theorems/posts/01-debruijn/) · PDF ([A4](docs/posts/01-debruijn/pdf/qt-01-debruijn.pdf), [screen](docs/posts/01-debruijn/pdf/qt-01-debruijn-screen.pdf)) · [notebook](docs/posts/01-debruijn/notebook.ipynb) ([open in Colab](https://colab.research.google.com/github/osolari/the-quiet-theorems/blob/main/docs/posts/01-debruijn/notebook.ipynb))
+
 **No. 00. Hoeffding's covariance identity** (9 Nov 2026). The covariance of two random variables is the integral of the gap between their joint distribution function and the product of their marginals.
 [Substack](https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings) · [web](https://osolari.github.io/the-quiet-theorems/posts/00-hoeffding/) · PDF ([A4](docs/posts/00-hoeffding/pdf/qt-00-hoeffding.pdf), [screen](docs/posts/00-hoeffding/pdf/qt-00-hoeffding-screen.pdf)) · [notebook](docs/posts/00-hoeffding/notebook.ipynb) ([open in Colab](https://colab.research.google.com/github/osolari/the-quiet-theorems/blob/main/docs/posts/00-hoeffding/notebook.ipynb))
 *First published under the series' earlier name, Probability Notes; a revised edition with every proof written out step by step is awaiting approval.*
