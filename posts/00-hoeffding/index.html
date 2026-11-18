@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Hoeffding's covariance identity · The Quiet Theorems</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../style.css" />
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<h1 id="the-quiet-theorems-no-00-hoeffdings-covariance-identity">The
+Quiet Theorems No. 00: Hoeffding’s covariance identity</h1>
+<p><em>Independence is a pointwise equality of distribution functions;
+uncorrelatedness is the same equality, integrated</em></p>
+<p>Published 9 November 2026, revised 18 November 2026: <a
+href="https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings">https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings</a></p>
+<blockquote>
+<p><strong>TL;DR.</strong> Two random variables are independent exactly
+when their joint distribution function factorises into the product of
+its marginals. Hoeffding (1940) showed that their covariance is the
+integral of the difference between the two. Independence requires that
+difference to vanish everywhere; zero covariance requires only that its
+integral vanish.</p>
+</blockquote>
+<p><a
+href="https://omidsolari.substack.com/p/probability-notes-no-00-hoeffdings">Substack</a>
+· <a href="pdf/qt-00-hoeffding.pdf">PDF (A4)</a> · <a
+href="pdf/qt-00-hoeffding-screen.pdf">PDF (screen)</a> · <a
+href="notebook.html">Notebook</a> · <a href="main.tex">LaTeX source</a>
+· <a
+href="https://github.com/osolari/the-quiet-theorems/blob/main/docs/posts/00-hoeffding">Source</a>
+· <a
+href="https://colab.research.google.com/github/osolari/the-quiet-theorems/blob/main/docs/posts/00-hoeffding/notebook.ipynb">Open
+in Colab</a></p>
+<h2 id="setup-and-notation">Setup and notation</h2>
+<p>Let <span class="math inline">\((X,Y)\)</span> be a random vector on
+a probability space <span
+class="math inline">\((\Omega,\mathcal{F},\mathbb{P})\)</span>, taking
+values in <span class="math inline">\(\mathbb{R}^2\)</span>.</p>
+<ol type="1">
+<li><span class="math inline">\(F_{X,Y}(x,y)=\mathbb{P}(X\le x,\,Y\le
+y)\)</span>: joint distribution function;</li>
+<li><span class="math inline">\(F_X(x)\)</span>, <span
+class="math inline">\(F_Y(y)\)</span>: marginal distribution
+functions;</li>
+<li><span class="math inline">\(\bar F_X=1-F_X\)</span>, <span
+class="math inline">\(\bar F_Y=1-F_Y\)</span>: survival functions;</li>
+<li><span
+class="math inline">\(D(x,y)=F_{X,Y}(x,y)-F_X(x)F_Y(y)\)</span>:
+dependence function;</li>
+<li><span class="math inline">\((X_1,Y_1),(X_2,Y_2)\)</span>:
+independent copies of <span class="math inline">\((X,Y)\)</span> (Lemma
+2);</li>
+<li><span class="math inline">\(C\)</span>: copula of <span
+class="math inline">\((X,Y)\)</span> (continuous marginals).</li>
+</ol>
+<p>By definition, <span
+class="math inline">\(X\mathrel{\perp\!\!\!\perp}Y\)</span> if and only
+if <span class="math inline">\(D(x,y)=0\)</span> for every <span
+class="math inline">\((x,y)\in\mathbb{R}^2\)</span>.</p>
+<p><strong>Assumption A1.</strong> <span
+class="math inline">\(\mathbb{E}|X|&lt;\infty\)</span>, <span
+class="math inline">\(\mathbb{E}|Y|&lt;\infty\)</span> and <span
+class="math inline">\(\mathbb{E}|XY|&lt;\infty\)</span>.</p>
+<p>A1 follows from <span
+class="math inline">\(\mathbb{E}X^2,\mathbb{E}Y^2&lt;\infty\)</span>
+(Cauchy–Schwarz), the form usually quoted; the proof requires only A1.
+<em>Uncorrelated</em> means <span
+class="math inline">\(\operatorname{Cov}(X,Y)=0\)</span>.</p>
+<h2 id="result">Result</h2>
+<p><strong>Theorem (Hoeffding, 1940).</strong> Under A1, <span
+class="math inline">\(D\)</span> is Lebesgue integrable on <span
+class="math inline">\(\mathbb{R}^2\)</span> and</p>
+<p><span class="math display">\[
+\operatorname{Cov}(X,Y)=\iint_{\mathbb{R}^2}\big[F_{X,Y}(x,y)-F_X(x)F_Y(y)\big]\,\mathrm{d}x\,\mathrm{d}y
+. \qquad (1)
+\]</span></p>
+<p><strong>Remark.</strong> Equivalently,</p>
+<p><span class="math display">\[
+\operatorname{Cov}(X,Y)=\iint_{\mathbb{R}^2}\big[\mathbb{P}(X&gt;x,Y&gt;y)-\bar
+F_X(x)\bar F_Y(y)\big]\,\mathrm{d}x\,\mathrm{d}y .
+\]</span></p>
+<p>Indeed, by inclusion–exclusion <span
+class="math inline">\(\mathbb{P}(X&gt;x,Y&gt;y)=1-F_X(x)-F_Y(y)+F_{X,Y}(x,y)\)</span>,
+while <span class="math inline">\(\bar F_X(x)\bar
+F_Y(y)=1-F_X(x)-F_Y(y)+F_X(x)F_Y(y)\)</span>; the difference is <span
+class="math inline">\(D(x,y)\)</span> at every point.</p>
+<h2 id="proof">Proof</h2>
+<p>The proof writes the covariance as half the expected product of two
+differences built from independent copies, writes each difference as an
+integral of indicators, and exchanges the expectation with the double
+integral. The lemmas supply the copies and the indicator identity.</p>
+<p><strong>Lemma 1.</strong> For <span
+class="math inline">\(a,b\in\mathbb{R}\)</span>,</p>
+<p><span class="math display">\[
+\begin{aligned}
+a-b&amp;=\int_{\mathbb{R}}\big[\mathbf{1}\{b\le u\}-\mathbf{1}\{a\le
+u\}\big]\,\mathrm{d}u,\\
+|a-b|&amp;=\int_{\mathbb{R}}\big|\mathbf{1}\{b\le u\}-\mathbf{1}\{a\le
+u\}\big|\,\mathrm{d}u.
+\end{aligned} \qquad (2)
+\]</span></p>
+<p><em>Proof.</em> <strong>Step 1: case <span
+class="math inline">\(a&gt;b\)</span>.</strong> For <span
+class="math inline">\(u&lt;b\)</span> both indicators are <span
+class="math inline">\(0\)</span>; for <span class="math inline">\(b\le
+u&lt;a\)</span> the first is <span class="math inline">\(1\)</span> and
+the second <span class="math inline">\(0\)</span>; for <span
+class="math inline">\(u\ge a\)</span> both are <span
+class="math inline">\(1\)</span>. The integrand is therefore <span
+class="math inline">\(\mathbf{1}\{b\le u&lt;a\}\)</span>, which is
+non-negative and integrates to <span
+class="math inline">\(a-b=|a-b|\)</span>.</p>
+<p><strong>Step 2: cases <span class="math inline">\(a&lt;b\)</span> and
+<span class="math inline">\(a=b\)</span>.</strong> If <span
+class="math inline">\(a&lt;b\)</span>, the same reasoning with the roles
+of <span class="math inline">\(a\)</span> and <span
+class="math inline">\(b\)</span> exchanged gives the integrand <span
+class="math inline">\(-\mathbf{1}\{a\le u&lt;b\}\)</span>, with integral
+<span class="math inline">\(-(b-a)=a-b\)</span> and absolute value
+integrating to <span class="math inline">\(b-a=|a-b|\)</span>. If <span
+class="math inline">\(a=b\)</span> the integrand vanishes and both sides
+are <span class="math inline">\(0\)</span>. ∎</p>
+<p><strong>Lemma 2.</strong> On <span
+class="math inline">\((\Omega\times\Omega,\mathcal{F}\otimes\mathcal{F},\mathbb{P}\otimes\mathbb{P})\)</span>,
+with points <span class="math inline">\((\omega_1,\omega_2)\)</span>,
+set <span
+class="math inline">\((X_i,Y_i)(\omega_1,\omega_2)\mathrel{:=}(X,Y)(\omega_i)\)</span>
+for <span class="math inline">\(i=1,2\)</span>. Then each <span
+class="math inline">\((X_i,Y_i)\)</span> has the law of <span
+class="math inline">\((X,Y)\)</span>, and for Borel <span
+class="math inline">\(g,h:\mathbb{R}^2\to\mathbb{R}\)</span>,</p>
+<p><span class="math display">\[
+\mathbb{E}\big|g(X_1,Y_1)\,h(X_2,Y_2)\big|=\mathbb{E}|g(X,Y)|\;\mathbb{E}|h(X,Y)|,
+\qquad (3)
+\]</span></p>
+<p>and if both factors on the right are finite,</p>
+<p><span class="math display">\[
+\mathbb{E}\big[g(X_1,Y_1)\,h(X_2,Y_2)\big]=\mathbb{E}g(X,Y)\;\mathbb{E}h(X,Y).
+\]</span></p>
+<p>In particular <span
+class="math inline">\((X_1,Y_1)\mathrel{\perp\!\!\!\perp}(X_2,Y_2)\)</span>.</p>
+<p><em>Proof.</em> <strong>Step 1: laws.</strong> For a Borel set <span
+class="math inline">\(B\subseteq\mathbb{R}^2\)</span>, <span
+class="math inline">\(\{(X_1,Y_1)\in B\}=\{(X,Y)\in
+B\}\times\Omega\)</span>, which has <span
+class="math inline">\(\mathbb{P}\otimes\mathbb{P}\)</span>-measure <span
+class="math inline">\(\mathbb{P}\big((X,Y)\in B\big)\cdot1\)</span>. The
+same holds for <span class="math inline">\(i=2\)</span> with the factors
+exchanged.</p>
+<p><strong>Step 2: product rule.</strong> The function <span
+class="math inline">\((\omega_1,\omega_2)\mapsto|g(X,Y)(\omega_1)|\,|h(X,Y)(\omega_2)|\)</span>
+is non-negative and <span
+class="math inline">\(\mathcal{F}\otimes\mathcal{F}\)</span>-measurable,
+being a product of a function of <span
+class="math inline">\(\omega_1\)</span> and a function of <span
+class="math inline">\(\omega_2\)</span>. Tonelli’s theorem integrates it
+one coordinate at a time, which gives (3). When the right side of (3) is
+finite the product is integrable, and Fubini’s theorem gives the signed
+version. Taking <span class="math inline">\(g=\mathbf{1}_A\)</span> and
+<span class="math inline">\(h=\mathbf{1}_B\)</span> gives independence.
+∎</p>
+<p><em>Proof of the theorem.</em> <strong>Step 1:
+symmetrisation.</strong> Let <span
+class="math inline">\((X_1,Y_1)\)</span> and <span
+class="math inline">\((X_2,Y_2)\)</span> be the independent copies of
+Lemma 2; the argument follows Lehmann (1966). Expanding the product,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}\big[(X_1-X_2)(Y_1-Y_2)\big]&amp;=\mathbb{E}[X_1Y_1]+\mathbb{E}[X_2Y_2]-\mathbb{E}[X_1Y_2]-\mathbb{E}[X_2Y_1]\\
+&amp;=2\mathbb{E}[XY]-2\mathbb{E}X\,\mathbb{E}Y .
+\end{aligned}
+\]</span></p>
+<p>The expansion is legitimate because each of the four terms is
+integrable. The same-copy terms satisfy <span
+class="math inline">\(\mathbb{E}|X_iY_i|=\mathbb{E}|XY|&lt;\infty\)</span>,
+since <span class="math inline">\((X_i,Y_i)\)</span> has the law of
+<span class="math inline">\((X,Y)\)</span>, and they equal <span
+class="math inline">\(\mathbb{E}[XY]\)</span> for the same reason. The
+cross terms have their factors in different copies, so (3) with <span
+class="math inline">\(g(x,y)=x\)</span> and <span
+class="math inline">\(h(x,y)=y\)</span> gives <span
+class="math inline">\(\mathbb{E}|X_1Y_2|=\mathbb{E}|X|\,\mathbb{E}|Y|&lt;\infty\)</span>
+and <span
+class="math inline">\(\mathbb{E}[X_1Y_2]=\mathbb{E}X\,\mathbb{E}Y\)</span>;
+likewise for <span class="math inline">\(X_2Y_1\)</span>. All finiteness
+here is A1. Hence</p>
+<p><span class="math display">\[
+\operatorname{Cov}(X,Y)=\mathbb{E}[XY]-\mathbb{E}X\,\mathbb{E}Y=\tfrac12\,\mathbb{E}\big[(X_1-X_2)(Y_1-Y_2)\big].
+\qquad (4)
+\]</span></p>
+<p>The means have dropped out: <span
+class="math inline">\(X-\mathbb{E}X\)</span> and <span
+class="math inline">\(Y-\mathbb{E}Y\)</span> are replaced by the
+differences <span class="math inline">\(X_1-X_2\)</span> and <span
+class="math inline">\(Y_1-Y_2\)</span>, to which Lemma 1 applies
+directly.</p>
+<p><strong>Step 2: integral representation.</strong> Apply the first
+identity of Lemma 1 in <span class="math inline">\(u\)</span> with <span
+class="math inline">\((a,b)=(X_1,X_2)\)</span> and in <span
+class="math inline">\(v\)</span> with <span
+class="math inline">\((a,b)=(Y_1,Y_2)\)</span>, and multiply. Both
+integrals are finite, so their product is a double integral of the
+product of the integrands:</p>
+<p><span class="math display">\[
+(X_1-X_2)(Y_1-Y_2)=\iint_{\mathbb{R}^2}\Phi(u,v)\,\mathrm{d}u\,\mathrm{d}v,
+\qquad (5)
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\Phi(u,v)\mathrel{:=}\big[\mathbf{1}\{X_2\le u\}-\mathbf{1}\{X_1\le
+u\}\big]\big[\mathbf{1}\{Y_2\le v\}-\mathbf{1}\{Y_1\le v\}\big].
+\]</span></p>
+<p><em>Justification (Fubini–Tonelli).</em> <span
+class="math inline">\(\Phi\)</span> depends on <span
+class="math inline">\((u,v)\)</span> and on the outcome <span
+class="math inline">\((\omega_1,\omega_2)\)</span>. It is jointly
+measurable: <span
+class="math inline">\(\{(u,\omega_1,\omega_2):X_2(\omega_2)\le
+u\}\)</span> is the set where the measurable function <span
+class="math inline">\((u,\omega_1,\omega_2)\mapsto
+X_2(\omega_2)-u\)</span> is at most <span
+class="math inline">\(0\)</span>, and the same holds for the other three
+indicators, of which <span class="math inline">\(\Phi\)</span> is a
+polynomial. By the second identity in (2), applied in each variable,
+<span
+class="math inline">\(\iint|\Phi|\,\mathrm{d}u\,\mathrm{d}v=|X_1-X_2|\,|Y_1-Y_2|\)</span>.
+Using <span class="math inline">\(|X_1-X_2|\le|X_1|+|X_2|\)</span>, the
+same for <span class="math inline">\(Y\)</span>, and (3) for the cross
+terms,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}\big[|X_1-X_2|\,|Y_1-Y_2|\big]&amp;\le\mathbb{E}\big[(|X_1|+|X_2|)(|Y_1|+|Y_2|)\big]\\
+&amp;=2\mathbb{E}|XY|+2\mathbb{E}|X|\,\mathbb{E}|Y|&lt;\infty .
+\end{aligned} \qquad (6)
+\]</span></p>
+<p>By Tonelli, <span
+class="math inline">\(\mathbb{E}\iint|\Phi|\,\mathrm{d}u\,\mathrm{d}v=\mathbb{E}\big[|X_1-X_2|\,|Y_1-Y_2|\big]&lt;\infty\)</span>,
+so <span class="math inline">\(\Phi\)</span> is integrable for the
+product of Lebesgue measure on <span
+class="math inline">\(\mathbb{R}^2\)</span> and <span
+class="math inline">\(\mathbb{P}\otimes\mathbb{P}\)</span>, and Fubini
+gives</p>
+<p><span class="math display">\[
+\mathbb{E}\iint_{\mathbb{R}^2}\Phi\,\mathrm{d}u\,\mathrm{d}v=\iint_{\mathbb{R}^2}\mathbb{E}\,\Phi(u,v)\,\mathrm{d}u\,\mathrm{d}v
+.
+\]</span></p>
+<p><strong>Step 3: expectation of the integrand.</strong> Fix <span
+class="math inline">\((u,v)\)</span> and expand <span
+class="math inline">\(\Phi\)</span> into four products of
+indicators:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}\,\Phi(u,v)
+&amp;=\mathbb{P}(X_2\le u,Y_2\le v)-\mathbb{P}(X_2\le u,Y_1\le v)\\
+&amp;\quad-\mathbb{P}(X_1\le u,Y_2\le v)+\mathbb{P}(X_1\le u,Y_1\le v).
+\end{aligned}
+\]</span></p>
+<p>The first and last terms involve one copy only, so each equals <span
+class="math inline">\(F_{X,Y}(u,v)\)</span>. The middle terms mix the
+copies: by (3) with <span class="math inline">\(g=\mathbf{1}\{x\le
+u\}\)</span>, <span class="math inline">\(h=\mathbf{1}\{y\le
+v\}\)</span> (or the reverse), each equals <span
+class="math inline">\(\mathbb{P}(X\le u)\mathbb{P}(Y\le
+v)=F_X(u)F_Y(v)\)</span>. Hence <span
+class="math inline">\(\mathbb{E}\,\Phi(u,v)=2F_{X,Y}(u,v)-2F_X(u)F_Y(v)=2D(u,v)\)</span>.</p>
+<p><strong>Step 4: conclusion.</strong> Taking expectations in (5), then
+exchanging as justified above and using the previous step,</p>
+<p><span class="math display">\[
+\operatorname{Cov}(X,Y)\overset{(4)}{=}\tfrac12\,\mathbb{E}\iint_{\mathbb{R}^2}\Phi\,\mathrm{d}u\,\mathrm{d}v=\tfrac12\iint_{\mathbb{R}^2}\mathbb{E}\,\Phi\,\mathrm{d}u\,\mathrm{d}v=\iint_{\mathbb{R}^2}D\,\mathrm{d}u\,\mathrm{d}v
+.
+\]</span></p>
+<p><span class="math inline">\(D\)</span> is integrable: <span
+class="math inline">\(|D|=\tfrac12|\mathbb{E}\Phi|\le\tfrac12\mathbb{E}|\Phi|\)</span>
+pointwise, and by Tonelli and (6), <span
+class="math inline">\(\iint\mathbb{E}|\Phi|\,\mathrm{d}u\,\mathrm{d}v=\mathbb{E}\iint|\Phi|\,\mathrm{d}u\,\mathrm{d}v&lt;\infty\)</span>.
+∎</p>
+<p><strong>Alternative route (sketch).</strong> Write <span
+class="math inline">\(X=\int_0^\infty\mathbf{1}\{X&gt;t\}\,\mathrm{d}t-\int_{-\infty}^0\mathbf{1}\{X\le
+t\}\,\mathrm{d}t\)</span>, do the same for <span
+class="math inline">\(Y\)</span>, multiply, take expectations quadrant
+by quadrant, and subtract <span
+class="math inline">\(\mathbb{E}X\,\mathbb{E}Y\)</span> written the same
+way. In every quadrant the integrand is <span
+class="math inline">\(\pm[\text{joint}-\text{product}]\)</span>, and
+identities such as <span class="math inline">\(\mathbb{P}(X\le
+u,Y&gt;v)-F_X(u)\bar F_Y(v)=-D(u,v)\)</span> make the four signs agree.
+The symmetrisation proof avoids this bookkeeping.</p>
+<h2 id="insights">Insights</h2>
+<ol type="1">
+<li><strong>Independence and zero covariance compared.</strong>
+Independence says <span class="math inline">\(D\equiv0\)</span>, a
+condition on a whole function on <span
+class="math inline">\(\mathbb{R}^2\)</span>. Zero covariance says <span
+class="math inline">\(\iint D=0\)</span>, a single linear functional of
+the same function. The first implies the second at once. The converse
+fails exactly when <span class="math inline">\(D\)</span> takes both
+signs and its positive and negative parts cancel, as in the worked
+example below.</li>
+<li><strong>The role of Lebesgue measure.</strong> Covariance integrates
+<span class="math inline">\(D\)</span> against <span
+class="math inline">\(\mathrm{d}x\,\mathrm{d}y\)</span>, which depends
+on the scale of each axis. For continuous marginals, <span
+class="math inline">\(D\)</span> written in the coordinates <span
+class="math inline">\((F_X(x),F_Y(y))\)</span> does not (Corollary 4).
+This is why covariance changes under strictly increasing transformations
+of the variables while rank correlation does not. Invariance under such
+rescalings was the subject of Hoeffding’s dissertation.</li>
+<li><strong>Sign information.</strong> When <span
+class="math inline">\(D\)</span> has constant sign, <span
+class="math inline">\(|\operatorname{Cov}(X,Y)|=\iint|D|\)</span> is the
+<span class="math inline">\(L^1\)</span> norm of <span
+class="math inline">\(D\)</span>, so zero covariance forces <span
+class="math inline">\(D\equiv0\)</span> (Corollary 2).</li>
+</ol>
+<blockquote>
+<p><strong>Independence requires <span class="math inline">\(D\)</span>
+to vanish everywhere; zero covariance requires only that its integral
+vanish.</strong> (pull quote)</p>
+</blockquote>
+<h2 id="uses-and-consequences">Uses and consequences</h2>
+<p>The results below follow from the theorem by choosing a particular
+pair, integrand or integrating measure.</p>
+<h3 id="variance-and-mean-absolute-difference">Variance and mean
+absolute difference</h3>
+<p><strong>Corollary 1.</strong> If <span
+class="math inline">\(\mathbb{E}X^2&lt;\infty\)</span>, then</p>
+<p><span class="math display">\[
+\operatorname{Var}(X)=2\iint_{x&lt;y}F_X(x)\,\bar
+F_X(y)\,\mathrm{d}x\,\mathrm{d}y . \qquad (7)
+\]</span></p>
+<p>If only <span class="math inline">\(\mathbb{E}|X|&lt;\infty\)</span>,
+the mean absolute difference (Gini, 1912) satisfies</p>
+<p><span class="math display">\[
+\mathbb{E}|X_1-X_2|=2\int_{\mathbb{R}}F_X(x)\,\bar F_X(x)\,\mathrm{d}x .
+\]</span></p>
+<p><em>Proof.</em> <strong>Step 1: variance.</strong> Take <span
+class="math inline">\(Y=X\)</span>; A1 holds because <span
+class="math inline">\(\mathbb{E}|X\cdot
+X|=\mathbb{E}X^2&lt;\infty\)</span> and <span
+class="math inline">\(\mathbb{E}|X|\le(\mathbb{E}X^2)^{1/2}\)</span>.
+Since <span class="math inline">\(\{X\le x\}\cap\{X\le y\}=\{X\le
+x\wedge y\}\)</span>, <span
+class="math inline">\(F_{X,X}(x,y)=F_X(x\wedge y)\)</span>, so for <span
+class="math inline">\(x\le y\)</span>, <span
+class="math inline">\(D(x,y)=F_X(x)-F_X(x)F_X(y)=F_X(x)\bar
+F_X(y)\)</span>. <span class="math inline">\(D\)</span> is symmetric in
+<span class="math inline">\((x,y)\)</span> and the diagonal <span
+class="math inline">\(\{x=y\}\)</span> has Lebesgue measure <span
+class="math inline">\(0\)</span>, so (1) gives <span
+class="math inline">\(\operatorname{Var}(X)=\operatorname{Cov}(X,X)=2\iint_{x&lt;y}F_X(x)\bar
+F_X(y)\,\mathrm{d}x\,\mathrm{d}y\)</span>.</p>
+<p><strong>Step 2: mean absolute difference.</strong> By the second
+identity of Lemma 1, <span
+class="math inline">\(|X_1-X_2|=\int_{\mathbb{R}}|\mathbf{1}\{X_2\le
+u\}-\mathbf{1}\{X_1\le u\}|\,\mathrm{d}u\)</span>, and Tonelli lets the
+expectation pass inside. The integrand is <span
+class="math inline">\(1\)</span> exactly when one of <span
+class="math inline">\(X_1,X_2\)</span> is at most <span
+class="math inline">\(u\)</span> and the other is not, so by Lemma 2 its
+expectation is <span
+class="math inline">\(2F_X(u)\big(1-F_X(u)\big)\)</span>. Both sides are
+finite because <span
+class="math inline">\(\mathbb{E}|X_1-X_2|\le2\mathbb{E}|X|\)</span>.
+∎</p>
+<p>Both are built from the kernel <span class="math inline">\(F_X(x)\bar
+F_X(y)\)</span>, variance by integrating it over the plane and the mean
+absolute difference by integrating it along the diagonal.</p>
+<h3 id="positive-quadrant-dependence">Positive quadrant dependence</h3>
+<p><span class="math inline">\((X,Y)\)</span> is <em>positively quadrant
+dependent</em> (PQD) if <span class="math inline">\(D\ge0\)</span> on
+<span class="math inline">\(\mathbb{R}^2\)</span> (Lehmann, 1966).</p>
+<p><strong>Corollary 2</strong> (Lehmann, 1966)<strong>.</strong> Under
+A1: (i) if <span class="math inline">\((X,Y)\)</span> is PQD then <span
+class="math inline">\(\operatorname{Cov}(X,Y)\ge0\)</span>; (ii) if
+<span class="math inline">\((X,Y)\)</span> is PQD and <span
+class="math inline">\(\operatorname{Cov}(X,Y)=0\)</span>, then <span
+class="math inline">\(X\mathrel{\perp\!\!\!\perp}Y\)</span>.</p>
+<p><em>Proof.</em> <strong>Step 1: sign.</strong> (i) is immediate from
+(1), as the integral of a non-negative function is non-negative.</p>
+<p><strong>Step 2: almost everywhere.</strong> For (ii), <span
+class="math inline">\(D\ge0\)</span> and <span
+class="math inline">\(\iint D=0\)</span> give <span
+class="math inline">\(D=0\)</span> outside a Lebesgue-null set <span
+class="math inline">\(N\)</span>.</p>
+<p><strong>Step 3: everywhere.</strong> Fix <span
+class="math inline">\((x,y)\)</span>. The square <span
+class="math inline">\(S_n=(x,x+\tfrac1n)\times(y,y+\tfrac1n)\)</span>
+has measure <span class="math inline">\(n^{-2}&gt;0\)</span>, so it is
+not contained in <span class="math inline">\(N\)</span> and contains a
+point <span class="math inline">\((x_n,y_n)\)</span> with <span
+class="math inline">\(D(x_n,y_n)=0\)</span>. Distribution functions are
+non-decreasing in each argument, so</p>
+<p><span class="math display">\[
+F_{X,Y}(x,y)\le F_{X,Y}(x_n,y_n)\le
+F_{X,Y}\big(x+\tfrac1n,y+\tfrac1n\big).
+\]</span></p>
+<p>The events <span class="math inline">\(\{X\le x+\tfrac1n,\,Y\le
+y+\tfrac1n\}\)</span> decrease to <span class="math inline">\(\{X\le
+x,\,Y\le y\}\)</span>, so by continuity of <span
+class="math inline">\(\mathbb{P}\)</span> the right side tends to <span
+class="math inline">\(F_{X,Y}(x,y)\)</span>; the same argument gives
+<span class="math inline">\(F_X(x_n)\to F_X(x)\)</span> and <span
+class="math inline">\(F_Y(y_n)\to F_Y(y)\)</span>. Hence <span
+class="math inline">\(D(x,y)=\lim_n D(x_n,y_n)=0\)</span>, and <span
+class="math inline">\(X\mathrel{\perp\!\!\!\perp}Y\)</span>. ∎</p>
+<p>So zero covariance does imply independence when the dependence has a
+fixed sign. The bivariate normal with <span
+class="math inline">\(\rho\ge0\)</span> is PQD, by a Gaussian comparison
+inequality (Slepian, 1962; not proved here).</p>
+<h3 id="an-association-inequality">An association inequality</h3>
+<p><strong>Corollary 3</strong> (association; see Esary, Proschan and
+Walkup, 1967)<strong>.</strong> If <span
+class="math inline">\(f,g\)</span> are non-decreasing and <span
+class="math inline">\(f(X),g(X)\)</span> have finite second moments,
+then <span
+class="math inline">\(\operatorname{Cov}(f(X),g(X))\ge0\)</span>.</p>
+<p><em>Proof.</em> <strong>Step 1: down-sets.</strong> Let <span
+class="math inline">\(U=f(X)\)</span> and <span
+class="math inline">\(V=g(X)\)</span>. The set <span
+class="math inline">\(I_u=\{x:f(x)\le u\}\)</span> is a down-set of
+<span class="math inline">\(\mathbb{R}\)</span>: if <span
+class="math inline">\(x&#39;\le x\in I_u\)</span> then <span
+class="math inline">\(f(x&#39;)\le f(x)\le u\)</span>. A down-set of
+<span class="math inline">\(\mathbb{R}\)</span> is <span
+class="math inline">\(\emptyset\)</span>, <span
+class="math inline">\(\mathbb{R}\)</span>, or an interval <span
+class="math inline">\((-\infty,c)\)</span> or <span
+class="math inline">\((-\infty,c]\)</span>, so any two down-sets are
+nested. The same holds for <span class="math inline">\(J_v=\{x:g(x)\le
+v\}\)</span>.</p>
+<p><strong>Step 2: PQD.</strong> As <span class="math inline">\(\{U\le
+u\}=\{X\in I_u\}\)</span> and <span class="math inline">\(\{V\le
+v\}=\{X\in J_v\}\)</span> with <span class="math inline">\(I_u\)</span>
+and <span class="math inline">\(J_v\)</span> nested, one event contains
+the other, and</p>
+<p><span class="math display">\[
+\mathbb{P}(U\le u,V\le v)=\min\{\mathbb{P}(U\le u),\mathbb{P}(V\le
+v)\}\ge\mathbb{P}(U\le u)\,\mathbb{P}(V\le v),
+\]</span></p>
+<p>because a minimum of two numbers in <span
+class="math inline">\([0,1]\)</span> is at least their product. So <span
+class="math inline">\((U,V)\)</span> is PQD.</p>
+<p><strong>Step 3: conclusion.</strong> Finite second moments give A1
+for <span class="math inline">\((U,V)\)</span> by Cauchy–Schwarz, and
+Corollary 2(i) gives <span
+class="math inline">\(\operatorname{Cov}(U,V)\ge0\)</span>. ∎</p>
+<h3 id="copulas-and-rank-correlation">Copulas and rank correlation</h3>
+<p><strong>Corollary 4.</strong> Let <span
+class="math inline">\(F_X,F_Y\)</span> be continuous, <span
+class="math inline">\(U=F_X(X)\)</span> and <span
+class="math inline">\(V=F_Y(Y)\)</span>. Then <span
+class="math inline">\(U,V\sim\mathrm{Unif}(0,1)\)</span>, the
+distribution function <span class="math inline">\(C\)</span> of <span
+class="math inline">\((U,V)\)</span> satisfies <span
+class="math inline">\(F_{X,Y}(x,y)=C(F_X(x),F_Y(y))\)</span>, and</p>
+<p><span class="math display">\[
+\rho_S(X,Y)\mathrel{:=}\operatorname{Corr}(U,V)=12\iint_{[0,1]^2}\big[C(s,t)-st\big]\,\mathrm{d}s\,\mathrm{d}t
+. \qquad (8)
+\]</span></p>
+<p><em>Proof.</em> <strong>Step 1: uniform marginals.</strong> Fix <span
+class="math inline">\(s\in(0,1)\)</span>. By continuity, and because
+<span class="math inline">\(F_X\)</span> tends to <span
+class="math inline">\(0\)</span> and <span
+class="math inline">\(1\)</span> at <span
+class="math inline">\(\mp\infty\)</span>, the set <span
+class="math inline">\(\{x:F_X(x)=s\}\)</span> is non-empty, closed and
+bounded above; let <span class="math inline">\(q_s\)</span> be its
+largest element. If <span class="math inline">\(x\le q_s\)</span> then
+<span class="math inline">\(F_X(x)\le s\)</span>; if <span
+class="math inline">\(x&gt;q_s\)</span> then <span
+class="math inline">\(F_X(x)&gt;s\)</span> by maximality. So <span
+class="math inline">\(\{U\le s\}=\{X\le q_s\}\)</span> and <span
+class="math inline">\(\mathbb{P}(U\le s)=F_X(q_s)=s\)</span>. The same
+holds for <span class="math inline">\(V\)</span>.</p>
+<p><strong>Step 2: copula representation.</strong> <span
+class="math inline">\(\{X\le x\}\subseteq\{U\le F_X(x)\}\)</span>, and
+the difference is <span
+class="math inline">\(\{X&gt;x,\,F_X(X)=F_X(x)\}\)</span>, contained in
+<span class="math inline">\(\{x&lt;X\le q\}\)</span> for <span
+class="math inline">\(q=q_{F_X(x)}\)</span>, which has probability <span
+class="math inline">\(F_X(q)-F_X(x)=0\)</span>, when <span
+class="math inline">\(F_X(x)\in(0,1)\)</span>. When <span
+class="math inline">\(F_X(x)\in\{0,1\}\)</span>, one event contains the
+other and both have probability <span
+class="math inline">\(F_X(x)\)</span>. Either way they differ by a null
+set. With the same for <span class="math inline">\(Y\)</span>, <span
+class="math inline">\(F_{X,Y}(x,y)=\mathbb{P}(U\le F_X(x),V\le
+F_Y(y))=C(F_X(x),F_Y(y))\)</span>. This is the continuous case of the
+representation of Sklar (1959); see Nelsen (2006) for the general
+theory.</p>
+<p><strong>Step 3: rank correlation.</strong> <span
+class="math inline">\(U\)</span> and <span
+class="math inline">\(V\)</span> are bounded, so A1 holds for <span
+class="math inline">\((U,V)\)</span> and the theorem applies. Their
+dependence function is <span class="math inline">\(C(s,t)-st\)</span> on
+<span class="math inline">\([0,1]^2\)</span> and <span
+class="math inline">\(0\)</span> outside it, since there one of the two
+events has probability <span class="math inline">\(0\)</span> or <span
+class="math inline">\(1\)</span>. With <span
+class="math inline">\(\operatorname{Var}U=\operatorname{Var}V=\int_0^1(s-\tfrac12)^2\,\mathrm{d}s=\tfrac1{12}\)</span>,
+dividing <span class="math inline">\(\operatorname{Cov}(U,V)\)</span> by
+<span class="math inline">\(\tfrac1{12}\)</span> gives (8). ∎</p>
+<p>This is the population form of the rank correlation of Spearman
+(1904). Substituting the representation into (1),</p>
+<p><span class="math display">\[
+\operatorname{Cov}(X,Y)=\iint_{\mathbb{R}^2}\big[C(F_X(x),F_Y(y))-F_X(x)F_Y(y)\big]\,\mathrm{d}x\,\mathrm{d}y
+.
+\]</span></p>
+<p>Rank correlation therefore depends on <span
+class="math inline">\(C\)</span> alone, while covariance also depends on
+the marginals through the measure of integration.</p>
+<h3 id="extremal-covariance-for-fixed-marginals">Extremal covariance for
+fixed marginals</h3>
+<p><strong>Corollary 5.</strong> Fix marginals <span
+class="math inline">\(F_X,F_Y\)</span> with <span
+class="math inline">\(\mathbb{E}X^2,\mathbb{E}Y^2&lt;\infty\)</span>.
+Every joint distribution function with these marginals satisfies the
+copula bounds (Hoeffding, 1940; Fréchet, 1951)</p>
+<p><span class="math display">\[
+\max\{F_X(x)+F_Y(y)-1,0\}\le F_{X,Y}(x,y)\le\min\{F_X(x),F_Y(y)\},
+\qquad (9)
+\]</span></p>
+<p>with equality on the right for the comonotone coupling <span
+class="math inline">\((F_X^{-1}(W),F_Y^{-1}(W))\)</span> and on the left
+for the countermonotone coupling <span
+class="math inline">\((F_X^{-1}(W),F_Y^{-1}(1-W))\)</span>, <span
+class="math inline">\(W\sim\mathrm{Unif}(0,1)\)</span>. These two
+couplings maximise and minimise <span
+class="math inline">\(\operatorname{Cov}(X,Y)\)</span> over all
+couplings with the given marginals.</p>
+<p><em>Proof.</em> <strong>Step 1: bounds.</strong> With <span
+class="math inline">\(A=\{X\le x\}\)</span> and <span
+class="math inline">\(B=\{Y\le y\}\)</span>, <span
+class="math inline">\(\mathbb{P}(A\cap
+B)\le\min\{\mathbb{P}(A),\mathbb{P}(B)\}\)</span> because <span
+class="math inline">\(A\cap B\)</span> lies in both, and <span
+class="math inline">\(\mathbb{P}(A\cap
+B)=\mathbb{P}(A)+\mathbb{P}(B)-\mathbb{P}(A\cup
+B)\ge\mathbb{P}(A)+\mathbb{P}(B)-1\)</span>; also <span
+class="math inline">\(\mathbb{P}(A\cap B)\ge0\)</span>.</p>
+<p><strong>Step 2: generalised inverse.</strong> For a distribution
+function <span class="math inline">\(F\)</span> let <span
+class="math inline">\(F^{-1}(w)\mathrel{:=}\inf\{x:F(x)\ge w\}\)</span>,
+<span class="math inline">\(w\in(0,1)\)</span>. For real <span
+class="math inline">\(x\)</span>, <span
+class="math inline">\(F^{-1}(w)\le x\)</span> if and only if <span
+class="math inline">\(w\le F(x)\)</span>. If <span
+class="math inline">\(w\le F(x)\)</span>, then <span
+class="math inline">\(x\)</span> belongs to <span
+class="math inline">\(\{z:F(z)\ge w\}\)</span>, so its infimum <span
+class="math inline">\(F^{-1}(w)\)</span> is at most <span
+class="math inline">\(x\)</span>. Conversely, <span
+class="math inline">\(F\)</span> is right-continuous and non-decreasing,
+so <span class="math inline">\(F(F^{-1}(w))\ge w\)</span>, and <span
+class="math inline">\(F^{-1}(w)\le x\)</span> gives <span
+class="math inline">\(F(x)\ge F(F^{-1}(w))\ge w\)</span>. In particular
+<span class="math inline">\(\mathbb{P}(F^{-1}(W)\le x)=\mathbb{P}(W\le
+F(x))=F(x)\)</span>, so both couplings have the given marginals.</p>
+<p><strong>Step 3: attainment.</strong> For the comonotone coupling,
+<span class="math inline">\(\mathbb{P}(F_X^{-1}(W)\le x,F_Y^{-1}(W)\le
+y)=\mathbb{P}(W\le F_X(x),\,W\le F_Y(y))=\min\{F_X(x),F_Y(y)\}\)</span>.
+For the countermonotone coupling, <span
+class="math inline">\(F_Y^{-1}(1-W)\le y\)</span> if and only if <span
+class="math inline">\(W\ge1-F_Y(y)\)</span>, so the joint probability is
+<span class="math inline">\(\mathbb{P}\big(1-F_Y(y)\le W\le
+F_X(x)\big)=\max\{F_X(x)+F_Y(y)-1,0\}\)</span>.</p>
+<p><strong>Step 4: extremality.</strong> Second moments give A1 for
+every coupling (Cauchy–Schwarz); with only first moments the comonotone
+covariance can be <span class="math inline">\(+\infty\)</span>.
+Subtracting <span class="math inline">\(F_X(x)F_Y(y)\)</span> throughout
+(9) and integrating, (1) bounds <span
+class="math inline">\(\operatorname{Cov}(X,Y)\)</span> for any coupling
+between its values for the two extremal couplings. ∎</p>
+<p>Correlation <span class="math inline">\(\pm1\)</span> needs an exact
+affine relation, by the equality case of Cauchy–Schwarz: <span
+class="math inline">\(\operatorname{Corr}(X,Y)=-1\)</span> forces <span
+class="math inline">\(Y=a-bX\)</span> almost surely with <span
+class="math inline">\(b&gt;0\)</span>. The marginals may forbid this. If
+<span class="math inline">\(X\)</span> and <span
+class="math inline">\(Y\)</span> are lognormal, <span
+class="math inline">\(X\)</span> is unbounded above, so <span
+class="math inline">\(a-bX&lt;0\)</span> with positive probability while
+<span class="math inline">\(Y&gt;0\)</span>; correlation <span
+class="math inline">\(-1\)</span> is unattainable (Embrechts, McNeil and
+Straumann, 2002).</p>
+<h3 id="functions-of-the-variables">Functions of the variables</h3>
+<p><strong>Corollary 6</strong> (Cuadras, 2002)<strong>.</strong> Let
+<span class="math inline">\(f,g\)</span> be monotone and absolutely
+continuous, and let A1 hold for <span
+class="math inline">\((f(X),g(Y))\)</span>. Then</p>
+<p><span class="math display">\[
+\operatorname{Cov}\big(f(X),g(Y)\big)=\iint_{\mathbb{R}^2}D(x,y)\,f&#39;(x)\,g&#39;(y)\,\mathrm{d}x\,\mathrm{d}y
+.
+\]</span></p>
+<p><em>Proof.</em> <strong>Step 1: the indicator identity.</strong> By
+absolute continuity, <span
+class="math inline">\(f(a)-f(b)=\int_b^af&#39;(u)\,\mathrm{d}u=\int_{\mathbb{R}}\big[\mathbf{1}\{b\le
+u\}-\mathbf{1}\{a\le u\}\big]f&#39;(u)\,\mathrm{d}u\)</span>, by the
+case analysis of Lemma 1. As <span class="math inline">\(f\)</span> is
+monotone, <span class="math inline">\(f&#39;\)</span> has one sign
+almost everywhere, so <span
+class="math inline">\(|f(a)-f(b)|=\int_{\mathbb{R}}\big|\mathbf{1}\{b\le
+u\}-\mathbf{1}\{a\le u\}\big|\,|f&#39;(u)|\,\mathrm{d}u\)</span>. The
+same holds for <span class="math inline">\(g\)</span>.</p>
+<p><strong>Step 2: the proof of the theorem with weights.</strong>
+Symmetrisation with Lemma 2 gives</p>
+<p><span class="math display">\[
+\operatorname{Cov}\big(f(X),g(Y)\big)=\tfrac12\,\mathbb{E}\big[(f(X_1)-f(X_2))(g(Y_1)-g(Y_2))\big],
+\]</span></p>
+<p>the four terms being integrable by A1 for <span
+class="math inline">\((f(X),g(Y))\)</span>. The product is <span
+class="math inline">\(\iint\Phi(u,v)f&#39;(u)g&#39;(v)\,\mathrm{d}u\,\mathrm{d}v\)</span>,
+and the absolute identity with (6) applied to <span
+class="math inline">\((f(X),g(Y))\)</span> makes <span
+class="math inline">\(\mathbb{E}\iint|\Phi|\,|f&#39;(u)|\,|g&#39;(v)|\,\mathrm{d}u\,\mathrm{d}v\)</span>
+finite. Fubini and <span
+class="math inline">\(\mathbb{E}\,\Phi=2D\)</span> conclude as before.
+∎</p>
+<h2 id="worked-example">Worked example</h2>
+<p>Let <span class="math inline">\(X\)</span> be uniform on <span
+class="math inline">\(\{-1,0,1\}\)</span> and <span
+class="math inline">\(Y=X^2\)</span>. Since <span
+class="math inline">\(\mathbb{E}X=\mathbb{E}X^3=\tfrac13(-1+0+1)=0\)</span>,
+<span class="math inline">\(\operatorname{Cov}(X,Y)=\mathbb{E}[X\cdot
+X^2]-\mathbb{E}X\,\mathbb{E}X^2=0\)</span>, yet <span
+class="math inline">\(Y\)</span> is a function of <span
+class="math inline">\(X\)</span>.</p>
+<p><strong>Marginals.</strong> <span class="math inline">\(F_X\)</span>
+equals <span class="math inline">\(0,\tfrac13,\tfrac23,1\)</span> on
+<span class="math inline">\((-\infty,-1)\)</span>, <span
+class="math inline">\([-1,0)\)</span>, <span
+class="math inline">\([0,1)\)</span>, <span
+class="math inline">\([1,\infty)\)</span>. <span
+class="math inline">\(Y\)</span> takes the value <span
+class="math inline">\(0\)</span> with probability <span
+class="math inline">\(\tfrac13\)</span> and <span
+class="math inline">\(1\)</span> with probability <span
+class="math inline">\(\tfrac23\)</span>, so <span
+class="math inline">\(F_Y\)</span> equals <span
+class="math inline">\(0,\tfrac13,1\)</span> on <span
+class="math inline">\((-\infty,0)\)</span>, <span
+class="math inline">\([0,1)\)</span>, <span
+class="math inline">\([1,\infty)\)</span>.</p>
+<p><strong>Dependence function.</strong> For <span
+class="math inline">\(y&lt;0\)</span>, <span
+class="math inline">\(\{Y\le y\}=\emptyset\)</span>, so <span
+class="math inline">\(F_{X,Y}=F_Y=0\)</span> and <span
+class="math inline">\(D=0\)</span>. For <span
+class="math inline">\(y\ge1\)</span>, <span class="math inline">\(\{Y\le
+y\}=\Omega\)</span>, so <span
+class="math inline">\(F_{X,Y}=F_X\)</span>, <span
+class="math inline">\(F_Y=1\)</span> and <span
+class="math inline">\(D=0\)</span>. For <span class="math inline">\(0\le
+y&lt;1\)</span>, <span class="math inline">\(\{Y\le
+y\}=\{X=0\}\)</span>, so <span
+class="math inline">\(F_{X,Y}(x,y)=\mathbb{P}(X\le
+x,X=0)=\tfrac13\mathbf{1}\{x\ge 0\}\)</span> and <span
+class="math inline">\(D(x,y)=\tfrac13[\mathbf{1}\{x\ge
+0\}-F_X(x)]\)</span>:</p>
+<ol type="1">
+<li><span class="math inline">\(x&lt;-1\)</span>: <span
+class="math inline">\(D(x,y)=0\)</span>;</li>
+<li><span class="math inline">\(-1\le x&lt;0\)</span>: <span
+class="math inline">\(D(x,y)=-\tfrac19\)</span>;</li>
+<li><span class="math inline">\(0\le x&lt;1\)</span>: <span
+class="math inline">\(D(x,y)=+\tfrac19\)</span>;</li>
+<li><span class="math inline">\(x\ge1\)</span>: <span
+class="math inline">\(D(x,y)=0\)</span>.</li>
+</ol>
+<p><img src="hoeffding-figure.png"
+alt="Dependence function D for X ∼ Unif{−1, 0, 1}, Y = X². The two squares cancel, so Cov(X, Y) = 0 although Y is a function of X." /></p>
+<p><em>Dependence function D for X ∼ Unif{−1, 0, 1}, Y = X². The two
+squares cancel, so Cov(X, Y) = 0 although Y is a function of X.</em></p>
+<p>The function <span class="math inline">\(D\)</span> is supported on
+two unit squares of opposite sign (see the figure above), so <span
+class="math inline">\(\iint D=-\tfrac19+\tfrac19=0\)</span>, as (1)
+requires. For <span class="math inline">\(x\)</span> just below <span
+class="math inline">\(0\)</span>, the events <span
+class="math inline">\(\{X\le x\}\)</span> and <span
+class="math inline">\(\{Y=0\}\)</span> are disjoint, a negative
+dependence; just above <span class="math inline">\(0\)</span> the
+dependence is positive. Covariance does not register this, but a
+functional of <span class="math inline">\(|D|\)</span> does, for
+instance <span class="math inline">\(\sup|D|=\tfrac19\)</span>.
+Hoeffding’s test of independence (Hoeffding, 1948) is built on <span
+class="math inline">\(\iint D^2\,\mathrm{d}F_{X,Y}\)</span>, which
+characterises independence for continuous joint distributions.</p>
+<h2 id="numerical-check">Numerical check</h2>
+<p>Rows 1 to 3 integrate <span class="math inline">\(D\)</span> by
+trapezoidal quadrature on a grid; row 4 integrates the step function
+<span class="math inline">\(D\)</span> exactly in rational
+arithmetic.</p>
+<ol type="1">
+<li>Normal, unit variances, <span
+class="math inline">\(\rho=\tfrac12\)</span>: <span
+class="math inline">\(\iint D\,\mathrm{d}x\,\mathrm{d}y\)</span>. Exact
+<span class="math inline">\(0.5\)</span>; numerical <span
+class="math inline">\(0.500000\)</span>.</li>
+<li>Same <span class="math inline">\(D\)</span>: <span
+class="math inline">\(12\iint D\,\mathrm{d}F_X\,\mathrm{d}F_Y\)</span>,
+i.e. (8). Exact <span class="math inline">\(0.4826\)</span> (from the
+closed form <span
+class="math inline">\(\tfrac6\pi\arcsin(\rho/2)\)</span>; Kruskal, 1958;
+not proved here); numerical <span
+class="math inline">\(0.4826\)</span>.</li>
+<li><span class="math inline">\(X=Y\sim\mathrm{Exp}(1)\)</span>: <span
+class="math inline">\(\iint D\)</span>, i.e. (7). Exact <span
+class="math inline">\(1\)</span>; numerical <span
+class="math inline">\(0.999992\)</span>.</li>
+<li>Worked example: <span class="math inline">\(\iint D\)</span>. Exact
+<span class="math inline">\(0\)</span>; computed <span
+class="math inline">\(0\)</span> exactly.</li>
+</ol>
+<p>Rows 1 and 2 integrate the same <span
+class="math inline">\(D\)</span>, against <span
+class="math inline">\(\mathrm{d}x\,\mathrm{d}y\)</span> and against
+<span class="math inline">\(\mathrm{d}F_X\,\mathrm{d}F_Y\)</span>
+respectively (substitute <span class="math inline">\(s=F_X(x)\)</span>,
+<span class="math inline">\(t=F_Y(y)\)</span> in (8)); only the measure
+differs.</p>
+<p><strong>Code.</strong> Every number above is printed by the script
+below (Python 3, NumPy, SciPy); its docstring gives the
+requirements.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;The Quiet Theorems No. 00: numerical check.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">Prints every number in the PDF&#39;s check table.</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">Requires Python &gt;= 3.8, NumPy &gt;= 1.20 and</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">SciPy &gt;= 1.6 (for scipy.integrate.trapezoid).</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">Tested with Python 3.13, NumPy 2.5, SciPy 1.18.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">Run: python3 check.py</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fractions <span class="im">import</span> Fraction <span class="im">as</span> Q</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> trapezoid</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm, multivariate_normal</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> trapz2(d, x, y):</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> trapezoid(trapezoid(d, x, axis<span class="op">=</span><span class="dv">1</span>), y)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Bivariate normal, rho = 0.5: integral of D = rho.</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">7.0</span>, <span class="fl">7.0</span>, <span class="dv">281</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(g, g)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>pts <span class="op">=</span> np.column_stack([x.ravel(), y.ravel()])</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>cov <span class="op">=</span> [[<span class="dv">1</span>, rho], [rho, <span class="dv">1</span>]]</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>mvn <span class="op">=</span> multivariate_normal([<span class="dv">0</span>, <span class="dv">0</span>], cov)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> mvn.cdf(pts).reshape(x.shape)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>d <span class="op">-=</span> norm.cdf(x) <span class="op">*</span> norm.cdf(y)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Gaussian cov:  </span><span class="sc">{</span>trapz2(d, g, g)<span class="sc">:.6f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Same D, measure dF_X dF_Y: rank correlation.</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> norm.pdf(x) <span class="op">*</span> norm.pdf(y)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>rs <span class="op">=</span> <span class="dv">12</span> <span class="op">*</span> trapz2(d <span class="op">*</span> w, g, g)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Rank corr:     </span><span class="sc">{</span>rs<span class="sc">:.4f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Closed form:   </span><span class="sc">{</span><span class="dv">6</span><span class="op">/</span>np<span class="sc">.</span>pi<span class="op">*</span>np<span class="sc">.</span>arcsin(rho<span class="op">/</span><span class="dv">2</span>)<span class="sc">:.4f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. X = Y ~ Exp(1): integral of D = Var(X) = 1.</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.linspace(<span class="fl">0.0</span>, <span class="fl">40.0</span>, <span class="dv">4001</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>fx, fy <span class="op">=</span> np.meshgrid(<span class="dv">1</span> <span class="op">-</span> np.exp(<span class="op">-</span>t), <span class="dv">1</span> <span class="op">-</span> np.exp(<span class="op">-</span>t))</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> np.minimum(fx, fy) <span class="op">-</span> fx <span class="op">*</span> fy</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Exp(1) var:    </span><span class="sc">{</span>trapz2(d, t, t)<span class="sc">:.6f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. X ~ Unif{-1,0,1}, Y = X^2: D is a step</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co"># function; integrate it exactly on unit cells.</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>px <span class="op">=</span> {<span class="op">-</span><span class="dv">1</span>: Q(<span class="dv">1</span>, <span class="dv">3</span>), <span class="dv">0</span>: Q(<span class="dv">1</span>, <span class="dv">3</span>), <span class="dv">1</span>: Q(<span class="dv">1</span>, <span class="dv">3</span>)}</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> D(u, v):</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    fxy <span class="op">=</span> <span class="bu">sum</span>(p <span class="cf">for</span> k, p <span class="kw">in</span> px.items()</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>              <span class="cf">if</span> k <span class="op">&lt;=</span> u <span class="kw">and</span> k <span class="op">*</span> k <span class="op">&lt;=</span> v)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    fx <span class="op">=</span> <span class="bu">sum</span>(p <span class="cf">for</span> k, p <span class="kw">in</span> px.items() <span class="cf">if</span> k <span class="op">&lt;=</span> u)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    fy <span class="op">=</span> <span class="bu">sum</span>(p <span class="cf">for</span> k, p <span class="kw">in</span> px.items() <span class="cf">if</span> k <span class="op">*</span> k <span class="op">&lt;=</span> v)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fxy <span class="op">-</span> fx <span class="op">*</span> fy</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>cells <span class="op">=</span> [(u <span class="op">+</span> Q(<span class="dv">1</span>, <span class="dv">2</span>), v <span class="op">+</span> Q(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>         <span class="cf">for</span> u <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>) <span class="cf">for</span> v <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>)]</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>tot <span class="op">=</span> <span class="bu">sum</span>(D(u, v) <span class="cf">for</span> u, v <span class="kw">in</span> cells)</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>mx <span class="op">=</span> <span class="bu">max</span>(<span class="bu">abs</span>(D(u, v)) <span class="cf">for</span> u, v <span class="kw">in</span> cells)</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Example: int D = </span><span class="sc">{</span>tot<span class="sc">}</span><span class="ss">, sup|D| = </span><span class="sc">{</span>mx<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div>
+<p><strong>Output:</strong></p>
+<pre><code>Gaussian cov:  0.500000
+Rank corr:     0.4826
+Closed form:   0.4826
+Exp(1) var:    0.999992
+Example: int D = 0, sup|D| = 1/9</code></pre>
+<h2 id="notes">Notes</h2>
+<p>Wassily Hoeffding proved (1) in his Berlin doctoral dissertation,
+<em>Maßstabinvariante Korrelationstheorie</em> (‘Scale-invariant
+correlation theory’), published in 1940 (Hoeffding, 1940). The
+dissertation develops a theory of dependence invariant under monotone
+rescaling of the axes, the rank-based view of the copula section above,
+and already contains the copula bounds. In 1948 he based a test of
+independence on the whole of <span class="math inline">\(D\)</span>
+(Hoeffding, 1948). The identity reached a wide audience through Lehmann
+(1966).</p>
+<h3 id="references">References</h3>
+<p>Cuadras, C. M. (2002). On the covariance between functions.
+<em>Journal of Multivariate Analysis</em>, 81(1), 19–27.</p>
+<p>Embrechts, P., McNeil, A. J. and Straumann, D. (2002). Correlation
+and dependence in risk management: properties and pitfalls. In M. A. H.
+Dempster (ed.), <em>Risk Management: Value at Risk and Beyond</em>,
+176–223. Cambridge University Press.</p>
+<p>Esary, J. D., Proschan, F. and Walkup, D. W. (1967). Association of
+random variables, with applications. <em>Annals of Mathematical
+Statistics</em>, 38(5), 1466–1474.</p>
+<p>Fréchet, M. (1951). Sur les tableaux de corrélation dont les marges
+sont données. <em>Annales de l’Université de Lyon, Section A, Série
+3</em>, 14, 53–77.</p>
+<p>Gini, C. (1912). <em>Variabilità e Mutabilità: Contributo allo Studio
+delle Distribuzioni e delle Relazioni Statistiche</em>. Tipografia di
+Paolo Cuppini, Bologna.</p>
+<p>Hoeffding, W. (1940). Maßstabinvariante Korrelationstheorie.
+<em>Schriften des Mathematischen Instituts und des Instituts für
+Angewandte Mathematik der Universität Berlin</em>, 5(3), 181–233.
+English translation in N. I. Fisher and P. K. Sen (eds.), <em>The
+Collected Works of Wassily Hoeffding</em>, Springer, 1994.</p>
+<p>Hoeffding, W. (1948). A non-parametric test of independence.
+<em>Annals of Mathematical Statistics</em>, 19(4), 546–557.</p>
+<p>Kruskal, W. H. (1958). Ordinal measures of association. <em>Journal
+of the American Statistical Association</em>, 53(284), 814–861.</p>
+<p>Lehmann, E. L. (1966). Some concepts of dependence. <em>Annals of
+Mathematical Statistics</em>, 37(5), 1137–1153.</p>
+<p>Nelsen, R. B. (2006). <em>An Introduction to Copulas</em>, 2nd edn.
+Springer, New York.</p>
+<p>Sklar, A. (1959). Fonctions de répartition à <span
+class="math inline">\(n\)</span> dimensions et leurs marges.
+<em>Publications de l’Institut de Statistique de l’Université de
+Paris</em>, 8, 229–231.</p>
+<p>Slepian, D. (1962). The one-sided barrier problem for Gaussian noise.
+<em>Bell System Technical Journal</em>, 41(2), 463–501.</p>
+<p>Spearman, C. (1904). The proof and measurement of association between
+two things. <em>American Journal of Psychology</em>, 15(1), 72–101.</p>
+<p><a href="../../">All issues</a></p><footer>The Quiet Theorems · Omid Shams Solari, Ph.D. · sAIm Labs · <a href="https://omidsolari.substack.com">Substack</a></footer>
+</body>
+</html>

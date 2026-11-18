@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>De Bruijn's identity · The Quiet Theorems</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../style.css" />
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<h1 id="the-quiet-theorems-no-01-de-bruijns-identity">The Quiet Theorems
+No. 01: De Bruijn’s identity</h1>
+<p><em>Under Gaussian smoothing, differential entropy grows at exactly
+half the rate of Fisher information</em></p>
+<p>Published 18 November 2026: <a
+href="https://omidsolari.substack.com/p/the-quiet-theorems-no-01-de-bruijns">https://omidsolari.substack.com/p/the-quiet-theorems-no-01-de-bruijns</a></p>
+<blockquote>
+<p><strong>TL;DR.</strong> Adding independent Gaussian noise to a random
+variable makes it more spread out, so its differential entropy grows
+with the noise variance. De Bruijn’s identity, published by Stam (1959),
+gives the rate exactly: the derivative of the entropy with respect to
+the noise variance is half the Fisher information of the noisy variable.
+Half the Fisher information is therefore the rate at which Gaussian
+smoothing creates entropy.</p>
+</blockquote>
+<p><a
+href="https://omidsolari.substack.com/p/the-quiet-theorems-no-01-de-bruijns">Substack</a>
+· <a href="pdf/qt-01-debruijn.pdf">PDF (A4)</a> · <a
+href="pdf/qt-01-debruijn-screen.pdf">PDF (screen)</a> · <a
+href="notebook.html">Notebook</a> · <a href="main.tex">LaTeX source</a>
+· <a
+href="https://github.com/osolari/the-quiet-theorems/blob/main/docs/posts/01-debruijn">Source</a>
+· <a
+href="https://colab.research.google.com/github/osolari/the-quiet-theorems/blob/main/docs/posts/01-debruijn/notebook.ipynb">Open
+in Colab</a></p>
+<h2 id="setup-and-notation">Setup and notation</h2>
+<p>Let <span class="math inline">\(X\)</span> and <span
+class="math inline">\(Z\)</span> be independent random variables on a
+probability space <span
+class="math inline">\((\Omega,\mathcal{F},\mathbb{P})\)</span>, with
+<span class="math inline">\(Z\sim\mathcal{N}(0,1)\)</span> and <span
+class="math inline">\(X\)</span> arbitrary (it may be discrete). For
+<span class="math inline">\(t&gt;0\)</span> set</p>
+<p><span class="math display">\[
+Y_t\mathrel{:=}X+\sqrt t\,Z .
+\]</span></p>
+<ol type="1">
+<li><span class="math inline">\(\varphi_t(z)=(2\pi
+t)^{-1/2}e^{-z^2/(2t)}\)</span>: density of <span
+class="math inline">\(\mathcal{N}(0,t)\)</span>;</li>
+<li><span
+class="math inline">\(p_t(y)=\mathbb{E}\,\varphi_t(y-X)\)</span>:
+density of <span class="math inline">\(Y_t\)</span> (Lemma 2);</li>
+<li><span class="math inline">\(p_t&#39;\)</span>, <span
+class="math inline">\(p_t&#39;&#39;\)</span>; <span
+class="math inline">\(\partial_t p_t\)</span>: derivatives in <span
+class="math inline">\(y\)</span>; derivative in <span
+class="math inline">\(t\)</span>;</li>
+<li><span class="math inline">\(h(Y_t)=-\int_{\mathbb{R}}p_t\log
+p_t\,\mathrm{d}y\)</span>: differential entropy (nats);</li>
+<li><span class="math inline">\(\rho_t=p_t&#39;/p_t\)</span>: score of
+<span class="math inline">\(Y_t\)</span>;</li>
+<li><span
+class="math inline">\(J(Y_t)=\int_{\mathbb{R}}(p_t&#39;)^2/p_t\,\mathrm{d}y=\mathbb{E}\,\rho_t(Y_t)^2\)</span>:
+Fisher information of <span class="math inline">\(Y_t\)</span>;</li>
+<li><span class="math inline">\(\mu=\mathbb{E}X\)</span>, <span
+class="math inline">\(\sigma^2=\operatorname{Var}X\)</span>: mean and
+variance of <span class="math inline">\(X\)</span>.</li>
+</ol>
+<p><span class="math inline">\(J(Y_t)\)</span> is the Fisher information
+of the location family <span
+class="math inline">\(\{p_t(\cdot-\theta):\theta\in\mathbb{R}\}\)</span>,
+since <span class="math inline">\(\partial_\theta\log
+p_t(y-\theta)=-\rho_t(y-\theta)\)</span>.</p>
+<p><strong>Assumption A1.</strong> <span
+class="math inline">\(\mathbb{E}X^2&lt;\infty\)</span>.</p>
+<p>Statements of the identity often assume that <span
+class="math inline">\(X\)</span> has a smooth density; none is needed
+here, because the Gaussian noise supplies the regularity. A1 is used
+only to make <span class="math inline">\(h(Y_t)\)</span> finite and to
+control the tails of <span class="math inline">\(\log p_t\)</span>.</p>
+<h2 id="result">Result</h2>
+<p><strong>Theorem (de Bruijn; Stam, 1959).</strong> Under A1, for every
+<span class="math inline">\(t&gt;0\)</span> the entropy <span
+class="math inline">\(h(Y_t)\)</span> and the Fisher information <span
+class="math inline">\(J(Y_t)\)</span> are finite, <span
+class="math inline">\(J(Y_t)\le 1/t\)</span>, and <span
+class="math inline">\(t\mapsto h(Y_t)\)</span> is differentiable on
+<span class="math inline">\((0,\infty)\)</span> with</p>
+<p><span class="math display">\[
+\frac{\mathrm{d}}{\mathrm{d}t}\,h\big(X+\sqrt
+t\,Z\big)=\frac12\,J\big(X+\sqrt t\,Z\big). \qquad (1)
+\]</span></p>
+<p><strong>Remark.</strong> For <span
+class="math inline">\(X\sim\mathcal{N}(\mu,\sigma^2)\)</span>, <span
+class="math inline">\(Y_t\)</span> is a sum of independent Gaussians, so
+<span class="math inline">\(Y_t\sim\mathcal{N}(\mu,v)\)</span> with
+<span class="math inline">\(v=\sigma^2+t\)</span>. Then <span
+class="math inline">\(-\log p_t(y)=\tfrac12\log(2\pi
+v)+(y-\mu)^2/(2v)\)</span>, and taking expectations with <span
+class="math inline">\(\mathbb{E}(Y_t-\mu)^2=v\)</span> gives <span
+class="math inline">\(h(Y_t)=\tfrac12\log(2\pi ev)\)</span>.
+Differentiating <span class="math inline">\(\log p_t\)</span> gives
+<span class="math inline">\(\rho_t(y)=-(y-\mu)/v\)</span>, so <span
+class="math inline">\(J(Y_t)=\mathbb{E}(Y_t-\mu)^2/v^2=1/v\)</span>.
+Both sides of (1) therefore equal <span
+class="math inline">\(1/(2v)=1/\big(2(\sigma^2+t)\big)\)</span>.</p>
+<h2 id="proof">Proof</h2>
+<p>The proof differentiates <span class="math inline">\(h(Y_t)=-\int
+p_t\log p_t\)</span> under the integral, uses the heat equation <span
+class="math inline">\(\partial_tp_t=\tfrac12p_t&#39;&#39;\)</span> to
+turn the <span class="math inline">\(t\)</span>-derivative into a <span
+class="math inline">\(y\)</span>-derivative, and integrates by parts
+once. The lemmas supply the regularity this needs. Throughout, <span
+class="math inline">\(0&lt;a&lt;b\)</span> and <span
+class="math inline">\(t\in[a,b]\)</span>; constants may depend on <span
+class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>
+and <span class="math inline">\(\mathbb{E}X^2\)</span> but not on <span
+class="math inline">\(t\)</span> or <span
+class="math inline">\(y\)</span>.</p>
+<p><strong>Lemma 1.</strong> The kernel satisfies <span
+class="math inline">\(\partial_t\varphi_t=\tfrac12\varphi_t&#39;&#39;\)</span>,
+with <span
+class="math inline">\(\varphi_t&#39;(z)=-(z/t)\varphi_t(z)\)</span> and
+<span
+class="math inline">\(\varphi_t&#39;&#39;(z)=(z^2/t^2-1/t)\varphi_t(z)\)</span>.
+With <span class="math inline">\(\Gamma(z)\mathrel{:=}(2\pi
+a)^{-1/2}e^{-z^2/(2b)}\)</span>, for <span
+class="math inline">\(t\in[a,b]\)</span> and all <span
+class="math inline">\(z\)</span>,</p>
+<p><span class="math display">\[
+\varphi_t\le\Gamma,\qquad
+|\varphi_t&#39;(z)|\le\tfrac{|z|}{a}\Gamma(z),\qquad
+|\varphi_t&#39;&#39;(z)|\le\big(\tfrac{z^2}{a^2}+\tfrac1a\big)\Gamma(z).
+\qquad (2)
+\]</span></p>
+<p>Moreover <span
+class="math inline">\(\Gamma=(b/a)^{1/2}\varphi_b\)</span>, so <span
+class="math inline">\(\int_{\mathbb{R}}|z|^k\Gamma(z)\,\mathrm{d}z=(b/a)^{1/2}\,b^{k/2}\,\mathbb{E}|Z|^k&lt;\infty\)</span>
+for every <span class="math inline">\(k\ge0\)</span>, and <span
+class="math inline">\(\sup_z|z|^k\Gamma(z)&lt;\infty\)</span>.</p>
+<p><em>Proof.</em> <strong>Step 1: derivatives in <span
+class="math inline">\(z\)</span>.</strong> Since <span
+class="math inline">\(\log\varphi_t(z)=-\tfrac12\log(2\pi
+t)-z^2/(2t)\)</span>, we get <span
+class="math inline">\(\varphi_t&#39;(z)=\varphi_t(z)\,\partial_z\log\varphi_t(z)=-(z/t)\varphi_t(z)\)</span>.
+By the product rule,</p>
+<p><span class="math display">\[
+\varphi_t&#39;&#39;(z)=-\tfrac1t\varphi_t(z)-\tfrac
+zt\varphi_t&#39;(z)=\Big(\frac{z^2}{t^2}-\frac1t\Big)\varphi_t(z).
+\]</span></p>
+<p><strong>Step 2: derivative in <span
+class="math inline">\(t\)</span>.</strong> <span
+class="math inline">\(\partial_t\log\varphi_t(z)=-\tfrac1{2t}+\tfrac{z^2}{2t^2}\)</span>,
+so <span
+class="math inline">\(\partial_t\varphi_t(z)=\big(\tfrac{z^2}{2t^2}-\tfrac1{2t}\big)\varphi_t(z)=\tfrac12\varphi_t&#39;&#39;(z)\)</span>.</p>
+<p><strong>Step 3: bounds.</strong> For <span
+class="math inline">\(t\in[a,b]\)</span>, <span
+class="math inline">\((2\pi t)^{-1/2}\le(2\pi a)^{-1/2}\)</span> and, as
+<span class="math inline">\(1/t\ge1/b\)</span>, <span
+class="math inline">\(e^{-z^2/(2t)}\le e^{-z^2/(2b)}\)</span>; hence
+<span class="math inline">\(\varphi_t\le\Gamma\)</span>. Then <span
+class="math inline">\(|\varphi_t&#39;(z)|=(|z|/t)\varphi_t(z)\le(|z|/a)\Gamma(z)\)</span>,
+and by the triangle inequality <span
+class="math inline">\(|\varphi_t&#39;&#39;(z)|\le(z^2/t^2+1/t)\varphi_t(z)\le(z^2/a^2+1/a)\Gamma(z)\)</span>.</p>
+<p><strong>Step 4: moments of <span
+class="math inline">\(\Gamma\)</span>.</strong> <span
+class="math inline">\((2\pi a)^{-1/2}=(b/a)^{1/2}(2\pi
+b)^{-1/2}\)</span>, so <span
+class="math inline">\(\Gamma=(b/a)^{1/2}\varphi_b\)</span>, and <span
+class="math inline">\(\int|z|^k\varphi_b(z)\,\mathrm{d}z=\mathbb{E}|\sqrt
+b\,Z|^k=b^{k/2}\mathbb{E}|Z|^k\)</span>, finite because <span
+class="math inline">\(Z\)</span> has moments of all orders. Finally
+<span class="math inline">\(|z|^ke^{-z^2/(2b)}\)</span> is continuous
+and tends to <span class="math inline">\(0\)</span> as <span
+class="math inline">\(|z|\to\infty\)</span>, so it is bounded. ∎</p>
+<p><strong>Lemma 2.</strong> <span class="math inline">\(Y_t\)</span>
+has the density <span
+class="math inline">\(p_t(y)=\mathbb{E}\,\varphi_t(y-X)&gt;0\)</span>.
+The map <span class="math inline">\((t,y)\mapsto p_t(y)\)</span> is
+continuously differentiable in <span class="math inline">\(t\)</span>
+and twice continuously differentiable in <span
+class="math inline">\(y\)</span> on <span
+class="math inline">\((0,\infty)\times\mathbb{R}\)</span>, with</p>
+<p><span class="math display">\[
+p_t^{(k)}(y)=\mathbb{E}\,\varphi_t^{(k)}(y-X)\ (k=1,2),\qquad
+\partial_t p_t=\tfrac12\,p_t&#39;&#39; . \qquad (3)
+\]</span></p>
+<p>Moreover <span class="math inline">\(p_t&#39;(y)\to0\)</span> as
+<span class="math inline">\(|y|\to\infty\)</span>, and for <span
+class="math inline">\(t\in[a,b]\)</span> and all <span
+class="math inline">\(y\)</span>,</p>
+<p><span class="math display">\[
+|\log p_t(y)|\le A+y^2/a,\qquad A\mathrel{:=}\tfrac12|\log(2\pi
+a)|+\tfrac12|\log(2\pi b)|+\mathbb{E}X^2/a . \qquad (4)
+\]</span></p>
+<p><em>Proof.</em> <strong>Step 1: density.</strong> Let <span
+class="math inline">\(\mu_X\)</span> be the law of <span
+class="math inline">\(X\)</span>. As <span
+class="math inline">\(X\mathrel{\perp\!\!\!\perp}Z\)</span>, the law of
+<span class="math inline">\((X,Z)\)</span> is <span
+class="math inline">\(\mu_X\otimes\mathcal{N}(0,1)\)</span>. For a Borel
+set <span class="math inline">\(B\)</span>, Tonelli’s theorem (the
+integrand is non-negative and jointly measurable) and the substitution
+<span class="math inline">\(y=x+\sqrt t\,z\)</span> in the inner
+integral, with <span class="math inline">\(\mathrm{d}z=\mathrm{d}y/\sqrt
+t\)</span> and <span class="math inline">\(\varphi_1\big((y-x)/\sqrt
+t\big)/\sqrt t=\varphi_t(y-x)\)</span>, give</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{P}(Y_t\in
+B)&amp;=\int_{\mathbb{R}}\int_{\mathbb{R}}\mathbf{1}\{x+\sqrt t\,z\in
+B\}\,\varphi_1(z)\,\mathrm{d}z\,\mu_X(\mathrm{d}x)\\
+&amp;=\int_{\mathbb{R}}\int_B\varphi_t(y-x)\,\mathrm{d}y\,\mu_X(\mathrm{d}x)
+=\int_B\mathbb{E}\,\varphi_t(y-X)\,\mathrm{d}y,
+\end{aligned}
+\]</span></p>
+<p>the last step by Tonelli again, since <span
+class="math inline">\((x,y)\mapsto\varphi_t(y-x)\)</span> is continuous
+and non-negative. So <span
+class="math inline">\(p_t(y)=\mathbb{E}\,\varphi_t(y-X)\)</span> is a
+density of <span class="math inline">\(Y_t\)</span>, and <span
+class="math inline">\(p_t(y)&gt;0\)</span> because <span
+class="math inline">\(\varphi_t&gt;0\)</span>.</p>
+<p><em>Justification (differentiation under <span
+class="math inline">\(\mathbb{E}\)</span>).</em> Fix <span
+class="math inline">\(y\)</span> and <span
+class="math inline">\(t\in(a,b)\)</span>. By (2) and Lemma 1,</p>
+<p><span class="math display">\[
+C_1\mathrel{:=}\sup_{z}\tfrac{|z|}{a}\Gamma(z)&lt;\infty,\qquad
+C_2\mathrel{:=}\sup_z\big(\tfrac{z^2}{a^2}+\tfrac1a\big)\Gamma(z)&lt;\infty
+\]</span></p>
+<p>bound <span class="math inline">\(|\varphi_s&#39;|\)</span> and <span
+class="math inline">\(|\varphi_s&#39;&#39;|\)</span> for every <span
+class="math inline">\(s\in[a,b]\)</span>, and <span
+class="math inline">\(|\partial_s\varphi_s|=\tfrac12|\varphi_s&#39;&#39;|\le\tfrac12C_2\)</span>.
+For <span class="math inline">\(h\ne0\)</span>, the mean value theorem
+gives</p>
+<p><span class="math display">\[
+\Big|\frac{\varphi_t(y+h-X)-\varphi_t(y-X)}{h}\Big|\le C_1,
+\qquad
+\Big|\frac{\varphi_{t+h}(y-X)-\varphi_t(y-X)}{h}\Big|\le\frac{C_2}2,
+\]</span></p>
+<p>the second when <span class="math inline">\(t+h\in[a,b]\)</span>.
+Constants are integrable under <span
+class="math inline">\(\mathbb{P}\)</span>, so dominated convergence as
+<span class="math inline">\(h\to0\)</span> gives <span
+class="math inline">\(p_t&#39;(y)=\mathbb{E}\,\varphi_t&#39;(y-X)\)</span>
+and <span
+class="math inline">\(\partial_tp_t(y)=\mathbb{E}\,\partial_t\varphi_t(y-X)\)</span>.
+Repeating the first bound with <span
+class="math inline">\(\varphi_t&#39;\)</span> in place of <span
+class="math inline">\(\varphi_t\)</span> and <span
+class="math inline">\(C_2\)</span> in place of <span
+class="math inline">\(C_1\)</span> gives <span
+class="math inline">\(p_t&#39;&#39;(y)=\mathbb{E}\,\varphi_t&#39;&#39;(y-X)\)</span>.
+Each integrand <span class="math inline">\(\varphi^{(k)}_s(y-X)\)</span>
+and <span class="math inline">\(\partial_s\varphi_s(y-X)\)</span> is
+continuous in <span class="math inline">\((s,y)\)</span> for every value
+of <span class="math inline">\(X\)</span> and bounded by a constant, so
+dominated convergence along sequences shows that <span
+class="math inline">\(p_t\)</span>, <span
+class="math inline">\(p_t&#39;\)</span>, <span
+class="math inline">\(p_t&#39;&#39;\)</span> and <span
+class="math inline">\(\partial_tp_t\)</span> are continuous on <span
+class="math inline">\((a,b)\times\mathbb{R}\)</span>. As <span
+class="math inline">\(0&lt;a&lt;b\)</span> are arbitrary, this holds on
+<span class="math inline">\((0,\infty)\times\mathbb{R}\)</span>, and by
+Lemma 1, <span
+class="math inline">\(\partial_tp_t=\mathbb{E}\,\partial_t\varphi_t(y-X)=\tfrac12\mathbb{E}\,\varphi_t&#39;&#39;(y-X)=\tfrac12p_t&#39;&#39;\)</span>.</p>
+<p><strong>Step 2: decay.</strong> Let <span
+class="math inline">\(|y_n|\to\infty\)</span>. For each value of <span
+class="math inline">\(X\)</span>, <span
+class="math inline">\(|\varphi_t&#39;(y_n-X)|\le(|y_n-X|/a)\Gamma(y_n-X)\to0\)</span>,
+since <span class="math inline">\(|z|\Gamma(z)\to0\)</span> as <span
+class="math inline">\(|z|\to\infty\)</span>; and <span
+class="math inline">\(|\varphi_t&#39;(y_n-X)|\le C_1\)</span>. Dominated
+convergence gives <span
+class="math inline">\(p_t&#39;(y_n)=\mathbb{E}\,\varphi_t&#39;(y_n-X)\to0\)</span>.</p>
+<p><strong>Step 3: upper log bound.</strong> <span
+class="math inline">\(p_t(y)=\mathbb{E}\,\varphi_t(y-X)\le\sup_z\varphi_t(z)=(2\pi
+t)^{-1/2}\le(2\pi a)^{-1/2}\)</span>, so <span
+class="math inline">\(\log p_t(y)\le-\tfrac12\log(2\pi
+a)\le\tfrac12|\log(2\pi a)|\le A+y^2/a\)</span>.</p>
+<p><strong>Step 4: lower log bound.</strong> <span
+class="math inline">\(\log\varphi_t(y-X)=-\tfrac12\log(2\pi
+t)-(y-X)^2/(2t)\)</span> is integrable, because <span
+class="math inline">\((y-X)^2\le2y^2+2X^2\)</span> and <span
+class="math inline">\(\mathbb{E}X^2&lt;\infty\)</span> (A1). As <span
+class="math inline">\(\log\)</span> is concave and <span
+class="math inline">\(\varphi_t(y-X)\)</span> is positive and
+integrable, Jensen’s inequality gives <span
+class="math inline">\(\log\mathbb{E}\,\varphi_t(y-X)\ge\mathbb{E}\log\varphi_t(y-X)\)</span>.
+Using <span class="math inline">\(t\le b\)</span> in the first term and
+<span class="math inline">\(1/(2t)\le1/(2a)\)</span> in the second,</p>
+<p><span class="math display">\[
+\log p_t(y)\ge-\tfrac12\log(2\pi
+t)-\frac{\mathbb{E}(y-X)^2}{2t}\ge-\tfrac12\log(2\pi
+b)-\frac{2y^2+2\mathbb{E}X^2}{2a}\ge-A-\frac{y^2}{a}.
+\]</span></p>
+<p>Together with the upper bound this is (4). ∎</p>
+<p><strong>Lemma 3.</strong> For <span
+class="math inline">\(t&gt;0\)</span>, <span
+class="math inline">\(\mathbb{E}[Z\mid Y_t]=-\sqrt
+t\,\rho_t(Y_t)\)</span> almost surely. Consequently</p>
+<p><span class="math display">\[
+J(Y_t)=\frac{\mathbb{E}\big[(\mathbb{E}[Z\mid Y_t])^2\big]}{t}\le\frac1t
+. \qquad (5)
+\]</span></p>
+<p><em>Proof.</em> <strong>Step 1: an identity for bounded <span
+class="math inline">\(g\)</span>.</strong> Let <span
+class="math inline">\(g\)</span> be bounded and Borel. Conditioning on
+<span class="math inline">\(X\)</span> as in Lemma 2 and substituting
+<span class="math inline">\(y=x+\sqrt t\,z\)</span>, <span
+class="math inline">\(z=(y-x)/\sqrt t\)</span>, in the inner
+integral,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}[Z\,g(Y_t)]&amp;=\int_{\mathbb{R}}\int_{\mathbb{R}}z\,g(x+\sqrt
+t z)\,\varphi_1(z)\,\mathrm{d}z\,\mu_X(\mathrm{d}x)\\
+&amp;=\int_{\mathbb{R}}\int_{\mathbb{R}}g(y)\,\frac{y-x}{\sqrt
+t}\,\varphi_t(y-x)\,\mathrm{d}y\,\mu_X(\mathrm{d}x)\\
+&amp;=-\sqrt
+t\int_{\mathbb{R}}\int_{\mathbb{R}}g(y)\,\varphi_t&#39;(y-x)\,\mathrm{d}y\,\mu_X(\mathrm{d}x)
+=-\sqrt t\int_{\mathbb{R}}g(y)\,p_t&#39;(y)\,\mathrm{d}y,
+\end{aligned}
+\]</span></p>
+<p>using <span
+class="math inline">\((y-x)\varphi_t(y-x)=-t\,\varphi_t&#39;(y-x)\)</span>
+(Lemma 1) in the second line, then exchanging the integrals and applying
+(3).</p>
+<p><em>Justification (Fubini).</em> The integrands are jointly
+measurable, and by Tonelli <span
+class="math inline">\(\int\!\!\int|z\,g(x+\sqrt
+tz)|\varphi_1(z)\,\mathrm{d}z\,\mu_X(\mathrm{d}x)\le\sup|g|\,\mathbb{E}|Z|&lt;\infty\)</span>.
+The same substitution shows that the double integral of <span
+class="math inline">\(|g(y)\varphi_t&#39;(y-x)|\)</span> equals this
+quantity divided by <span class="math inline">\(\sqrt t\)</span>, so
+both exchanges are justified by Fubini’s theorem.</p>
+<p><strong>Step 2: the score is integrable.</strong> Take <span
+class="math inline">\(g=\operatorname{sign}p_t&#39;\)</span>, which is
+Borel because <span class="math inline">\(p_t&#39;\)</span> is
+continuous. The identity gives <span class="math inline">\(\sqrt
+t\int|p_t&#39;|\,\mathrm{d}y=-\mathbb{E}[Z\,g(Y_t)]\le\mathbb{E}|Z|\)</span>,
+so <span
+class="math inline">\(\int|p_t&#39;|\,\mathrm{d}y\le\mathbb{E}|Z|/\sqrt
+t\)</span>. Since <span class="math inline">\(Y_t\)</span> has density
+<span class="math inline">\(p_t\)</span>, <span
+class="math inline">\(\mathbb{E}|\rho_t(Y_t)|=\int|p_t&#39;/p_t|\,p_t\,\mathrm{d}y=\int|p_t&#39;|\,\mathrm{d}y&lt;\infty\)</span>.</p>
+<p><strong>Step 3: identification of the conditional
+expectation.</strong> For bounded Borel <span
+class="math inline">\(g\)</span>, <span class="math inline">\(-\sqrt
+t\int g\,p_t&#39;\,\mathrm{d}y=\int g(y)\big(-\sqrt
+t\,\rho_t(y)\big)p_t(y)\,\mathrm{d}y=\mathbb{E}\big[g(Y_t)\big(-\sqrt
+t\,\rho_t(Y_t)\big)\big]\)</span>. So <span
+class="math inline">\(\mathbb{E}[ZW]=\mathbb{E}[W(-\sqrt
+t\,\rho_t(Y_t))]\)</span> for every <span
+class="math inline">\(W=g(Y_t)\)</span>, and every bounded <span
+class="math inline">\(\sigma(Y_t)\)</span>-measurable <span
+class="math inline">\(W\)</span> has this form (Doob–Dynkin lemma). As
+<span class="math inline">\(\rho_t\)</span> is continuous, <span
+class="math inline">\(-\sqrt t\,\rho_t(Y_t)\)</span> is <span
+class="math inline">\(\sigma(Y_t)\)</span>-measurable, and it is
+integrable by the previous step; it therefore satisfies the defining
+property of <span class="math inline">\(\mathbb{E}[Z\mid
+Y_t]\)</span>.</p>
+<p><strong>Step 4: Fisher information.</strong> By the definition of
+<span class="math inline">\(J\)</span> and the previous step, <span
+class="math inline">\(J(Y_t)=\mathbb{E}\rho_t(Y_t)^2=\mathbb{E}\big[(\mathbb{E}[Z\mid
+Y_t])^2\big]/t\)</span>. Conditional Jensen gives <span
+class="math inline">\((\mathbb{E}[Z\mid Y_t])^2\le\mathbb{E}[Z^2\mid
+Y_t]\)</span>, and taking expectations, <span
+class="math inline">\(\mathbb{E}\big[(\mathbb{E}[Z\mid
+Y_t])^2\big]\le\mathbb{E}Z^2=1\)</span>. ∎</p>
+<p><strong>Lemma 4.</strong> If <span
+class="math inline">\(f\ge0\)</span> is integrable on <span
+class="math inline">\(\mathbb{R}\)</span>, there are <span
+class="math inline">\(R_n\to\infty\)</span> and <span
+class="math inline">\(R_n&#39;\to\infty\)</span>, both increasing, with
+<span class="math inline">\(f(R_n)\to0\)</span> and <span
+class="math inline">\(f(-R_n&#39;)\to0\)</span>.</p>
+<p><em>Proof.</em> Suppose that no increasing <span
+class="math inline">\(R_n\to\infty\)</span> has <span
+class="math inline">\(f(R_n)\to0\)</span>. Then there are <span
+class="math inline">\(\varepsilon&gt;0\)</span> and <span
+class="math inline">\(M\)</span> with <span
+class="math inline">\(f(y)\ge\varepsilon\)</span> for all <span
+class="math inline">\(y\ge M\)</span>: otherwise, for each <span
+class="math inline">\(n\)</span> we could pick <span
+class="math inline">\(R_n\ge\max(n,R_{n-1}+1)\)</span> with <span
+class="math inline">\(f(R_n)&lt;1/n\)</span>. Hence <span
+class="math inline">\(\int_M^\infty
+f\,\mathrm{d}y\ge\int_M^\infty\varepsilon\,\mathrm{d}y=\infty\)</span>,
+contradicting integrability. Applying this to <span
+class="math inline">\(y\mapsto f(-y)\)</span> gives <span
+class="math inline">\(R_n&#39;\)</span>. ∎</p>
+<p><em>Proof of the theorem.</em> <strong>Step 1: finiteness.</strong>
+By (4), <span class="math inline">\(|p_t\log p_t|\le
+p_t\,(A+y^2/a)\)</span>. Its integral is <span
+class="math inline">\(A+\mathbb{E}Y_t^2/a\)</span>, and <span
+class="math inline">\(\mathbb{E}Y_t^2=\mathbb{E}X^2+2\sqrt
+t\,\mathbb{E}X\,\mathbb{E}Z+t\,\mathbb{E}Z^2=\mathbb{E}X^2+t\)</span> by
+independence and <span class="math inline">\(\mathbb{E}Z=0\)</span>. So
+<span class="math inline">\(p_t\log p_t\)</span> is integrable and <span
+class="math inline">\(h(Y_t)\)</span> is finite. That <span
+class="math inline">\(J(Y_t)\)</span> is finite with <span
+class="math inline">\(J(Y_t)\le1/t\)</span> is Lemma 3.</p>
+<p><strong>Step 2: differentiating the entropy.</strong> Write <span
+class="math inline">\(\eta_t(y)\mathrel{:=}-p_t(y)\log p_t(y)\)</span>,
+so that <span
+class="math inline">\(h(Y_t)=\int\eta_t\,\mathrm{d}y\)</span>. Fix <span
+class="math inline">\(y\)</span>. By Lemma 2, <span
+class="math inline">\(t\mapsto p_t(y)\)</span> is positive and
+continuously differentiable, and <span
+class="math inline">\(u\mapsto-u\log u\)</span> is continuously
+differentiable on <span class="math inline">\((0,\infty)\)</span> with
+derivative <span class="math inline">\(-(1+\log u)\)</span>. By the
+chain rule and (3),</p>
+<p><span class="math display">\[
+\partial_t\eta_t(y)=-\big(1+\log
+p_t(y)\big)\,\partial_tp_t(y)=-\tfrac12\big(1+\log
+p_t(y)\big)\,p_t&#39;&#39;(y).
+\]</span></p>
+<p><em>Justification (dominated convergence in <span
+class="math inline">\(t\)</span>).</em> For <span
+class="math inline">\(t\in[a,b]\)</span>, (3) and (2) give <span
+class="math inline">\(|p_t&#39;&#39;(y)|\le\mathbb{E}|\varphi_t&#39;&#39;(y-X)|\le\mathbb{E}\big[\big(\tfrac{(y-X)^2}{a^2}+\tfrac1a\big)\Gamma(y-X)\big]\)</span>,
+and (4) gives <span class="math inline">\(|1+\log
+p_t(y)|\le1+A+y^2/a\)</span>. Hence</p>
+<p><span class="math display">\[
+|\partial_t\eta_t(y)|\le
+G(y)\mathrel{:=}\tfrac12\,\mathbb{E}\Big[\Big(\tfrac{(y-X)^2}{a^2}+\tfrac1a\Big)\Gamma(y-X)\Big]\,\big(1+A+y^2/a\big),
+\]</span></p>
+<p>a bound that does not depend on <span
+class="math inline">\(t\)</span>. <span class="math inline">\(G\)</span>
+is integrable: by Tonelli, then the substitution <span
+class="math inline">\(z=y-X\)</span> for each value of <span
+class="math inline">\(X\)</span> and <span
+class="math inline">\(y^2=(z+X)^2\le2z^2+2X^2\)</span>,</p>
+<p><span class="math display">\[
+\int_{\mathbb{R}}G\,\mathrm{d}y\le\tfrac12\,\mathbb{E}\int_{\mathbb{R}}\Big(\tfrac{z^2}{a^2}+\tfrac1a\Big)\Gamma(z)\Big(1+A+\tfrac{2z^2+2X^2}{a}\Big)\,\mathrm{d}z
+.
+\]</span></p>
+<p>Expanding the product, the right side is a finite combination of
+<span class="math inline">\(\int|z|^k\Gamma(z)\,\mathrm{d}z\)</span> for
+<span class="math inline">\(k\in\{0,2,4\}\)</span> and of <span
+class="math inline">\(\mathbb{E}X^2\)</span> times such integrals, all
+finite by Lemma 1 and A1. Now let <span
+class="math inline">\(t\in(a,b)\)</span> and <span
+class="math inline">\(h\ne0\)</span> with <span
+class="math inline">\(t+h\in[a,b]\)</span>. By the mean value theorem,
+<span
+class="math inline">\(\big(\eta_{t+h}(y)-\eta_t(y)\big)/h=\partial_s\eta_s(y)\)</span>
+for some <span class="math inline">\(s\)</span> between <span
+class="math inline">\(t\)</span> and <span
+class="math inline">\(t+h\)</span>, so this quotient is bounded by <span
+class="math inline">\(G(y)\)</span>. Dominated convergence as <span
+class="math inline">\(h\to0\)</span> gives</p>
+<p><span class="math display">\[
+\frac{\mathrm{d}}{\mathrm{d}t}h(Y_t)=\int_{\mathbb{R}}\partial_t\eta_t\,\mathrm{d}y=-\frac12\int_{\mathbb{R}}p_t&#39;&#39;\,\mathrm{d}y-\frac12\int_{\mathbb{R}}p_t&#39;&#39;\log
+p_t\,\mathrm{d}y .
+\]</span></p>
+<p>Splitting the integral is allowed because both integrands are
+integrable: <span class="math inline">\(|p_t&#39;&#39;|\)</span> and
+<span class="math inline">\(|p_t&#39;&#39;\log p_t|\)</span> are bounded
+by multiples of the integrable functions <span
+class="math inline">\(\mathbb{E}\big[\big(\tfrac{(y-X)^2}{a^2}+\tfrac1a\big)\Gamma(y-X)\big]\)</span>
+and <span class="math inline">\(G\)</span>. Every <span
+class="math inline">\(t&gt;0\)</span> lies in some <span
+class="math inline">\((a,b)\)</span>, so this holds for all <span
+class="math inline">\(t&gt;0\)</span>.</p>
+<p><strong>Step 3: the constant term vanishes.</strong> Since <span
+class="math inline">\(p_t&#39;\)</span> is continuously differentiable
+in <span class="math inline">\(y\)</span>, <span
+class="math inline">\(\int_{-R&#39;}^{R}p_t&#39;&#39;\,\mathrm{d}y=p_t&#39;(R)-p_t&#39;(-R&#39;)\)</span>,
+which tends to <span class="math inline">\(0\)</span> as <span
+class="math inline">\(R,R&#39;\to\infty\)</span> by the decay in Lemma
+2. As <span class="math inline">\(p_t&#39;&#39;\)</span> is integrable,
+<span
+class="math inline">\(\int_{\mathbb{R}}p_t&#39;&#39;\,\mathrm{d}y=\lim_{R,R&#39;\to\infty}\int_{-R&#39;}^{R}p_t&#39;&#39;\,\mathrm{d}y=0\)</span>.</p>
+<p><strong>Step 4: integration by parts.</strong> On <span
+class="math inline">\([-R&#39;,R]\)</span> the functions <span
+class="math inline">\(p_t&#39;\)</span> and <span
+class="math inline">\(\log p_t\)</span> are continuously differentiable
+(<span class="math inline">\(p_t&gt;0\)</span>), and <span
+class="math inline">\((\log p_t)&#39;=p_t&#39;/p_t=\rho_t\)</span>.
+Integrating by parts,</p>
+<p><span class="math display">\[
+\int_{-R&#39;}^{R}p_t&#39;&#39;\log p_t\,\mathrm{d}y=\big[p_t&#39;\log
+p_t\big]_{-R&#39;}^{R}-\int_{-R&#39;}^{R}\frac{(p_t&#39;)^2}{p_t}\,\mathrm{d}y
+.
+\]</span></p>
+<p><em>Justification (limits along sequences).</em> By (4) and (2),
+<span class="math inline">\(|p_t&#39;\log
+p_t|\le\mathbb{E}\big[\tfrac{|y-X|}{a}\Gamma(y-X)\big]\,(A+y^2/a)\)</span>,
+which is integrable by the same Tonelli argument with <span
+class="math inline">\(|z|/a\)</span> in place of <span
+class="math inline">\(z^2/a^2+1/a\)</span>. Lemma 4 applied to <span
+class="math inline">\(f=|p_t&#39;\log p_t|\)</span> gives increasing
+<span class="math inline">\(R_n,R_n&#39;\to\infty\)</span> along which
+the boundary term tends to <span class="math inline">\(0\)</span>. Along
+these sequences, <span
+class="math inline">\(\int_{-R_n&#39;}^{R_n}p_t&#39;&#39;\log
+p_t\,\mathrm{d}y\to\int_{\mathbb{R}}p_t&#39;&#39;\log
+p_t\,\mathrm{d}y\)</span> by dominated convergence (the integrand is
+integrable), and <span
+class="math inline">\(\int_{-R_n&#39;}^{R_n}(p_t&#39;)^2/p_t\,\mathrm{d}y\)</span>
+increases to <span
+class="math inline">\(\int_{\mathbb{R}}(p_t&#39;)^2/p_t\,\mathrm{d}y=J(Y_t)\)</span>
+by monotone convergence. Hence <span
+class="math inline">\(\int_{\mathbb{R}}p_t&#39;&#39;\log
+p_t\,\mathrm{d}y=-J(Y_t)\)</span>.</p>
+<p><strong>Step 5: conclusion.</strong> Substituting the last two steps
+into the derivative, <span
+class="math inline">\(\frac{\mathrm{d}}{\mathrm{d}t}h(Y_t)=-\tfrac12\cdot0-\tfrac12\big(-J(Y_t)\big)=\tfrac12J(Y_t)\)</span>,
+which is (1). ∎</p>
+<h2 id="insights">Insights</h2>
+<ol type="1">
+<li><strong>Fisher information as a rate.</strong> Entropy measures
+spread; Fisher information measures how sharply the density varies,
+through the size of its score. Under Gaussian smoothing the two are
+tied: the more structure <span class="math inline">\(p_t\)</span> still
+has, the faster smoothing destroys it. Among inputs of a given variance
+the Gaussian has the least structure, and its entropy grows at the
+slowest rate (Corollary 1).</li>
+<li><strong>The heat equation underneath.</strong> The density <span
+class="math inline">\(p_t\)</span> solves <span
+class="math inline">\(\partial_tp_t=\tfrac12p_t&#39;&#39;\)</span>, and
+(1) says that the entropy production of this flow is <span
+class="math inline">\(\tfrac12J\)</span>. Since <span
+class="math inline">\(J(Y_t)&gt;0\)</span> (a density cannot have <span
+class="math inline">\(p_t&#39;\equiv0\)</span> on <span
+class="math inline">\(\mathbb{R}\)</span>), entropy increases strictly
+along the flow.</li>
+<li><strong>No regularity is needed from <span
+class="math inline">\(X\)</span>.</strong> <span
+class="math inline">\(X\)</span> can be discrete: one instant of noise
+already makes <span class="math inline">\(p_t\)</span> positive and
+smooth (Lemma 2). This makes Gaussian smoothing a convenient device for
+transferring statements about smooth densities to arbitrary laws.</li>
+<li><strong>The score is a denoiser.</strong> By Lemma 3, <span
+class="math inline">\(\rho_t(Y_t)=-\mathbb{E}[Z\mid Y_t]/\sqrt
+t\)</span>: the score of the noisy density is the best estimate of the
+injected noise, rescaled. Equivalently <span
+class="math inline">\(\mathbb{E}[X\mid Y_t]=Y_t+t\,\rho_t(Y_t)\)</span>,
+the Gaussian case of an empirical Bayes formula for posterior means
+(Efron, 2011). Fisher information is the mean square of this rescaled
+denoiser.</li>
+</ol>
+<blockquote>
+<p><strong>Gaussian noise creates entropy at exactly half the rate of
+Fisher information.</strong> (pull quote)</p>
+</blockquote>
+<h2 id="uses-and-consequences">Uses and consequences</h2>
+<p>The results below combine the theorem with a lower bound on <span
+class="math inline">\(J\)</span> and with the posterior form of the
+score in Lemma 3.</p>
+<h3 id="a-lower-bound-on-fisher-information">A lower bound on Fisher
+information</h3>
+<p><strong>Corollary 1.</strong> Under A1, <span
+class="math inline">\(J(Y_t)\ge1/\operatorname{Var}(Y_t)=1/(\sigma^2+t)\)</span>
+for every <span class="math inline">\(t&gt;0\)</span>, with equality if
+and only if <span class="math inline">\(X\)</span> is Gaussian (possibly
+constant).</p>
+<p><em>Proof.</em> Let <span
+class="math inline">\(m=\mathbb{E}Y_t=\mu\)</span> and <span
+class="math inline">\(v=\operatorname{Var}Y_t=\sigma^2+t\)</span>, by
+independence.</p>
+<p><strong>Step 1: a moment identity for the score.</strong> On <span
+class="math inline">\([-R&#39;,R]\)</span>, integration by parts gives
+<span
+class="math inline">\(\int_{-R&#39;}^{R}(y-m)\,p_t&#39;\,\mathrm{d}y=\big[(y-m)\,p_t\big]_{-R&#39;}^{R}-\int_{-R&#39;}^{R}p_t\,\mathrm{d}y\)</span>.
+Both <span class="math inline">\(|y-m|\,p_t\)</span> and <span
+class="math inline">\(|y-m|\,|p_t&#39;|\)</span> are integrable: the
+first because <span
+class="math inline">\(\mathbb{E}|Y_t-m|&lt;\infty\)</span>; the second
+because <span class="math inline">\(|y-m|\le|y-X|+|X-m|\)</span> and, by
+Tonelli and the substitution <span class="math inline">\(z=y-X\)</span>,
+<span
+class="math inline">\(\int|y-m|\,|p_t&#39;|\,\mathrm{d}y\le\mathbb{E}\int(|z|+|X-m|)\tfrac{|z|}{a}\Gamma(z)\,\mathrm{d}z&lt;\infty\)</span>
+(Lemma 1, A1). Lemma 4 applied to <span
+class="math inline">\(f=|y-m|\,p_t\)</span> gives increasing <span
+class="math inline">\(R_n,R_n&#39;\to\infty\)</span> along which the
+boundary term tends to <span class="math inline">\(0\)</span>; dominated
+and monotone convergence then give</p>
+<p><span class="math display">\[
+\mathbb{E}\big[(Y_t-m)\,\rho_t(Y_t)\big]=\int_{\mathbb{R}}(y-m)\,\rho_t\,p_t\,\mathrm{d}y=\int_{\mathbb{R}}(y-m)\,p_t&#39;\,\mathrm{d}y=-\int_{\mathbb{R}}p_t\,\mathrm{d}y=-1
+.
+\]</span></p>
+<p><strong>Step 2: Cauchy–Schwarz.</strong> <span
+class="math inline">\(1=\big(\mathbb{E}[(Y_t-m)\rho_t(Y_t)]\big)^2\le\mathbb{E}(Y_t-m)^2\,\mathbb{E}\rho_t(Y_t)^2=v\,J(Y_t)\)</span>,
+which is the bound.</p>
+<p><strong>Step 3: equality forces a Gaussian.</strong> Equality in
+Cauchy–Schwarz holds only if <span
+class="math inline">\(\rho_t(Y_t)\)</span> and <span
+class="math inline">\(Y_t-m\)</span> are linearly dependent almost
+surely. As <span class="math inline">\(Y_t-m\)</span> is not almost
+surely <span class="math inline">\(0\)</span> (<span
+class="math inline">\(v\ge t&gt;0\)</span>), <span
+class="math inline">\(\rho_t(Y_t)=c\,(Y_t-m)\)</span> almost surely for
+a constant <span class="math inline">\(c\)</span>, and the moment
+identity gives <span class="math inline">\(-1=c\,v\)</span>, so <span
+class="math inline">\(c=-1/v\)</span>. The set <span
+class="math inline">\(\{y:\rho_t(y)\ne-(y-m)/v\}\)</span> is open, since
+<span class="math inline">\(\rho_t\)</span> is continuous, and has
+probability <span class="math inline">\(0\)</span> under a law with an
+everywhere positive density, so it has Lebesgue measure <span
+class="math inline">\(0\)</span>; an open set of measure <span
+class="math inline">\(0\)</span> is empty. So <span
+class="math inline">\((\log p_t)&#39;(y)=-(y-m)/v\)</span> for all <span
+class="math inline">\(y\)</span>, hence <span
+class="math inline">\(p_t(y)=p_t(m)\,e^{-(y-m)^2/(2v)}\)</span>, and
+<span class="math inline">\(\int p_t=1\)</span> forces <span
+class="math inline">\(p_t\)</span> to be the <span
+class="math inline">\(\mathcal{N}(m,v)\)</span> density. By
+independence, the characteristic functions satisfy <span
+class="math inline">\(\mathbb{E}e^{isY_t}=\mathbb{E}e^{isX}\,e^{-ts^2/2}\)</span>,
+so</p>
+<p><span class="math display">\[
+\mathbb{E}e^{isX}=e^{ims-vs^2/2}\,e^{ts^2/2}=e^{ims-\sigma^2s^2/2}\qquad(s\in\mathbb{R}),
+\]</span></p>
+<p>which is the characteristic function of <span
+class="math inline">\(\mathcal{N}(m,\sigma^2)\)</span>; by uniqueness
+<span class="math inline">\(X\sim\mathcal{N}(m,\sigma^2)\)</span>, a
+constant if <span class="math inline">\(\sigma^2=0\)</span>. Conversely,
+the remark gives <span
+class="math inline">\(J(Y_t)=1/(\sigma^2+t)\)</span> for Gaussian <span
+class="math inline">\(X\)</span>. ∎</p>
+<h3 id="an-entropy-sandwich">An entropy sandwich</h3>
+<p><strong>Corollary 2.</strong> Under A1, for <span
+class="math inline">\(0&lt;a&lt;b\)</span>,</p>
+<p><span class="math display">\[
+\frac12\log\frac{\sigma^2+b}{\sigma^2+a}\;\le\;h(Y_b)-h(Y_a)\;\le\;\frac12\log\frac
+ba ,
+\]</span></p>
+<p>with equality on the left if and only if <span
+class="math inline">\(X\)</span> is Gaussian.</p>
+<p><em>Proof.</em> Let <span
+class="math inline">\(f(t)\mathrel{:=}h(Y_t)\)</span>. By the theorem,
+<span class="math inline">\(f\)</span> is differentiable on <span
+class="math inline">\((0,\infty)\)</span> with <span
+class="math inline">\(f&#39;(t)=\tfrac12J(Y_t)\)</span>, and by
+Corollary 1 and Lemma 3,</p>
+<p><span class="math display">\[
+\frac1{2(\sigma^2+t)}\le f&#39;(t)\le\frac1{2t}\qquad(t&gt;0).
+\]</span></p>
+<p>On <span class="math inline">\([a,b]\)</span>, <span
+class="math inline">\(|f&#39;|\le1/(2a)\)</span>, so <span
+class="math inline">\(f\)</span> is Lipschitz there by the mean value
+theorem, hence absolutely continuous, and <span
+class="math inline">\(f(b)-f(a)=\int_a^bf&#39;(t)\,\mathrm{d}t\)</span>.
+Integrating the two bounds, <span
+class="math inline">\(\int_a^b\frac{\mathrm{d}t}{2(\sigma^2+t)}=\frac12\log\frac{\sigma^2+b}{\sigma^2+a}\)</span>
+and <span
+class="math inline">\(\int_a^b\frac{\mathrm{d}t}{2t}=\frac12\log\frac
+ba\)</span>. If equality holds on the left, then <span
+class="math inline">\(\int_a^b\big(f&#39;(t)-\frac1{2(\sigma^2+t)}\big)\,\mathrm{d}t=0\)</span>
+with a non-negative integrand, so <span
+class="math inline">\(f&#39;(t)=1/(2(\sigma^2+t))\)</span>, that is
+<span class="math inline">\(J(Y_t)=1/(\sigma^2+t)\)</span>, for almost
+every <span class="math inline">\(t\in(a,b)\)</span>; one such <span
+class="math inline">\(t\)</span> suffices for Corollary 1 to make <span
+class="math inline">\(X\)</span> Gaussian. Conversely, for Gaussian
+<span class="math inline">\(X\)</span> the lower bound on <span
+class="math inline">\(f&#39;\)</span> is attained for every <span
+class="math inline">\(t\)</span> (the remark). ∎</p>
+<p>The upper bound is the entropy increment of pure noise, <span
+class="math inline">\(h(\sqrt bZ)-h(\sqrt aZ)\)</span>: smoothing an
+arbitrary input never adds entropy faster than smoothing a point
+mass.</p>
+<h3 id="fisher-information-and-estimation-error">Fisher information and
+estimation error</h3>
+<p>Let <span
+class="math inline">\(\mathrm{mmse}(t)\mathrel{:=}\mathbb{E}\big(X-\mathbb{E}[X\mid
+Y_t]\big)^2\)</span>, the minimum mean-square error in estimating <span
+class="math inline">\(X\)</span> from <span
+class="math inline">\(Y_t\)</span>.</p>
+<p><strong>Corollary 3.</strong> Under A1, for every <span
+class="math inline">\(t&gt;0\)</span>,</p>
+<p><span class="math display">\[
+J(Y_t)=\frac1t-\frac{\mathrm{mmse}(t)}{t^2},
+\qquad\text{hence}\qquad
+\frac{\mathrm{d}}{\mathrm{d}t}h(Y_t)=\frac1{2t}-\frac{\mathrm{mmse}(t)}{2t^2}.
+\]</span></p>
+<p><em>Proof.</em> <strong>Step 1: the two errors.</strong> Since <span
+class="math inline">\(X=Y_t-\sqrt t\,Z\)</span> and <span
+class="math inline">\(Y_t\)</span> is <span
+class="math inline">\(\sigma(Y_t)\)</span>-measurable, linearity of
+conditional expectation gives <span
+class="math inline">\(\mathbb{E}[X\mid Y_t]=Y_t-\sqrt
+t\,\mathbb{E}[Z\mid Y_t]\)</span>, so <span
+class="math inline">\(X-\mathbb{E}[X\mid Y_t]=-\sqrt
+t\,\big(Z-\mathbb{E}[Z\mid Y_t]\big)\)</span> and <span
+class="math inline">\(\mathrm{mmse}(t)=t\,\mathbb{E}\big(Z-\mathbb{E}[Z\mid
+Y_t]\big)^2\)</span>.</p>
+<p><strong>Step 2: orthogonality.</strong> Write <span
+class="math inline">\(W=\mathbb{E}[Z\mid Y_t]\)</span>, which is square
+integrable since <span
+class="math inline">\(\mathbb{E}W^2\le\mathbb{E}Z^2=1\)</span>. By the
+tower property, <span
+class="math inline">\(\mathbb{E}[ZW]=\mathbb{E}\big[\mathbb{E}[Z\mid
+Y_t]\,W\big]=\mathbb{E}W^2\)</span>. Expanding, <span
+class="math inline">\(\mathbb{E}(Z-W)^2=\mathbb{E}Z^2-2\mathbb{E}[ZW]+\mathbb{E}W^2=1-\mathbb{E}W^2\)</span>.
+Hence <span
+class="math inline">\(\mathbb{E}W^2=1-\mathrm{mmse}(t)/t\)</span>.</p>
+<p><strong>Step 3: conclusion.</strong> By (5), <span
+class="math inline">\(J(Y_t)=\mathbb{E}W^2/t=\big(1-\mathrm{mmse}(t)/t\big)/t=1/t-\mathrm{mmse}(t)/t^2\)</span>.
+Multiplying by <span class="math inline">\(\tfrac12\)</span> and using
+(1) gives the second formula. ∎</p>
+<p>Write <span class="math inline">\(I(t)\mathrel{:=}h(Y_t)-h(\sqrt
+tZ)=h(Y_t)-\tfrac12\log(2\pi et)\)</span>, which is the mutual
+information between <span class="math inline">\(X\)</span> and <span
+class="math inline">\(Y_t\)</span> (not proved here; see Guo, Shamai and
+Verdú, 2005). Since <span
+class="math inline">\(\frac{\mathrm{d}}{\mathrm{d}t}\tfrac12\log(2\pi
+et)=\frac1{2t}\)</span>, Corollary 3 gives <span
+class="math inline">\(I&#39;(t)=-\mathrm{mmse}(t)/(2t^2)\)</span>. With
+the signal-to-noise ratio <span class="math inline">\(s=1/t\)</span>, so
+that <span class="math inline">\(\mathrm{d}t/\mathrm{d}s=-1/s^2\)</span>
+and <span class="math inline">\(ts=1\)</span>, the chain rule gives</p>
+<p><span class="math display">\[
+\frac{\mathrm{d}I}{\mathrm{d}s}=I&#39;(t)\,\frac{\mathrm{d}t}{\mathrm{d}s}=\frac{\mathrm{mmse}(t)}{2t^2}\cdot\frac1{s^2}=\frac12\,\mathrm{mmse}(1/s),
+\]</span></p>
+<p>the information–estimation relation of Guo, Shamai and Verdú (2005).
+Through Corollary 3, de Bruijn’s identity and that relation are the same
+statement in different coordinates.</p>
+<h2 id="worked-example">Worked example</h2>
+<p>Let <span class="math inline">\(X\)</span> take the values <span
+class="math inline">\(\pm1\)</span> with probability <span
+class="math inline">\(\tfrac12\)</span> each, so <span
+class="math inline">\(\mu=0\)</span>, <span
+class="math inline">\(\sigma^2=1\)</span>. Then <span
+class="math inline">\(Y_t\)</span> is a two-component Gaussian mixture
+and everything is explicit.</p>
+<p><strong>Density and posterior mean.</strong> By Lemma 2, <span
+class="math inline">\(p_t(y)=\tfrac12\big[\varphi_t(y-1)+\varphi_t(y+1)\big]\)</span>.
+Since <span class="math inline">\((y\mp1)^2=y^2\mp2y+1\)</span>, <span
+class="math inline">\(\varphi_t(y\mp1)=\varphi_t(y)\,e^{\pm
+y/t-1/(2t)}\)</span>, and so</p>
+<p><span class="math display">\[
+p_t(y)=\varphi_t(y)\,e^{-1/(2t)}\cosh(y/t).
+\]</span></p>
+<p>For bounded Borel <span class="math inline">\(g\)</span>, the
+computation in the proof of Lemma 2 gives <span
+class="math inline">\(\mathbb{E}[X\,g(Y_t)]=\int
+g(y)\,\tfrac12\big[\varphi_t(y-1)-\varphi_t(y+1)\big]\,\mathrm{d}y=\int
+g(y)\tanh(y/t)\,p_t(y)\,\mathrm{d}y\)</span>, because <span
+class="math inline">\(\tfrac12[\varphi_t(y-1)-\varphi_t(y+1)]=\varphi_t(y)e^{-1/(2t)}\sinh(y/t)\)</span>.
+Hence <span class="math inline">\(\mathbb{E}[X\mid
+Y_t]=\tanh(Y_t/t)\)</span>.</p>
+<p><strong>Score, entropy and error.</strong> Since <span
+class="math inline">\(\log
+p_t(y)=\log\varphi_t(y)-\tfrac1{2t}+\log\cosh(y/t)\)</span>,
+differentiation gives <span
+class="math inline">\(\rho_t(y)=\big(\tanh(y/t)-y\big)/t\)</span>.
+Taking expectations in <span class="math inline">\(-\log
+p_t(Y_t)=\tfrac12\log(2\pi
+t)+Y_t^2/(2t)+1/(2t)-\log\cosh(Y_t/t)\)</span>, with <span
+class="math inline">\(\mathbb{E}Y_t^2=1+t\)</span>,</p>
+<p><span class="math display">\[
+h(Y_t)=\tfrac12\log(2\pi et)+\tfrac1t-\mathbb{E}\log\cosh(Y_t/t),
+\qquad
+\mathrm{mmse}(t)=1-\mathbb{E}\tanh^2(Y_t/t).
+\]</span></p>
+<p>For the second formula, write <span
+class="math inline">\(T=\tanh(Y_t/t)\)</span> and expand <span
+class="math inline">\(\mathbb{E}(X-T)^2=\mathbb{E}X^2-2\mathbb{E}[XT]+\mathbb{E}T^2\)</span>.
+Here <span class="math inline">\(\mathbb{E}X^2=1\)</span>, and the tower
+property gives <span
+class="math inline">\(\mathbb{E}[XT]=\mathbb{E}\big[\mathbb{E}[X\mid
+Y_t]\,T\big]=\mathbb{E}T^2\)</span>.</p>
+<p><strong>Two regimes.</strong> For small <span
+class="math inline">\(t\)</span> the components barely overlap: <span
+class="math inline">\(\mathbb{E}\log\cosh(Y_t/t)\approx1/t-\log2\)</span>,
+so <span class="math inline">\(h(Y_t)\approx\tfrac12\log(2\pi
+et)+\log2\)</span>, the entropy of noise plus one bit, and <span
+class="math inline">\(t\,J(Y_t)\approx1\)</span>. For large <span
+class="math inline">\(t\)</span> the mixture is close to <span
+class="math inline">\(\mathcal{N}(0,1+t)\)</span> and <span
+class="math inline">\(t\,J(Y_t)\approx t/(1+t)\)</span>. The figure
+shows <span class="math inline">\(t\,J(Y_t)\)</span> between the two
+bounds of Corollary 1 and Lemma 3, <span
+class="math inline">\(t/(1+t)\le tJ(Y_t)\le1\)</span>.</p>
+<p><img src="debruijn-figure.png"
+alt="Scaled Fisher information t·J(Yₜ) for X = ±1 (computed by code/check.py) and for Gaussian X with the same variance. The Gaussian input has the least Fisher information, so its entropy grows most slowly; the two-point input starts at the noise-only rate and merges with the Gaussian curve as the noise dominates." /></p>
+<p><em>Scaled Fisher information t·J(Yₜ) for X = ±1 (computed by
+code/check.py) and for Gaussian X with the same variance. The Gaussian
+input has the least Fisher information, so its entropy grows most
+slowly; the two-point input starts at the noise-only rate and merges
+with the Gaussian curve as the noise dominates.</em></p>
+<h2 id="numerical-check">Numerical check</h2>
+<p>All quantities use adaptive quadrature of the closed forms above;
+<span class="math inline">\(\mathrm{d}h/\mathrm{d}t\)</span> uses a
+four-point central difference with step <span
+class="math inline">\(10^{-3}\)</span>.</p>
+<ol type="1">
+<li><span class="math inline">\(X\sim\mathcal{N}(0,1)\)</span>, <span
+class="math inline">\(t=1\)</span>: <span
+class="math inline">\(\mathrm{d}h/\mathrm{d}t\)</span>. Exact <span
+class="math inline">\(1/4\)</span>; numerical <span
+class="math inline">\(0.250000\)</span>.</li>
+<li><span class="math inline">\(X\sim\mathcal{N}(0,1)\)</span>, <span
+class="math inline">\(t=1\)</span>: <span
+class="math inline">\(J(Y_t)\)</span>. Exact <span
+class="math inline">\(1/2\)</span>; numerical <span
+class="math inline">\(0.500000\)</span>.</li>
+<li><span class="math inline">\(X=\pm1\)</span>, <span
+class="math inline">\(t=\tfrac12\)</span>: <span
+class="math inline">\(\mathrm{d}h/\mathrm{d}t-\tfrac12J(Y_t)\)</span>.
+Exact <span class="math inline">\(0\)</span>; numerical <span
+class="math inline">\(-1.9\times10^{-11}\)</span>.</li>
+<li><span class="math inline">\(X=\pm1\)</span>, <span
+class="math inline">\(t=\tfrac12\)</span>: <span
+class="math inline">\(J(Y_t)-\big(\tfrac1t-\tfrac{\mathrm{mmse}}{t^2}\big)\)</span>.
+Exact <span class="math inline">\(0\)</span>; numerical <span
+class="math inline">\(2.2\times10^{-16}\)</span>.</li>
+<li><span class="math inline">\(X=\pm1\)</span>: <span
+class="math inline">\(h(Y_1)-h(Y_{1/2})\)</span>. Exact in <span
+class="math inline">\([0.1438,0.3466]\)</span>; numerical <span
+class="math inline">\(0.1833\)</span>.</li>
+</ol>
+<p>Rows 1–2 check the remark; rows 3–5 check (1), Corollary 3 and
+Corollary 2 for a discrete input. Rows 3–4 are at rounding level, so
+their last digits may vary across library versions.</p>
+<p><strong>Code.</strong> Every number above is printed by the script
+below (Python 3, NumPy, SciPy); its docstring gives the
+requirements.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;The Quiet Theorems No. 01: numerical check.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">Prints every number in the PDF&#39;s check table.</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">Requires Python &gt;= 3.8, NumPy &gt;= 1.20 and</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">SciPy &gt;= 1.6.</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">Tested with Python 3.13, NumPy 2.5, SciPy 1.18.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">Run: python3 check.py</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> quad</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> logphi(z, t):</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>z <span class="op">*</span> z <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> t) <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> np.log(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> t)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Y_t = X + sqrt(t) Z for two inputs X.</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Each returns (log p_t(y), score p_t&#39;(y)/p_t(y)).</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gauss(y, t):   <span class="co"># X ~ N(0, 1)</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> t</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> logphi(y, v), <span class="op">-</span>y <span class="op">/</span> v</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lcosh(u):      <span class="co"># log cosh, overflow-safe</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> <span class="bu">abs</span>(u)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> u <span class="op">+</span> np.log1p(np.exp(<span class="op">-</span><span class="dv">2</span> <span class="op">*</span> u)) <span class="op">-</span> np.log(<span class="dv">2</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rade(y, t):    <span class="co"># X = +1 or -1, prob 1/2 each</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    lp <span class="op">=</span> logphi(y, t) <span class="op">+</span> lcosh(y <span class="op">/</span> t) <span class="op">-</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> t)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lp, (np.tanh(y <span class="op">/</span> t) <span class="op">-</span> y) <span class="op">/</span> t</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> E(f, model, t):</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;E[f(y)] under Y_t, adaptive quadrature.&quot;&quot;&quot;</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    L <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">14</span> <span class="op">*</span> np.sqrt(<span class="dv">1</span> <span class="op">+</span> t)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> g(y):</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.exp(model(y, t)[<span class="dv">0</span>]) <span class="op">*</span> f(y)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> quad(g, <span class="op">-</span>L, L, limit<span class="op">=</span><span class="dv">400</span>, points<span class="op">=</span>[<span class="dv">0</span>],</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>                epsabs<span class="op">=</span><span class="fl">1e-14</span>, epsrel<span class="op">=</span><span class="fl">1e-13</span>)[<span class="dv">0</span>]</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> h(model, t):        <span class="co"># differential entropy</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> E(<span class="kw">lambda</span> y: <span class="op">-</span>model(y, t)[<span class="dv">0</span>], model, t)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> J(model, t):        <span class="co"># Fisher information</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> E(<span class="kw">lambda</span> y: model(y, t)[<span class="dv">1</span>] <span class="op">**</span> <span class="dv">2</span>, model, t)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dh(model, t, d<span class="op">=</span><span class="fl">1e-3</span>):   <span class="co"># 4-point difference</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    f <span class="op">=</span> [h(model, t <span class="op">+</span> k <span class="op">*</span> d) <span class="cf">for</span> k <span class="kw">in</span> (<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>)]</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (f[<span class="dv">0</span>] <span class="op">-</span> <span class="dv">8</span> <span class="op">*</span> f[<span class="dv">1</span>] <span class="op">+</span> <span class="dv">8</span> <span class="op">*</span> f[<span class="dv">2</span>] <span class="op">-</span> f[<span class="dv">3</span>]) <span class="op">/</span> (<span class="dv">12</span> <span class="op">*</span> d)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co"># 1-2. Gaussian X, t = 1: dh/dt = J/2 = 1/4.</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Gauss dh/dt:   </span><span class="sc">{</span>dh(gauss, <span class="fl">1.0</span>)<span class="sc">:.6f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Gauss J:       </span><span class="sc">{</span>J(gauss, <span class="fl">1.0</span>)<span class="sc">:.6f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Rademacher X, t = 1/2: de Bruijn residual.</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>a, b <span class="op">=</span> dh(rade, t), J(rade, t) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Rade dh/dt:    </span><span class="sc">{</span>a<span class="sc">:.6f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Rade J/2:      </span><span class="sc">{</span>b<span class="sc">:.6f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Difference:    </span><span class="sc">{</span>a <span class="op">-</span> b<span class="sc">:.1e}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Fisher information versus MMSE:</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="co">#    J = 1/t - mmse/t^2, mmse = 1 - E tanh^2(Y/t).</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>th2 <span class="op">=</span> E(<span class="kw">lambda</span> y: np.tanh(y <span class="op">/</span> t) <span class="op">**</span> <span class="dv">2</span>, rade, t)</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>mmse <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> th2</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Rade mmse:     </span><span class="sc">{</span>mmse<span class="sc">:.6f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>a, b <span class="op">=</span> J(rade, t), <span class="dv">1</span> <span class="op">/</span> t <span class="op">-</span> mmse <span class="op">/</span> t <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Rade J:        </span><span class="sc">{</span>a<span class="sc">:.6f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;1/t-mmse/t^2:  </span><span class="sc">{</span>b<span class="sc">:.6f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Difference:    </span><span class="sc">{</span>a <span class="op">-</span> b<span class="sc">:.1e}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Entropy sandwich on [1/2, 1], Var X = 1.</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>inc <span class="op">=</span> h(rade, <span class="fl">1.0</span>) <span class="op">-</span> h(rade, <span class="fl">0.5</span>)</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>lo, hi <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> np.log(<span class="dv">2</span> <span class="op">/</span> <span class="fl">1.5</span>), <span class="fl">0.5</span> <span class="op">*</span> np.log(<span class="dv">2</span>)</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Increment:     </span><span class="sc">{</span>inc<span class="sc">:.4f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Bounds:        [</span><span class="sc">{</span>lo<span class="sc">:.4f}</span><span class="ss">, </span><span class="sc">{</span>hi<span class="sc">:.4f}</span><span class="ss">]&quot;</span>)</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Figure data: t J(Y_t) for Rademacher X</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="co">#    and the Gaussian lower bound t/(1+t).</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> e <span class="kw">in</span> np.linspace(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="dv">25</span>):</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> <span class="dv">10</span> <span class="op">**</span> e</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;fig </span><span class="sc">{</span>e<span class="sc">:+.2f}</span><span class="ss"> </span><span class="sc">{</span>s <span class="op">*</span> J(rade, s)<span class="sc">:.4f}</span><span class="ss">&quot;</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f&quot; </span><span class="sc">{</span>s <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> s)<span class="sc">:.4f}</span><span class="ss">&quot;</span>)</span></code></pre></div>
+<p><strong>Output:</strong></p>
+<pre><code>Gauss dh/dt:   0.250000
+Gauss J:       0.500000
+Rade dh/dt:    0.537964
+Rade J/2:      0.537964
+Difference:    -1.9e-11
+Rade mmse:     0.231018
+Rade J:        1.075927
+1/t-mmse/t^2:  1.075927
+Difference:    2.2e-16
+Increment:     0.1833
+Bounds:        [0.1438, 0.3466]
+fig -1.50 1.0000 0.0307
+fig -1.38 1.0000 0.0405
+fig -1.25 0.9993 0.0532
+fig -1.12 0.9946 0.0698
+fig -1.00 0.9759 0.0909
+fig -0.88 0.9291 0.1177
+fig -0.75 0.8483 0.1510
+fig -0.62 0.7451 0.1917
+fig -0.50 0.6435 0.2403
+fig -0.38 0.5664 0.2966
+fig -0.25 0.5263 0.3599
+fig -0.12 0.5235 0.4285
+fig +0.00 0.5504 0.5000
+fig +0.12 0.5965 0.5715
+fig +0.25 0.6517 0.6401
+fig +0.38 0.7085 0.7034
+fig +0.50 0.7619 0.7597
+fig +0.62 0.8092 0.8083
+fig +0.75 0.8493 0.8490
+fig +0.88 0.8825 0.8823
+fig +1.00 0.9091 0.9091
+fig +1.12 0.9303 0.9302
+fig +1.25 0.9468 0.9468
+fig +1.38 0.9595 0.9595
+fig +1.50 0.9693 0.9693</code></pre>
+<h2 id="notes">Notes</h2>
+<p>The identity is due to N. G. de Bruijn, who communicated it to the
+director of physical research of the Netherlands Defence Research
+Council, at whose suggestion A. J. Stam had undertaken the work. Stam
+published it as equation (2.12) of <em>Some inequalities satisfied by
+the quantities of information of Fisher and Shannon</em> (Stam, 1959),
+where, together with an inequality for the Fisher information of sums,
+it yields a proof of the entropy power inequality stated by Shannon
+(1948). Stam gave the identity in differential form. Barron (1986, Lemma
+1) proved an integral form for <span class="math inline">\(X\)</span>
+with finite variance, writing the entropy as an integral of Fisher
+informations, and used it to prove a central limit theorem in relative
+entropy.</p>
+<h3 id="references">References</h3>
+<p>Barron, A. R. (1986). Entropy and the central limit theorem.
+<em>Annals of Probability</em>, 14(1), 336–342.</p>
+<p>Efron, B. (2011). Tweedie’s formula and selection bias. <em>Journal
+of the American Statistical Association</em>, 106(496), 1602–1614.</p>
+<p>Guo, D., Shamai, S. and Verdú, S. (2005). Mutual information and
+minimum mean-square error in Gaussian channels. <em>IEEE Transactions on
+Information Theory</em>, 51(4), 1261–1282.</p>
+<p>Shannon, C. E. (1948). A mathematical theory of communication.
+<em>Bell System Technical Journal</em>, 27, 379–423, 623–656.</p>
+<p>Stam, A. J. (1959). Some inequalities satisfied by the quantities of
+information of Fisher and Shannon. <em>Information and Control</em>,
+2(2), 101–112.</p>
+<p><a href="../../">All issues</a></p><footer>The Quiet Theorems · Omid Shams Solari, Ph.D. · sAIm Labs · <a href="https://omidsolari.substack.com">Substack</a></footer>
+</body>
+</html>
