@@ -112,14 +112,15 @@ Two stages. The draft is created before approval and is part of the package; pub
 3. Paste the finished `substack/article.md` section by section (LaTeX blocks for display maths, inline LaTeX for inline maths).
 4. Drag `pdf/qt-NN-slug.pdf` (A4) into the editor right after the TL;DR, in place of the `[PDF attachment: ...]` line. There is no file button; dragging creates a file block, and "Replace" on the block swaps the file.
 5. Upload each `substack/<slug>-figure*.png` at its place, with its caption.
-6. Audience: everyone. **Never press Publish.**
-7. Record `substack.editor` (editor URL) and `substack.draft_id` in `meta.json`. Leave `links.substack` and `substack.url` empty: the editor link is private and must not reach the site.
-8. If the browser is unavailable or Substack refuses an action, do the rest, say exactly what failed and list it as an open point; do not stop the delivery.
+6. Exactly one subscribe box ("Thanks for reading! Subscribe for free to receive new posts and support my work."), at the very end of the post, after the references. None in the middle: remove any other that the editor or a template inserts (Nos. 00 and 01 had a second one after the setup, removed 18 Nov 2026).
+7. Audience: everyone. **Never press Publish.**
+8. Record `substack.editor` (editor URL) and `substack.draft_id` in `meta.json`. Leave `links.substack` and `substack.url` empty: the editor link is private and must not reach the site.
+9. If the browser is unavailable or Substack refuses an action, do the rest, say exactly what failed and list it as an open point; do not stop the delivery.
 
 ### Publish (after approval, on the author's word)
 
 1. Reload the draft. Never edit one draft in two browsers or tabs at once: the stale one gets HTTP 409 and Publish fails silently.
-2. Check the preview, then publish. The banner "may be truncated in some email clients" is a warning only; it does not block publishing.
+2. Check the preview (including exactly one subscribe box, at the end), then publish. The banner "may be truncated in some email clients" is a warning only; it does not block publishing.
 3. Archive the Overleaf package that matches what was published: `make zip P=NN-slug` and copy `dist/qt-NN-slug.zip` to `docs/posts/NN-slug/qt-NN-slug.zip`; set `package_frozen: true`.
 4. Record in `meta.json` `substack`: `url`, `published` (ISO time), `audience`, `pdf_attachment` (the file URL Substack assigns), `pdf_attached` (which build), `images` (file name to Substack image URL), `byline`; set `frozen: true` and `links.substack`. Add the published-on line to the article head (it is the record of what was published).
 

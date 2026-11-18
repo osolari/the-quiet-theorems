@@ -56,6 +56,7 @@ Keep in sync with `meta.json`.
    - reading time 10 → 13 min;
    - figure tick relabelled "y = 1", so it no longer sits on the square's edge;
    - live post edited in place on 18 Nov, with no revision note and no new email.
+6. **Subscribe box (18 Nov).** The second subscribe box (after the setup) was removed from the live post; one remains, at the end. Edited in place, no email resent. The repository procedure now requires exactly one, at the end.
 
 ## Open points (development session)
 
