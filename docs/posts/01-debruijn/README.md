@@ -23,7 +23,7 @@ Keep in sync with `meta.json` `links`.
 | Substack post | https://omidsolari.substack.com/p/the-quiet-theorems-no-01-de-bruijns |
 | X thread | (not yet posted) |
 | X single tweet | (not yet posted) |
-| Pages article | https://osolari.github.io/the-quiet-theorems/posts/01-debruijn/ (live once the push deploys) |
+| Pages article | https://osolari.github.io/the-quiet-theorems/posts/01-debruijn/ |
 
 ## Open points before approval
 
