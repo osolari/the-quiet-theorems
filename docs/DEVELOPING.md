@@ -4,7 +4,7 @@ How the series is built: repository layout, commands, pinned toolchain and the G
 
 ## Start here
 
-1. Clone: `git clone git@github-personal:osolari/the-quiet-theorems.git` (the `github-personal` SSH host alias; commits as `osolari <solari@berkeley.edu>`)
+1. Clone: `git clone git@github-personal:osolari/the-quiet-theorems.git` (the `github-personal` SSH host alias)
 2. Read [`docs/POST_GUIDE.md`](POST_GUIDE.md) (full procedure, file map, Substack style, link checklist) and [`STANDARD.md`](../STANDARD.md) (PDF standard).
 3. For Claude: load the `quiet-theorems-post` skill (copy in [`skills/quiet-theorems-post/SKILL.md`](../skills/quiet-theorems-post/SKILL.md)). Status lives in this file (Posts table), `BACKLOG.md` and each post's `meta.json`; no handoff package is needed.
 

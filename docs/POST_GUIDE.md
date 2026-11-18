@@ -156,7 +156,7 @@ Keep these places in agreement:
 | Substack post | draft created (editor link) | draft, unchanged | published with the PDF attached |
 | Pages page | checked locally (`make site SITE_ALL=1`) | `make site` checked; live once `main` is pushed | live; `links.pages` recorded |
 
-Commit after each change of status (`git add -A && git commit`), authored as `osolari <solari@berkeley.edu>` with no `Co-Authored-By` or session trailers. Pushing is done by the author from the Mac (`git push origin main`); see the skill's "Sessions and the repo" for how a Claude session works on the Mac folder.
+Commit after each change of status (`git add -A && git commit`), with the repo's configured git identity; never add the AI agent as a co-author (no `Co-Authored-By` or session trailers). Pushing is done by the author from the Mac (`git push origin main`); see the skill's "Sessions and the repo" for how a Claude session works on the Mac folder.
 
 ### On approval
 
@@ -164,7 +164,7 @@ Without further prompting:
 
 1. Set `accepted` in `meta.json`, the post `README.md`, the `docs/DEVELOPING.md` Posts table, `BACKLOG.md` and the backlog doc.
 2. `make site` (accepted and published posts only) and check the post's page again.
-3. Commit as `osolari <solari@berkeley.edu>`, no attribution trailers.
+3. Commit; never add the AI agent as a co-author.
 4. Give the author the push command (`cd ~/workspace/projects/the-quiet-theorems && git push origin main`) and say that pushing `main` deploys the Pages site through the workflow.
 5. Only on the author's explicit word to publish: step 10.
 

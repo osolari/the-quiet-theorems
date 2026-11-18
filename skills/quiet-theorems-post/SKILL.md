@@ -11,7 +11,7 @@ Reference: No. 00, Hoeffding's covariance identity, published on Substack 9 Nov 
 
 ## 0. Where things are
 
-- **Repo**: https://github.com/osolari/the-quiet-theorems. On the author's Mac it is `~/workspace/projects/the-quiet-theorems` with remote `git@github-personal:osolari/the-quiet-theorems.git` (the `github-personal` SSH host alias is required for this repo). Commit as `osolari <solari@berkeley.edu>` (set in the repo's git config). Site: https://osolari.github.io/the-quiet-theorems/. Read `docs/DEVELOPING.md`, `STANDARD.md` and `docs/POST_GUIDE.md` first (the top-level `README.md` is for readers); the guide is the step-by-step procedure and wins over this summary on details.
+- **Repo**: https://github.com/osolari/the-quiet-theorems. On the author's Mac it is `~/workspace/projects/the-quiet-theorems` with remote `git@github-personal:osolari/the-quiet-theorems.git` (the `github-personal` SSH host alias is required for this repo). Commit with the identity already set in the repo's git config; never add the AI agent as a co-author. Site: https://osolari.github.io/the-quiet-theorems/. Read `docs/DEVELOPING.md`, `STANDARD.md` and `docs/POST_GUIDE.md` first (the top-level `README.md` is for readers); the guide is the step-by-step procedure and wins over this summary on details.
 - **Backlog doc** (live, ranked, status dropdowns, draw log): https://claude.ai/artifact/4i9oRaXXahj9CRiEAvSVUH ; snapshot in `BACKLOG.md`. Take the highest-ranked Queued topic unless told otherwise; respect noted dependencies (e.g. SURE needs Stein's lemma).
 - **Substack**: https://omidsolari.substack.com (byline "Omid Solari").
 - **claude.ai Project "prob notes"**: read-only copies of the No. 00 reference (`reference/`); the repo is the source of truth, no handoff packages.
@@ -23,7 +23,7 @@ Reference: No. 00, Hoeffding's covariance identity, published on Substack 9 Nov 
 - **The Mac folder is the source of truth**: `~/workspace/projects/the-quiet-theorems` (connect `~/workspace/projects` to the session). Start every session with `git status` and `git log --oneline -3` there; never work from an older copy.
 - **Where to run what.** The session's shell on the Mac is a sandboxed Linux VM: it can read and write the repo and run `git add/commit`, but cannot reach GitHub (no `~/.ssh`, no port 22) and lacks TeX and Jupyter. Builds (`make qa/pdfs/formats/zip/site`) run in the cloud workspace: bundle on the Mac (`git bundle create .xfer/mac.bundle main`), stage `.xfer/mac.bundle`, `git fetch <bundle> main:refs/remotes/mac/main && git reset --hard mac/main` in the cloud clone, work and commit there, then bundle back (`git bundle create /mnt/user-data/outputs/cloud.bundle mac/main..main`), commit the file to `.xfer/` on the Mac, wait until `git bundle list-heads .xfer/cloud.bundle` shows the expected hash (the file can take a few seconds to appear), then `git pull --ff-only .xfer/cloud.bundle main` and check `git log -1`. `.xfer/` is git-ignored. Git in the Mac folder needs delete permission (lock files); request it once for `~/workspace/projects`.
 - **Pushing is the author's job**: from the Mac, `git push origin main` (via the `github-personal` alias). The session ends by stating the exact command. Never force-push without saying why and using `--force-with-lease=main:<expected hash>`.
-- **Commits**: author and committer `osolari <solari@berkeley.edu>` (repo git config); no `Co-Authored-By`, `Claude-Session` or other attribution trailers.
+- **Commits**: use the identity already set in the repo's git config, unchanged; never add the AI agent as a co-author (no `Co-Authored-By`, `Claude-Session` or other attribution trailers).
 
 Repo layout (do not change it):
 
@@ -154,7 +154,7 @@ QA gate also includes: `make site SITE_ALL=1` and open `site/posts/NN-slug/index
 | Pages page | checked locally (`make site SITE_ALL=1`) | `make site` checked; live once the author pushes `main` | live; `links.pages` recorded |
 | `post.txt`, `tweet.txt` | `[link]` | `[link]` | the Substack post URL |
 
-The site shows only accepted and published posts; its index and footer link the Substack publication, each card and page the post's Substack article; the Overleaf zip is not on the site. Commit after each status change, as `osolari <solari@berkeley.edu>` with no attribution trailers, then ask the author to push (see "Sessions and the repo").
+The site shows only accepted and published posts; its index and footer link the Substack publication, each card and page the post's Substack article; the Overleaf zip is not on the site. Commit after each status change, never adding the AI agent as a co-author, then ask the author to push (see "Sessions and the repo").
 
 ## 8. Workflow
 
@@ -169,6 +169,6 @@ Then wait for approval.
 **On approval**, without further prompting:
 1. Set `accepted` in `meta.json`, the post `README.md`, the `docs/DEVELOPING.md` Posts table, `BACKLOG.md` and the backlog doc.
 2. `make site` (accepted and published posts only) and check the post's page again.
-3. Commit as `osolari <solari@berkeley.edu>`, no attribution trailers.
+3. Commit; never add the AI agent as a co-author.
 4. Give the author the push command (`cd ~/workspace/projects/the-quiet-theorems && git push origin main`) and say that pushing `main` deploys the Pages site through the workflow; once it is live, record `links.pages` (`https://osolari.github.io/the-quiet-theorems/posts/NN-slug/`).
 5. Only on the author's explicit word to publish: publish the Substack draft (section 5b), archive the zip, freeze the article, fill `meta.json` `links` and the `substack` block, replace `[link]` in `post.txt` and `tweet.txt` with the Substack URL, rerun `make tweets`, set `published` everywhere in section 7 (including the `README.md` Posts list), commit again and give the push command. Posting on X is the author's, unless they ask the session to do it.
