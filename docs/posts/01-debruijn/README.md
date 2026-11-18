@@ -4,7 +4,7 @@ d/dt h(X + √t Z) = ½ J(X + √t Z) (de Bruijn; Stam, 1959).
 
 | Field | Value |
 |---|---|
-| Status | Draft, awaiting approval (revised 13 Nov 2026); publication 18 Nov 2026 |
+| Status | Package accepted 18 Nov 2026; Substack draft ready, publication 18 Nov 2026 |
 | Backlog rank | 1 |
 | Package | `make zip P=01-debruijn` → `dist/qt-01-debruijn.zip` |
 | PDF | [A4](pdf/qt-01-debruijn.pdf) (12 pp.), [screen](pdf/qt-01-debruijn-screen.pdf) (15 pp.) |
